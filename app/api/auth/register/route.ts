@@ -4,7 +4,7 @@ import User from "@/models/User";
 import { connectToDB } from "@/lib/connectDB";
 import { v4 as uuidv4 } from "uuid"; // <-- Import uuidv4
 
-export async function POST(req:any) {
+export async function POST(req: any) {
   try {
     await connectToDB();
     const { name, email, password } = await req.json();
@@ -24,13 +24,12 @@ export async function POST(req:any) {
 
     // Create user
     const user = await User.create({
-      userID: uuidv4(), // <-- Use uuidv4 here
+      userID: uuidv4(),
       username: name,
       email,
       password: hashed,
       role: "user",
     });
-
     return NextResponse.json({ success: true, user: { email: user.email, role: user.role } });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Internal server error";
