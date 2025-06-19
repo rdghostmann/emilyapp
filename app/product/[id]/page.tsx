@@ -1,6 +1,7 @@
+
 import ProductDetails from "@/components/ProductDetails"
 
-type Props = {
+interface Props {
   params: { id: string }
 }
 

@@ -199,9 +199,8 @@ export default function ProductDetails({ productId }: { productId: string }) {
             <button
               key={index}
               onClick={() => setSelectedImageIndex(index)}
-              className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 ${
-                selectedImageIndex === index ? "border-green-600" : "border-gray-200"
-              }`}
+              className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 ${selectedImageIndex === index ? "border-green-600" : "border-gray-200"
+                }`}
             >
               <Image
                 src={image || "/placeholder.svg"}
@@ -422,9 +421,8 @@ export default function ProductDetails({ productId }: { productId: string }) {
                             {[1, 2, 3, 4, 5].map((star) => (
                               <Star
                                 key={star}
-                                className={`h-3 w-3 ${
-                                  star <= review.rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
-                                }`}
+                                className={`h-3 w-3 ${star <= review.rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
+                                  }`}
                               />
                             ))}
                           </div>
