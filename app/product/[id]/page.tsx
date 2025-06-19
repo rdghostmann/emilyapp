@@ -1,12 +1,10 @@
-import ProductDetails from "@/app/components/ProductDetails"
+import ProductDetails from "@/components/ProductDetails"
 
-interface ProductPageProps {
-  params: {
-    id: string
-  }
+type Props = {
+  params: { id: string }
 }
 
-export default function ProductPage({ params }: ProductPageProps) {
+export default function ProductPage({ params }: Props) {
   return (
     <div className="min-h-screen bg-gray-50">
       <ProductDetails productId={params.id} />
