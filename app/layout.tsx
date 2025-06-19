@@ -4,6 +4,9 @@ import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/sonner";
 import SessionWrapper from "@/components/SessionWrapper/SessionWrapper";
+import TopNavigation from "@/components/TopNavigation";
+import MobileTabNavigation from "@/components/MobileTabNavigation";
+import PWAInstallPrompt from "@/components/PWAInstallPrompt/PWAInstallPrompt";
 
 
 
@@ -28,7 +31,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
 
-   if (typeof window !== "undefined") {
+  if (typeof window !== "undefined") {
     // Suppress console errors related to MetaMask
     const originalConsoleError = console.error
     console.error = (...args) => {
@@ -39,14 +42,21 @@ export default function RootLayout({
     }
   }
   return (
-    <html lang="en" className="light" style={{colorScheme:"light"}}>
+    <html lang="en" className="light" style={{ colorScheme: "light" }}>
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#4CAF50" />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} cz-shortcut-listen="true">
         <SessionWrapper>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            {children}
+            <TopNavigation />
+            <main className="pb-16 lg:pb-0">
+              <PWAInstallPrompt />
+              {children}
+            </main>
+            <MobileTabNavigation />
             <Toaster />
           </ThemeProvider>
         </SessionWrapper>

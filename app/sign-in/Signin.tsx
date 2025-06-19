@@ -112,55 +112,56 @@ async function handleRegisterSubmit(e:any) {
           transition={{ duration: 0.6 }}
           className="hidden lg:block space-y-8"
         >
-          <div className="space-y-6">
-            <div className="flex items-center gap-3">
-              <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center shadow-xl">
-                <CreditCard className="w-8 h-8 text-white" />
+         <div className="space-y-6">
+          <div className="flex items-center gap-3">
+            <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center shadow-xl">
+              <CreditCard className="w-8 h-8 text-white" />
+            </div>
+            <div>
+              <h1 className="text-4xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+                EmilyAgros
+              </h1>
+              <p className="text-slate-600">Empowering the Future of Agriculture</p>
+            </div>
+          </div>
+          <div className="space-y-4">
+            <h2 className="text-3xl font-bold text-slate-800">
+              Agriculture & Marketplace Made Simple, Secure & Smart
+            </h2>
+            <p className="text-lg text-slate-600">
+              Experience the future of agri-business with our cutting-edge digital platform. Manage your farm, marketplace, and finances with ease and confidence.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 gap-4">
+            <div className="flex items-center gap-3 p-4 bg-white/60 backdrop-blur-sm rounded-xl border border-green-100">
+              <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                <Smartphone className="w-5 h-5 text-green-600" />
               </div>
               <div>
-                <h1 className="text-4xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
-                  NeoBank
-                </h1>
-                <p className="text-slate-600">Digital Banking Revolution</p>
+                <h3 className="font-semibold text-slate-800">Mobile First</h3>
+                <p className="text-sm text-slate-600">Manage your agri-business anywhere, anytime</p>
               </div>
             </div>
-            <div className="space-y-4">
-              <h2 className="text-3xl font-bold text-slate-800">Banking Made Simple, Secure & Smart</h2>
-              <p className="text-lg text-slate-600">
-                Experience the future of banking with our cutting-edge digital platform. Manage your finances with ease
-                and confidence.
-              </p>
+            <div className="flex items-center gap-3 p-4 bg-white/60 backdrop-blur-sm rounded-xl border border-green-100">
+              <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                <Shield className="w-5 h-5 text-green-600" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-slate-800">Bank-Grade Security</h3>
+                <p className="text-sm text-slate-600">Your data and transactions are always protected</p>
+              </div>
             </div>
-            <div className="grid grid-cols-1 gap-4">
-              <div className="flex items-center gap-3 p-4 bg-white/60 backdrop-blur-sm rounded-xl border border-green-100">
-                <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                  <Smartphone className="w-5 h-5 text-green-600" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-slate-800">Mobile First</h3>
-                  <p className="text-sm text-slate-600">Bank anywhere, anytime</p>
-                </div>
+            <div className="flex items-center gap-3 p-4 bg-white/60 backdrop-blur-sm rounded-xl border border-green-100">
+              <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                <Zap className="w-5 h-5 text-green-600" />
               </div>
-              <div className="flex items-center gap-3 p-4 bg-white/60 backdrop-blur-sm rounded-xl border border-green-100">
-                <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                  <Shield className="w-5 h-5 text-green-600" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-slate-800">Bank-Grade Security</h3>
-                  <p className="text-sm text-slate-600">Your money is always protected</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3 p-4 bg-white/60 backdrop-blur-sm rounded-xl border border-green-100">
-                <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                  <Zap className="w-5 h-5 text-green-600" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-slate-800">Instant Transfers</h3>
-                  <p className="text-sm text-slate-600">Lightning-fast transactions</p>
-                </div>
+              <div>
+                <h3 className="font-semibold text-slate-800">Instant Transactions</h3>
+                <p className="text-sm text-slate-600">Lightning-fast payments and transfers</p>
               </div>
             </div>
           </div>
+        </div>
         </motion.div>
 
         {/* Right Side - Login/Register Form */}
