@@ -1,7 +1,7 @@
 "use client"
 
+import MessagesInterface from "@/components/MessagesInterface"
 import { Suspense } from "react"
-import MessagesInterface from "../components/MessagesInterface"
 
 export default function MessagesPage() {
   return (

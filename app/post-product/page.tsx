@@ -1,4 +1,4 @@
-import PostProductForm from "../components/PostProductForm"
+import PostProductForm from "@/components/PostProductForm";
 
 export default function PostProductPage() {
   return (

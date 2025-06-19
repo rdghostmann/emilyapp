@@ -1,4 +1,4 @@
-import ProductDetails from "../../components/ProductDetails"
+import ProductDetails from "@/app/components/ProductDetails"
 
 interface ProductPageProps {
   params: {
