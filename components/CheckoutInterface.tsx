@@ -10,8 +10,8 @@ import { Separator } from "@/components/ui/separator"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Checkbox } from "@/components/ui/checkbox"
 import { ArrowLeft, CreditCard, Truck, MapPin, Mail, Lock } from "lucide-react"
-import { useCart } from "../hooks/useCart"
 import Image from "next/image"
+import { useCart } from "@/hooks/useCart"
 
 export default function CheckoutInterface() {
   const router = useRouter()
