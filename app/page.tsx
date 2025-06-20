@@ -1,9 +1,10 @@
+import CategoryGrid from "@/components/CategoryGrid"
+import FeaturedProducts from "@/components/FeaturedProducts"
+import FeaturedServices from "@/components/FeaturedServices"
+import HeroSection from "@/components/HeroSection"
+import ProductFeed from "@/components/ProductFeed"
 import { Suspense } from "react"
-import HeroSection from "./components/HeroSection"
-import CategoryGrid from "./components/CategoryGrid"
-import FeaturedServices from "./components/FeaturedServices"
-import FeaturedProducts from "./components/FeaturedProducts"
-import ProductFeed from "./components/ProductFeed"
+
 
 export default function HomePage() {
   return (
