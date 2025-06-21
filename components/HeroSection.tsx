@@ -16,8 +16,8 @@ export default function HeroSection() {
           <div className="flex items-center space-x-2">
             <MapPin className="h-5 w-5" />
             <div>
-              <p className="text-sm opacity-90">Deliver to</p>
-              <p className="font-medium">{location}</p>
+              <p className="invisible text-sm opacity-90">Deliver to</p>
+              <p className="invisible font-medium">{location}</p>
             </div>
           </div>
           <Button variant="ghost" size="icon" className="text-white hover:bg-white/20">
