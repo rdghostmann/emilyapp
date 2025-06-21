@@ -20,5 +20,5 @@ export async function middleware(req: any) {
 }
 
 export const config = {
-  matcher: ["/", "/dashboard/:path*", "/profile/:path*"], // Remove "/sign-in" from matcher
+  matcher: ["/", "/dashboard/:path*", "/profile/:path*", "/search/:path*", "/message/:path*", "/product/:path*", "/checkout/:path*" ], // Remove "/sign-in" from matcher
 };

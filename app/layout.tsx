@@ -55,7 +55,7 @@ export default function RootLayout({
               <PWAInstallPrompt />
               {children}
             </main>
-            <MobileTabNavigation />
+            {/* <MobileTabNavigation /> */}
             <Toaster />
           </ThemeProvider>
         </SessionWrapper>

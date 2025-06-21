@@ -28,7 +28,37 @@ const Signin = () => {
 
 
   // Login handler
-  async function handleLoginSubmit(e:any) {
+  // async function handleLoginSubmit(e:any) {
+  //   e.preventDefault();
+  //   setIsLoading(true);
+  //   setError("");
+  //   const { email, password } = loginData;
+
+  //   const res = await signIn("credentials", {
+  //     redirect: false,
+  //     email,
+  //     password,
+  //   });
+
+  //   setIsLoading(false);
+
+  //   if (res?.error) {
+  //     setError(res.error);
+  //     toast.error(res.error);
+  //   } else if (res?.ok) {
+  //     toast.success("Login successful!");
+  //     const sessionRes = await fetch("/api/auth/session");
+  //     const session = await sessionRes.json();
+  //     if (session?.user?.role === "admin") {
+  //       router.push("/admin");
+  //     } else {
+  //       router.push("/");
+  //     }
+  //   }
+  // }
+
+  // Login handler
+  async function handleLoginSubmit(e: any) {
     e.preventDefault();
     setIsLoading(true);
     setError("");
@@ -47,60 +77,54 @@ const Signin = () => {
       toast.error(res.error);
     } else if (res?.ok) {
       toast.success("Login successful!");
-      // Fetch session to get user role
-      const sessionRes = await fetch("/api/auth/session");
-      const session = await sessionRes.json();
-      if (session?.user?.role === "admin") {
-        router.push("/admin");
-      } else {
-        router.push("/");
-      }
+      router.push("/");
     }
   }
-// Register handler
-async function handleRegisterSubmit(e:any) {
-  e.preventDefault();
-  setError("");
-  if (registerData.password !== registerData.confirmPassword) {
-    setError("Passwords do not match.");
-    toast.error("Passwords do not match.");
-    return;
-  }
-  setIsLoading(true);
 
-  try {
-    const res = await fetch("/api/auth/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: registerData.name,
-        email: registerData.email,
-        password: registerData.password,
-      }),
-    });
-
-    const data = await res.json();
-    setIsLoading(false);
-
-    if (!res.ok) {
-      setError(data.error || "Registration failed.");
-      toast.error(data.error || "Registration failed.");
+  // Register handler
+  async function handleRegisterSubmit(e: any) {
+    e.preventDefault();
+    setError("");
+    if (registerData.password !== registerData.confirmPassword) {
+      setError("Passwords do not match.");
+      toast.error("Passwords do not match.");
       return;
     }
+    setIsLoading(true);
 
-    toast.success("Registration successful! You can now log in.");
-    setRegisterData({
-      name: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-    });
-  } catch (err) {
-    setError("Registration failed.");
-    toast.error("Registration failed.");
-    setIsLoading(false);
+    try {
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: registerData.name,
+          email: registerData.email,
+          password: registerData.password,
+        }),
+      });
+
+      const data = await res.json();
+      setIsLoading(false);
+
+      if (!res.ok) {
+        setError(data.error || "Registration failed.");
+        toast.error(data.error || "Registration failed.");
+        return;
+      }
+
+      toast.success("Registration successful! You can now log in.");
+      setRegisterData({
+        name: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+      });
+    } catch (err) {
+      setError("Registration failed.");
+      toast.error("Registration failed.");
+      setIsLoading(false);
+    }
   }
-}
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-green-50 to-emerald-50 p-4">
@@ -112,56 +136,56 @@ async function handleRegisterSubmit(e:any) {
           transition={{ duration: 0.6 }}
           className="hidden lg:block space-y-8"
         >
-         <div className="space-y-6">
-          <div className="flex items-center gap-3">
-            <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center shadow-xl">
-              <CreditCard className="w-8 h-8 text-white" />
-            </div>
-            <div>
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
-                EmilyAgros
-              </h1>
-              <p className="text-slate-600">Empowering the Future of Agriculture</p>
-            </div>
-          </div>
-          <div className="space-y-4">
-            <h2 className="text-3xl font-bold text-slate-800">
-              Agriculture & Marketplace Made Simple, Secure & Smart
-            </h2>
-            <p className="text-lg text-slate-600">
-              Experience the future of agri-business with our cutting-edge digital platform. Manage your farm, marketplace, and finances with ease and confidence.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 gap-4">
-            <div className="flex items-center gap-3 p-4 bg-white/60 backdrop-blur-sm rounded-xl border border-green-100">
-              <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                <Smartphone className="w-5 h-5 text-green-600" />
+          <div className="space-y-6">
+            <div className="flex items-center gap-3">
+              <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center shadow-xl">
+                <CreditCard className="w-8 h-8 text-white" />
               </div>
               <div>
-                <h3 className="font-semibold text-slate-800">Mobile First</h3>
-                <p className="text-sm text-slate-600">Manage your agri-business anywhere, anytime</p>
+                <h1 className="text-4xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+                  EmilyAgros
+                </h1>
+                <p className="text-slate-600">Empowering the Future of Agriculture</p>
               </div>
             </div>
-            <div className="flex items-center gap-3 p-4 bg-white/60 backdrop-blur-sm rounded-xl border border-green-100">
-              <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                <Shield className="w-5 h-5 text-green-600" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-slate-800">Bank-Grade Security</h3>
-                <p className="text-sm text-slate-600">Your data and transactions are always protected</p>
-              </div>
+            <div className="space-y-4">
+              <h2 className="text-3xl font-bold text-slate-800">
+                Agriculture & Marketplace Made Simple, Secure & Smart
+              </h2>
+              <p className="text-lg text-slate-600">
+                Experience the future of agri-business with our cutting-edge digital platform. Manage your farm, marketplace, and finances with ease and confidence.
+              </p>
             </div>
-            <div className="flex items-center gap-3 p-4 bg-white/60 backdrop-blur-sm rounded-xl border border-green-100">
-              <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                <Zap className="w-5 h-5 text-green-600" />
+            <div className="grid grid-cols-1 gap-4">
+              <div className="flex items-center gap-3 p-4 bg-white/60 backdrop-blur-sm rounded-xl border border-green-100">
+                <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                  <Smartphone className="w-5 h-5 text-green-600" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-slate-800">Mobile First</h3>
+                  <p className="text-sm text-slate-600">Manage your agri-business anywhere, anytime</p>
+                </div>
               </div>
-              <div>
-                <h3 className="font-semibold text-slate-800">Instant Transactions</h3>
-                <p className="text-sm text-slate-600">Lightning-fast payments and transfers</p>
+              <div className="flex items-center gap-3 p-4 bg-white/60 backdrop-blur-sm rounded-xl border border-green-100">
+                <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                  <Shield className="w-5 h-5 text-green-600" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-slate-800">Bank-Grade Security</h3>
+                  <p className="text-sm text-slate-600">Your data and transactions are always protected</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3 p-4 bg-white/60 backdrop-blur-sm rounded-xl border border-green-100">
+                <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                  <Zap className="w-5 h-5 text-green-600" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-slate-800">Instant Transactions</h3>
+                  <p className="text-sm text-slate-600">Lightning-fast payments and transfers</p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
         </motion.div>
 
         {/* Right Side - Login/Register Form */}
