@@ -8,6 +8,8 @@ import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { MapPin, Star, CheckCircle, Calendar, Package, MessageSquare, Edit, Phone, Mail } from "lucide-react"
 import ProductCard from "./ProductCard"
+import LogoutButton from "@/components/Logout-button/logout-button"
+
 
 const mockUserProducts = [
   {
@@ -111,6 +113,7 @@ export default function UserProfile() {
                 <MessageSquare className="h-4 w-4 mr-2" />
                 Message
               </Button>
+              <LogoutButton />
             </div>
           </div>
         </CardContent>

@@ -5,7 +5,12 @@ import { LogOut } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { toast } from "sonner";
 
-export function LogoutButton({ showIcon = true, variant = "ghost", className, children, ...props }) {
+export default function LogoutButton({
+  showIcon = true,
+  variant = "ghost",
+  className = "",
+    ...props
+}) {
   const handleLogout = async () => {
     await signOut({ callbackUrl: "/sign-in" });
     toast.success("You have been logged out.");
@@ -14,7 +19,7 @@ export function LogoutButton({ showIcon = true, variant = "ghost", className, ch
   return (
     <Button variant={variant} onClick={handleLogout} className={className} {...props}>
       {showIcon && <LogOut color="red" className="w-4 h-4 mr-2 text-red-500" />}
-      {children || <><span className="text-red-500">Logout</span></>}
+      {<span className="text-red-500">Logout</span>}
     </Button>
   );
 }
