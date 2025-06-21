@@ -14,7 +14,7 @@ export default function HeroSection() {
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-2">
-            <MapPin className="h-5 w-5" />
+            <MapPin className="invisible h-5 w-5" />
             <div>
               <p className="invisible text-sm opacity-90">Deliver to</p>
               <p className="invisible font-medium">{location}</p>
@@ -27,7 +27,7 @@ export default function HeroSection() {
 
         {/* Welcome Message */}
         <div className="mb-6">
-          <h1 className="text-2xl font-bold mb-2">Good Morning! 👋</h1>
+          <h1 className="text-2xl font-bold mb-2">Good Morning!  👋</h1>
           <p className="text-green-100">Find fresh products from local farmers</p>
         </div>
 
