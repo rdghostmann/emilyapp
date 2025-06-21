@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Search, Menu, Plus, Bell, MessageSquare, User, Settings, LogOut, Sprout } from "lucide-react"
+import CartIcon from "./CartIcon/CartIcon"
 
 export default function TopNavigation() {
   const [isSearchFocused, setIsSearchFocused] = useState(false)
@@ -113,9 +114,10 @@ export default function TopNavigation() {
             </DropdownMenu>
           </div>
 
+          <CartIcon />
           {/* Mobile Menu */}
           <div className="invisible items-center space-x-2">
-          {/* <div className="flex lg:hidden items-center space-x-2"> */}
+            {/* <div className="flex lg:hidden items-center space-x-2"> */}
             <Button variant="ghost" size="icon" className="md:hidden">
               <Search className="h-5 w-5" />
             </Button>
