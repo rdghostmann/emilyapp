@@ -4,8 +4,8 @@ import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/sonner";
 import SessionWrapper from "@/components/SessionWrapper/SessionWrapper";
-<TopNavigationimport MobileTabNavigation from "@/components/MobileTabNavigation";
 import PWAInstallPrompt from "@/components/PWAInstallPrompt/PWAInstallPrompt";
+import MobileTabNavigation from "@/components/MobileTabNavigation";
 
 
 
