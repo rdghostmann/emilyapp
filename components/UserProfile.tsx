@@ -16,7 +16,7 @@ const mockUserProducts = [
     description: "Premium quality organic tomatoes, freshly harvested from our farm.",
     price: 4.99,
     unit: "per kg",
-    image: "/placeholder.svg?height=300&width=400",
+    image: "/product/fresh-organic-tomatoes.jpg",
     farmer: {
       name: "John Doe",
       location: "California, USA",
