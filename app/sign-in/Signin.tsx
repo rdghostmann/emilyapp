@@ -203,9 +203,9 @@ const Signin = () => {
               </div>
             </div>
             <h1 className="text-3xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
-              NeoBank
+              EmilyAgros
             </h1>
-            <p className="text-slate-600">Digital Banking Revolution</p>
+            <p className="text-slate-600">Your Gateway to Agricutural Products..</p>
           </div>
 
 

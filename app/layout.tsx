@@ -47,7 +47,7 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#4CAF50" />
       </head>
-      <body className={`bg-green-600 ${geistSans.variable} ${geistMono.variable} antialiased`} cz-shortcut-listen="true">
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} cz-shortcut-listen="true">
         <SessionWrapper>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             {/* <TopNavigation /> */}
