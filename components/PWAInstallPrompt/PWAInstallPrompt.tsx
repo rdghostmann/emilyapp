@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { Button } from "../ui/button";
 
 export default function PWAInstallPrompt() {
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
@@ -23,8 +24,12 @@ export default function PWAInstallPrompt() {
   if (!deferredPrompt) return null;
 
   return (
-    <button onClick={handleInstallClick} style={{ position: "fixed", bottom: 20, right: 20, zIndex: 1000 }}>
-      Install EmilyAgros App
-    </button>
+     <Button
+    onClick={handleInstallClick}
+    style={{ position: "fixed", bottom: 20, right: 20, zIndex: 1000 }}
+    className="bg-green-600 hover:bg-green-700 text-white shadow-lg"
+  >
+    Install EmilyAgros App
+  </Button>
   );
 }

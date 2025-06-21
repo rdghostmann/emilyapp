@@ -51,7 +51,7 @@ export default function RootLayout({
       <body className={`bg-green-600 ${geistSans.variable} ${geistMono.variable} antialiased`} cz-shortcut-listen="true">
         <SessionWrapper>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <TopNavigation />
+            {/* <TopNavigation /> */}
             <main className="max-w-6xl mx-auto pb-16 lg:pb-0">
               <PWAInstallPrompt />
               {children}
