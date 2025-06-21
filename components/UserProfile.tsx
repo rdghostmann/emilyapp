@@ -20,7 +20,7 @@ const mockUserProducts = [
     farmer: {
       name: "John Doe",
       location: "California, USA",
-      avatar: "/placeholder-user.jpg",
+      avatar: "/user/client-2.jpg",
       rating: 4.8,
       verified: true,
     },
