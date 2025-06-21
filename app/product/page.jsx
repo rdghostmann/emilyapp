@@ -1,4 +1,4 @@
-
+import TopNavigation from "@/components/TopNavigation"
 import ProductFeed from "@/components/ProductFeed"
 
 export default function ProductListPage() {
