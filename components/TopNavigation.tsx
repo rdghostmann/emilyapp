@@ -114,7 +114,8 @@ export default function TopNavigation() {
           </div>
 
           {/* Mobile Menu */}
-          <div className="flex lg:hidden items-center space-x-2">
+          <div className="invisible items-center space-x-2">
+          {/* <div className="flex lg:hidden items-center space-x-2"> */}
             <Button variant="ghost" size="icon" className="md:hidden">
               <Search className="h-5 w-5" />
             </Button>

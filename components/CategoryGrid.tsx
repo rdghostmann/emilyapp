@@ -18,7 +18,7 @@ export default function CategoryGrid() {
     <div>
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-bold text-gray-900">Categories</h2>
-        <Link href="/categories" className="text-green-600 text-sm font-medium">
+        <Link href="/#categories" className="text-green-600 text-sm font-medium">
           See All
         </Link>
       </div>

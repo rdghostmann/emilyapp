@@ -12,7 +12,7 @@ const mockProducts = [
     description: "Premium quality organic tomatoes, freshly harvested from our farm. Perfect for cooking and salads.",
     price: 4.99,
     unit: "per kg",
-    image: "/placeholder.svg?height=300&width=400",
+    image: "/product/fresh-organic-tomatoes.jpg",
     farmer: {
       name: "John Smith",
       location: "California, USA",
@@ -31,7 +31,7 @@ const mockProducts = [
     description: "High-quality wheat grain, perfect for flour production. Grown using sustainable farming practices.",
     price: 2.5,
     unit: "per kg",
-    image: "/placeholder.svg?height=300&width=400",
+    image: "/product/premium-wheat-grain.jpg",
     farmer: {
       name: "Maria Garcia",
       location: "Texas, USA",
@@ -50,7 +50,7 @@ const mockProducts = [
     description: "Free-range chicken eggs from happy, healthy chickens. Rich in nutrients and perfect for any meal.",
     price: 6.99,
     unit: "per dozen",
-    image: "/placeholder.svg?height=300&width=400",
+    image: "/product/fresh-farm-eggs.jpg",
     farmer: {
       name: "David Johnson",
       location: "Iowa, USA",
@@ -69,7 +69,7 @@ const mockProducts = [
     description: "Sweet and crispy organic apples. No pesticides used. Great for eating fresh or making juice.",
     price: 5.99,
     unit: "per kg",
-    image: "/placeholder.svg?height=300&width=400",
+    image: "/product/organic-apples.jpg",
     farmer: {
       name: "Sarah Wilson",
       location: "Washington, USA",
@@ -88,7 +88,7 @@ const mockProducts = [
     description: "Pure, fresh milk from grass-fed cows. Rich in calcium and perfect for the whole family.",
     price: 3.99,
     unit: "per liter",
-    image: "/placeholder.svg?height=300&width=400",
+    image: "/product/fresh-milk.jpg",
     farmer: {
       name: "Robert Brown",
       location: "Wisconsin, USA",
@@ -107,7 +107,7 @@ const mockProducts = [
     description: "Fresh, crunchy organic carrots. Perfect for cooking, juicing, or eating raw as a healthy snack.",
     price: 3.49,
     unit: "per kg",
-    image: "/placeholder.svg?height=300&width=400",
+    image: "/product/organic-carrots.jpg",
     farmer: {
       name: "Lisa Anderson",
       location: "Oregon, USA",

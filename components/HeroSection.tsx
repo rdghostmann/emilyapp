@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Search, MapPin, Bell } from "lucide-react"
 
 export default function HeroSection() {
-  const [location, setLocation] = useState("California, USA")
+  const [location, setLocation] = useState("Anambra, Nigeria")
 
   return (
     <section className="bg-gradient-to-br from-green-600 to-green-700 text-white">
