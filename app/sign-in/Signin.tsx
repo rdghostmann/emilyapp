@@ -156,7 +156,7 @@ const Signin = () => {
                 Experience the future of agri-business with our cutting-edge digital platform. Manage your farm, marketplace, and finances with ease and confidence.
               </p>
             </div>
-            <div className="grid grid-cols-1 gap-4">
+            {/* <div className="grid grid-cols-1 gap-4">
               <div className="flex items-center gap-3 p-4 bg-white/60 backdrop-blur-sm rounded-xl border border-green-100">
                 <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
                   <Smartphone className="w-5 h-5 text-green-600" />
@@ -184,7 +184,7 @@ const Signin = () => {
                   <p className="text-sm text-slate-600">Lightning-fast payments and transfers</p>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </motion.div>
 
