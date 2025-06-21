@@ -1,11 +1,9 @@
-import React from 'react'
+import ProductFeed from "@/components/ProductFeed"
 
-const page = () => {
+export default function ProductListPage() {
   return (
-    <div>
-      All Product
+    <div className="min-h-screen bg-gray-50 p-4">
+      <ProductFeed />
     </div>
   )
 }
-
-export default page
