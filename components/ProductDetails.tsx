@@ -58,7 +58,7 @@ Store at room temperature for best flavor. Refrigerate only when fully ripe to e
     id: "john-smith",
     name: "John Smith",
     location: "California, USA",
-    avatar: "/placeholder-user.jpg",
+    avatar: "/user/client-1.jpg",
     rating: 4.8,
     totalReviews: 156,
     verified: true,
@@ -85,7 +85,7 @@ Store at room temperature for best flavor. Refrigerate only when fully ripe to e
     {
       id: "1",
       user: "Maria Garcia",
-      avatar: "/placeholder-user.jpg",
+      avatar: "/user/client-4.jpg",
       rating: 5,
       comment: "Excellent quality tomatoes! Very fresh and tasty. Will definitely order again.",
       date: "2 days ago",
@@ -94,7 +94,7 @@ Store at room temperature for best flavor. Refrigerate only when fully ripe to e
     {
       id: "2",
       user: "David Wilson",
-      avatar: "/placeholder-user.jpg",
+      avatar: "/user/client-2.jpg",
       rating: 4,
       comment: "Good quality, delivered on time. Slightly expensive but worth it for organic produce.",
       date: "1 week ago",
@@ -102,8 +102,8 @@ Store at room temperature for best flavor. Refrigerate only when fully ripe to e
     },
     {
       id: "3",
-      user: "Sarah Johnson",
-      avatar: "/placeholder-user.jpg",
+      user: "Dan Johnson",
+      avatar: "/user/client-5.jpg",
       rating: 5,
       comment: "Amazing tomatoes! Perfect for my restaurant. John is very professional and reliable.",
       date: "2 weeks ago",

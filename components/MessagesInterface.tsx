@@ -43,7 +43,7 @@ const mockConversations = [
     user: {
       id: "john-smith",
       name: "John Smith",
-      avatar: "/placeholder-user.jpg",
+      avatar: "/user/client-1.jpg",
       online: true,
     },
     lastMessage: "Hi, I'm interested in your organic tomatoes. Are they still available?",
@@ -56,7 +56,7 @@ const mockConversations = [
     user: {
       id: "maria-garcia",
       name: "Maria Garcia",
-      avatar: "/placeholder-user.jpg",
+      avatar: "/user/client-2.jpg",
       online: false,
     },
     lastMessage: "Thank you for the quick delivery! The wheat quality is excellent.",
@@ -69,7 +69,7 @@ const mockConversations = [
     user: {
       id: "david-johnson",
       name: "David Johnson",
-      avatar: "/placeholder-user.jpg",
+      avatar: "/user/client-3.jpg",
       online: true,
     },
     lastMessage: "Can we arrange pickup for tomorrow morning?",

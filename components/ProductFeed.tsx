@@ -16,7 +16,7 @@ const mockProducts = [
     farmer: {
       name: "John Smith",
       location: "California, USA",
-      avatar: "/placeholder-user.jpg",
+      avatar: "/user/client-1.jpg",
       rating: 4.8,
       verified: true,
     },
@@ -35,7 +35,7 @@ const mockProducts = [
     farmer: {
       name: "Maria Garcia",
       location: "Texas, USA",
-      avatar: "/placeholder-user.jpg",
+      avatar: "/user/client-4.jpg",
       rating: 4.9,
       verified: true,
     },
@@ -54,7 +54,7 @@ const mockProducts = [
     farmer: {
       name: "David Johnson",
       location: "Iowa, USA",
-      avatar: "/placeholder-user.jpg",
+      avatar: "/user/client-2.jpg",
       rating: 4.7,
       verified: true,
     },
@@ -71,9 +71,9 @@ const mockProducts = [
     unit: "per kg",
     image: "/product/organic-apples.jpg",
     farmer: {
-      name: "Sarah Wilson",
+      name: "Ben Wilson",
       location: "Washington, USA",
-      avatar: "/placeholder-user.jpg",
+      avatar: "/user/client-3.jpg",
       rating: 4.8,
       verified: true,
     },
@@ -92,7 +92,7 @@ const mockProducts = [
     farmer: {
       name: "Robert Brown",
       location: "Wisconsin, USA",
-      avatar: "/placeholder-user.jpg",
+      avatar: "/user/client-5.jpg",
       rating: 4.9,
       verified: true,
     },
@@ -111,7 +111,7 @@ const mockProducts = [
     farmer: {
       name: "Lisa Anderson",
       location: "Oregon, USA",
-      avatar: "/placeholder-user.jpg",
+      avatar: "/user/client-4.jpg",
       rating: 4.6,
       verified: true,
     },

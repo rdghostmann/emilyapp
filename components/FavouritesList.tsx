@@ -64,7 +64,7 @@ export default function FavouritesList() {
     const conversationData = {
       sellerId: product.farmer.toLowerCase().replace(" ", "-"),
       sellerName: product.farmer,
-      sellerAvatar: "/placeholder-user.jpg",
+      sellerAvatar: "/user/client-4.jpg",
       productId: product.id,
       productTitle: product.title,
       productImage: product.image,
