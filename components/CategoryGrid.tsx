@@ -1,16 +1,112 @@
 import Link from "next/link"
-import { Apple, Wheat, Carrot, Milk, Egg, Flower, TreePine, Beef, Wrench } from "lucide-react"
+import {
+  Wrench, // Equipment & Machines
+  Leaf,   // Fertilizers
+  SprayCan, // Chemicals / Insecticides & Pesticides
+  Apple, // Fruits & Vegetables
+  Beef,  // Livestock & Pets
+  HeartHandshake, // Animal Mating
+  Flower, // Ornamental Crops
+  TreePine, // Seedlings
+  Handshake, // Services
+  Pill, // Animal Pharmacy
+  PawPrint, // Animal Accessories
+  Drumstick, // Animal Feeds
+  ShieldCheck // Agro Insurance
+} from "lucide-react"
 
 const categories = [
-  { id: "fruits", name: "Fruits", icon: Apple, color: "bg-red-100 text-red-600", count: 320 },
-  { id: "vegetables", name: "Vegetables", icon: Carrot, color: "bg-orange-100 text-orange-600", count: 290 },
-  { id: "grains", name: "Grains", icon: Wheat, color: "bg-yellow-100 text-yellow-600", count: 180 },
-  { id: "dairy", name: "Dairy", icon: Milk, color: "bg-blue-100 text-blue-600", count: 150 },
-  { id: "poultry", name: "Poultry", icon: Egg, color: "bg-amber-100 text-amber-600", count: 95 },
-  { id: "flowers", name: "Flowers", icon: Flower, color: "bg-pink-100 text-pink-600", count: 75 },
-  { id: "herbs", name: "Herbs", icon: TreePine, color: "bg-green-100 text-green-600", count: 60 },
-  { id: "livestock", name: "Livestock", icon: Beef, color: "bg-purple-100 text-purple-600", count: 80 },
-  { id: "equipment", name: "Equipment", icon: Wrench, color: "bg-gray-100 text-gray-600", count: 45 },
+  {
+    id: "equipment-machines",
+    name: "Equipment & Machines",
+    icon: Wrench,
+    color: "bg-gray-100 text-gray-600",
+    count: 45,
+  },
+  {
+    id: "fertilizers",
+    name: "Fertilizers",
+    icon: Leaf,
+    color: "bg-green-100 text-green-600",
+    count: 30,
+  },
+  {
+    id: "chemicals-insecticides-pesticides",
+    name: "Chemicals / Insecticides & Pesticides",
+    icon: SprayCan,
+    color: "bg-yellow-100 text-yellow-600",
+    count: 28,
+  },
+  {
+    id: "fruits-vegetables",
+    name: "Fruits & Vegetables",
+    icon: Apple,
+    color: "bg-red-100 text-red-600",
+    count: 320,
+  },
+  {
+    id: "livestock-pets",
+    name: "Livestock & Pets",
+    icon: Beef,
+    color: "bg-purple-100 text-purple-600",
+    count: 80,
+  },
+  {
+    id: "animal-mating",
+    name: "Animal Mating",
+    icon: HeartHandshake,
+    color: "bg-pink-100 text-pink-600",
+    count: 12,
+  },
+  {
+    id: "ornamental-crops",
+    name: "Ornamental Crops",
+    icon: Flower,
+    color: "bg-pink-50 text-pink-400",
+    count: 20,
+  },
+  {
+    id: "seedlings",
+    name: "Seedlings",
+    icon: TreePine,
+    color: "bg-green-50 text-green-500",
+    count: 60,
+  },
+  {
+    id: "services",
+    name: "Services",
+    icon: Handshake,
+    color: "bg-blue-100 text-blue-600",
+    count: 18,
+  },
+  {
+    id: "animal-pharmacy",
+    name: "Animal Pharmacy",
+    icon: Pill,
+    color: "bg-indigo-100 text-indigo-600",
+    count: 10,
+  },
+  {
+    id: "animal-accessories",
+    name: "Animal Accessories",
+    icon: PawPrint,
+    color: "bg-orange-100 text-orange-600",
+    count: 15,
+  },
+  {
+    id: "animal-feeds",
+    name: "Animal Feeds",
+    icon: Drumstick,
+    color: "bg-amber-100 text-amber-600",
+    count: 25,
+  },
+  {
+    id: "agro-insurance",
+    name: "Agro Insurance",
+    icon: ShieldCheck,
+    color: "bg-teal-100 text-teal-600",
+    count: 5,
+  },
 ]
 
 export default function CategoryGrid() {
@@ -24,7 +120,7 @@ export default function CategoryGrid() {
       </div>
 
       <div className="grid grid-cols-3 gap-4">
-        {categories.slice(0, 9).map((category) => {
+        {categories.map((category) => {
           const Icon = category.icon
           return (
             <Link
