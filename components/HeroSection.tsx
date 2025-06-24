@@ -1,12 +1,12 @@
-"use client"
-
-import { useState } from "react"
+import { authOptions } from "@/auth"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Search, MapPin, Bell } from "lucide-react"
+import { getServerSession } from "next-auth"
 
-export default function HeroSection() {
-  const [location, setLocation] = useState("Anambra, Nigeria")
+export default async function HeroSection() {
+  const session = await getServerSession(authOptions)
+  const username = session?.user?.name || "there"
 
   return (
     <section className="bg-gradient-to-br from-green-600 to-green-700 text-white">
@@ -17,7 +17,6 @@ export default function HeroSection() {
             <MapPin className="invisible h-5 w-5" />
             <div>
               <p className="invisible text-sm opacity-90">Deliver to</p>
-              <p className="invisible font-medium">{location}</p>
             </div>
           </div>
           <Button variant="ghost" size="icon" className="text-white hover:bg-white/20">
@@ -27,7 +26,9 @@ export default function HeroSection() {
 
         {/* Welcome Message */}
         <div className="mb-6">
-          <h1 className="text-2xl font-bold mb-2">Good Morning!  👋</h1>
+          <h1 className="text-2xl font-bold mb-2">
+            Good Morning, {username}! 👋
+          </h1>
           <p className="text-green-100">Find fresh products from local farmers</p>
         </div>
 
