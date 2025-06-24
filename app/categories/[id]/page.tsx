@@ -1,7 +1,22 @@
 "use client";
 import { useParams } from "next/navigation";
 
-const categoryDetails = {
+type CategoryProperty = {
+  label: string;
+  values: string[];
+};
+
+type CategoryDetail = {
+  title: string;
+  description: string;
+  properties: CategoryProperty[];
+};
+
+type CategoryDetailsMap = {
+  [key: string]: CategoryDetail;
+};
+
+const categoryDetails: CategoryDetailsMap = {
   "equipment-machines": {
     title: "Equipment & Machines",
     description: "Find new and used tractors, shellers, sprayers, and more.",
@@ -118,7 +133,7 @@ const categoryDetails = {
 };
 
 export default function CategoryPage() {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const details = categoryDetails[id] || {
     title: id?.replace(/-/g, " ").replace(/\b\w/g, l => l.toUpperCase()),
     description: "Browse items in this category.",
@@ -140,6 +155,8 @@ export default function CategoryPage() {
         </div>
       )}
       {/* Here you can add a ProductFeed or listing for this category */}
+
+      
     </div>
   );
 }
