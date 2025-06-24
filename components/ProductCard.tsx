@@ -92,7 +92,7 @@ export default function ProductCard({ product }: { product: Product }) {
 
           <div className="flex items-center justify-between">
             <div>
-              <span className="text-2xl font-bold text-green-600">${product.price}</span>
+              <span className="text-2xl font-bold text-green-600">₦{product.price}</span>
               <span className="text-gray-500 text-sm ml-1">{product.unit}</span>
             </div>
             <Badge variant={product.inStock ? "default" : "secondary"} className="bg-green-100 text-green-800">
