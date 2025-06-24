@@ -14,6 +14,9 @@ import {
   Drumstick, // Animal Feeds
   ShieldCheck // Agro Insurance
 } from "lucide-react"
+import "@splidejs/react-splide/css";
+import { Splide, SplideSlide } from "@splidejs/react-splide";
+
 
 const categories = [
   {
@@ -119,24 +122,42 @@ export default function CategoryGrid() {
         </Link>
       </div>
 
-      <div className="grid grid-cols-3 gap-4">
+     <Splide
+        options={{
+          type: "loop",
+          perPage: 4,
+          gap: "1rem",
+          autoplay: true,
+          pauseOnHover: true,
+          arrows: false,
+          pagination: false,
+          drag: "free",
+          breakpoints: {
+            1024: { perPage: 3 },
+            640: { perPage: 2 },
+          },
+        }}
+        aria-label="Categories"
+        className="mb-4"
+      >
         {categories.map((category) => {
-          const Icon = category.icon
+          const Icon = category.icon;
           return (
-            <Link
-              key={category.id}
-              href={`/categories/${category.id}`}
-              className="bg-white rounded-2xl p-4 text-center shadow-sm hover:shadow-md transition-shadow"
-            >
-              <div className={`w-12 h-12 rounded-xl ${category.color} flex items-center justify-center mx-auto mb-2`}>
-                <Icon className="h-6 w-6" />
-              </div>
-              <p className="text-sm font-medium text-gray-900 mb-1">{category.name}</p>
-              <p className="text-xs text-gray-500">{category.count} items</p>
-            </Link>
-          )
+            <SplideSlide key={category.id}>
+              <Link
+                href={`/categories/${category.id}`}
+                className="bg-white rounded-2xl p-4 text-center shadow-sm hover:shadow-md transition-shadow block"
+              >
+                <div className={`w-12 h-12 rounded-xl ${category.color} flex items-center justify-center mx-auto mb-2`}>
+                  <Icon className="h-6 w-6" />
+                </div>
+                <p className="text-sm font-medium text-gray-900 mb-1">{category.name}</p>
+                <p className="text-xs text-gray-500">{category.count} items</p>
+              </Link>
+            </SplideSlide>
+          );
         })}
-      </div>
+      </Splide>
     </div>
-  )
+  );
 }
