@@ -62,14 +62,13 @@ export default function FeaturedProducts() {
           type: "loop",
           perPage: 2,
           gap: "1rem",
-          autoplay: true,
           pauseOnHover: true,
           arrows: false,
           pagination: false,
           drag: "free",
           breakpoints: {
             1024: { perPage: 2 },
-            640: { perPage: 1 },
+            640: { perPage: 2 },
           },
         }}
         aria-label="Featured Products"
