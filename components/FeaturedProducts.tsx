@@ -67,7 +67,7 @@ export default function FeaturedProducts() {
           pagination: false,
           drag: "free",
           breakpoints: {
-            1024: { perPage: 2 },
+            1024: { perPage: 4 },
             640: { perPage: 2 },
           },
         }}
