@@ -139,8 +139,9 @@ const Signin = () => {
           {/* Mobile Header */}
           <div className="text-center mb-8 lg:hidden">
             <div className="flex justify-center mb-4">
-              <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center shadow-xl">
-                <img src="/emily-agros-logo.png" alt="EmilyAgros Logo" className="w-10 h-10" />
+              {/* <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center shadow-xl"> */}
+              <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-xl">
+                <img src="/emily-agros-logo.png" alt="EmilyAgros Logo" className="w-full h-auto" />
                 {/* <Sprout className="h-5 w-5 text-white" /> */}
               </div>
             </div>
