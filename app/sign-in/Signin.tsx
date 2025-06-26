@@ -142,7 +142,7 @@ const Signin = () => {
               <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center shadow-xl">
               {/* <div className="w-40 h-40 bg-white rounded-xl flex items-center justify-center shadow-xl"> */}
                 {/* <img src="/emily-agros-logo.png" alt="EmilyAgros Logo" className="w-full h-auto" /> */}
-                <Sprout className="h-5 w-5 text-white" />
+                <Sprout className="h-10 w-10 text-white" />
               </div>
             </div>
             <h1 className="text-3xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
