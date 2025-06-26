@@ -13,7 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Search, Menu, Plus, Bell, MessageSquare, User, Settings, LogOut, Sprout } from "lucide-react"
+import { Search, Menu, Plus, Bell, MessageSquare, User, Settings, LogOut, Sprout, Heart } from "lucide-react"
 import CartIcon from "./CartIcon/CartIcon"
 
 export default function TopNavigation() {
@@ -47,7 +47,7 @@ export default function TopNavigation() {
             </Link>
           </nav>
 
-          {/* Search Bar */}
+          {/* Search Bar (always visible on mobile, centered on desktop) */}
           <div className="flex-1 max-w-md mx-4">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
@@ -114,14 +114,15 @@ export default function TopNavigation() {
             </DropdownMenu>
           </div>
 
-          <CartIcon />
-          {/* Mobile Menu */}
-          <div className="invisible items-center space-x-2">
-            {/* <div className="flex lg:hidden items-center space-x-2"> */}
-            <Button variant="ghost" size="icon" className="md:hidden">
-              <Search className="h-5 w-5" />
-            </Button>
-
+          {/* Mobile Actions: Logo, Search, Cart, Favourites */}
+          <div className="flex lg:hidden items-center space-x-2">
+            {/* Cart Icon */}
+            <CartIcon />
+            {/* Favourites Icon */}
+            <Link href="/favourites" className="p-2 rounded-full hover:bg-green-50 transition-colors">
+              <Heart className="h-5 w-5 text-green-600" />
+            </Link>
+            {/* Mobile Menu Button */}
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon">
@@ -162,6 +163,13 @@ export default function TopNavigation() {
                       className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-100"
                     >
                       <span>Farmers</span>
+                    </Link>
+                    <Link
+                      href="/favourites"
+                      className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-100"
+                    >
+                      <Heart className="h-4 w-4 mr-2 text-green-600" />
+                      <span>Favourites</span>
                     </Link>
                   </nav>
 
