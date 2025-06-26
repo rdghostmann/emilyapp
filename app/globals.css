@@ -193,3 +193,17 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+/* Custom styles */
+.splide-custom .splide__pagination__page.is-active {
+  background-color: #1e6fd9 !important;
+}
+
+.splide-custom .splide__arrow {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.splide-custom .splide__arrow:hover {
+  background-color: rgba(255, 255, 255, 1);
+}
