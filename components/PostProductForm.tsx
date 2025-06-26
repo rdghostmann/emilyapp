@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
 import { Upload, X, Plus } from "lucide-react"
+import createProduct from "@/controllers/CreateProduct"
 
 // Move this to a shared file if needed
 const categoryDetails = {
@@ -157,12 +158,41 @@ export default function PostProductForm() {
   const handleCategoryPropChange = (label: string, value: string) => {
     setCategoryProps((prev) => ({ ...prev, [label]: value }))
   }
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // Handle form submission, including categoryProps
-    console.log("Form submitted", { category: selectedCategory, ...categoryProps })
+  // Gather form data
+  const form = e.target as HTMLFormElement;
+  const formData = new FormData(form);
+
+  // Build product data object
+  const productData: any = {
+    title: formData.get("title"),
+    category: selectedCategory,
+    description: formData.get("description"),
+    price: formData.get("price"),
+    unit: formData.get("unit"),
+    quantity: formData.get("quantity"),
+    location: formData.get("location"),
+    harvestDate: formData.get("harvest-date"),
+    phone: formData.get("phone"),
+    email: formData.get("email"),
+    tags,
+    images,
+    ...categoryProps,
+  };
+
+  // Call server action
+  const result = await createProduct(productData);
+
+  if (result.success) {
+    // Optionally redirect or show success message
+    alert("Product created successfully!");
+    // Reset form or navigate as needed
+  } else {
+    alert(result.error || "Failed to create product");
   }
+};
 
   const selectedCategoryDetails =
     selectedCategory && selectedCategory in categoryDetails
@@ -358,10 +388,10 @@ export default function PostProductForm() {
           </div>
 
           <div className="flex gap-4 pt-4">
-            <Button type="submit" className="flex-1 bg-green-600 hover:bg-green-700">
+            <Button type="submit" className="cursor-pointer flex-1 bg-green-600 hover:bg-green-700">
               Post Product
             </Button>
-            <Button type="button" variant="outline" className="flex-1">
+            <Button type="button" variant="outline" className="cursor-pointer flex-1">
               Save as Draft
             </Button>
           </div>
