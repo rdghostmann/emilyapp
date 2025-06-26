@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
-import { CreditCard, Smartphone, Shield, Zap, Mail, Lock, Eye, EyeOff, User } from "lucide-react";
+import { CreditCard, Smartphone, Shield, Zap, Mail, Lock, Eye, EyeOff, User, Sprout } from "lucide-react";
 import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
@@ -25,37 +25,6 @@ const Signin = () => {
   const [error, setError] = useState("");
 
   const router = useRouter();
-
-
-  // Login handler
-  // async function handleLoginSubmit(e:any) {
-  //   e.preventDefault();
-  //   setIsLoading(true);
-  //   setError("");
-  //   const { email, password } = loginData;
-
-  //   const res = await signIn("credentials", {
-  //     redirect: false,
-  //     email,
-  //     password,
-  //   });
-
-  //   setIsLoading(false);
-
-  //   if (res?.error) {
-  //     setError(res.error);
-  //     toast.error(res.error);
-  //   } else if (res?.ok) {
-  //     toast.success("Login successful!");
-  //     const sessionRes = await fetch("/api/auth/session");
-  //     const session = await sessionRes.json();
-  //     if (session?.user?.role === "admin") {
-  //       router.push("/admin");
-  //     } else {
-  //       router.push("/");
-  //     }
-  //   }
-  // }
 
   // Login handler
   async function handleLoginSubmit(e: any) {
@@ -140,7 +109,7 @@ const Signin = () => {
           <div className="space-y-6">
             <div className="flex items-center gap-3">
               <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center shadow-xl">
-                <CreditCard className="w-8 h-8 text-white" />
+                <Sprout className="h-5 w-5 text-white" />
               </div>
               <div>
                 <h1 className="text-4xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
@@ -157,35 +126,6 @@ const Signin = () => {
                 Experience the future of agri-business with our cutting-edge digital platform. Manage your farm, marketplace, and finances with ease and confidence.
               </p>
             </div>
-            {/* <div className="grid grid-cols-1 gap-4">
-              <div className="flex items-center gap-3 p-4 bg-white/60 backdrop-blur-sm rounded-xl border border-green-100">
-                <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                  <Smartphone className="w-5 h-5 text-green-600" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-slate-800">Mobile First</h3>
-                  <p className="text-sm text-slate-600">Manage your agri-business anywhere, anytime</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3 p-4 bg-white/60 backdrop-blur-sm rounded-xl border border-green-100">
-                <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                  <Shield className="w-5 h-5 text-green-600" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-slate-800">Bank-Grade Security</h3>
-                  <p className="text-sm text-slate-600">Your data and transactions are always protected</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3 p-4 bg-white/60 backdrop-blur-sm rounded-xl border border-green-100">
-                <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                  <Zap className="w-5 h-5 text-green-600" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-slate-800">Instant Transactions</h3>
-                  <p className="text-sm text-slate-600">Lightning-fast payments and transfers</p>
-                </div>
-              </div>
-            </div> */}
           </div>
         </motion.div>
 
@@ -200,13 +140,14 @@ const Signin = () => {
           <div className="text-center mb-8 lg:hidden">
             <div className="flex justify-center mb-4">
               <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center shadow-xl">
-                <CreditCard className="w-8 h-8 text-white" />
+                <img src="/emily-agros-logo.png" alt="EmilyAgros Logo" className="w-10 h-10" />
+                {/* <Sprout className="h-5 w-5 text-white" /> */}
               </div>
             </div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+            {/* <h1 className="text-3xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
               EmilyAgros
             </h1>
-            <p className="text-slate-600">Your Gateway to Agricutural Products..</p>
+            <p className="text-slate-600">Your Gateway to Agricutural Products..</p> */}
           </div>
 
 
