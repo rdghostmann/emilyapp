@@ -60,7 +60,7 @@ export default function FeaturedProducts() {
       <Splide
         options={{
           type: "loop",
-          perPage: 3,
+          perPage: 2,
           gap: "1rem",
           autoplay: true,
           pauseOnHover: true,
