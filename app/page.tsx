@@ -6,6 +6,7 @@ import MobileTabNavigation from "@/components/MobileTabNavigation"
 import ProductFeed from "@/components/ProductFeed"
 import TopNavigation from "@/components/TopNavigation"
 import { Suspense } from "react"
+import Loading from "./loading"
 
 
 export default function HomePage() {
@@ -18,7 +19,8 @@ export default function HomePage() {
           <CategoryGrid />
           <FeaturedServices />
           <FeaturedProducts />
-          <Suspense fallback={<div className="text-center py-8">Loading products...</div>}>
+          <Suspense fallback={<Loading />}>
+            {/* ProductFeed is a lazy-loaded component */}
             <ProductFeed />
           </Suspense>
         </div>
