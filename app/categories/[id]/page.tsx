@@ -27,7 +27,7 @@ const categoryDetails: CategoryDetailsMap = {
       { label: "Brand", values: [] },
     ],
   },
-  fertilizers: {
+  "fertilizers": {
     title: "Fertilizers",
     description: "Browse a variety of fertilizers for your crops.",
     properties: [
