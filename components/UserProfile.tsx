@@ -33,7 +33,7 @@ const mockUserProducts = [
   },
 ]
 
-export default function UserProfile() {
+export default function UserProfile({user:any}) {
   const [isEditing, setIsEditing] = useState(false)
 
   const userStats = {
