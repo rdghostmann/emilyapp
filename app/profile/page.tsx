@@ -12,7 +12,7 @@ export default async function ProfilePage() {
   return (
     <>
       <TopNavigation />
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 pt-8 pb-12">
         <UserProfile user={user} />
       </div>
       <MobileTabNavigation />
