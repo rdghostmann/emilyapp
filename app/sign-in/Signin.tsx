@@ -139,16 +139,16 @@ const Signin = () => {
           {/* Mobile Header */}
           <div className="text-center mb-8 lg:hidden">
             <div className="flex justify-center mb-4">
-              {/* <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center shadow-xl"> */}
-              <div className="w-40 h-40 bg-white rounded-2xl flex items-center justify-center shadow-xl">
-                <img src="/emily-agros-logo.png" alt="EmilyAgros Logo" className="w-full h-auto" />
-                {/* <Sprout className="h-5 w-5 text-white" /> */}
+              <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center shadow-xl">
+              {/* <div className="w-40 h-40 bg-white rounded-xl flex items-center justify-center shadow-xl"> */}
+                {/* <img src="/emily-agros-logo.png" alt="EmilyAgros Logo" className="w-full h-auto" /> */}
+                <Sprout className="h-5 w-5 text-white" />
               </div>
             </div>
-            {/* <h1 className="text-3xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
               EmilyAgros
             </h1>
-            <p className="text-slate-600">Your Gateway to Agricutural Products..</p> */}
+            <p className="text-slate-600">Your Gateway to Agricutural Products..</p>
           </div>
 
 
