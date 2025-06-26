@@ -1,3 +1,4 @@
+"use client"
 import { Card, CardContent } from "@/components/ui/card"
 import { Truck, Shield, Clock, Headphones } from "lucide-react"
 
@@ -55,7 +56,7 @@ export default function FeaturedServices() {
           })}
         </div>
       </div>
-      <div className="px-4 py-6 animate-slide-in-up">
+      <div className="px-2 py-6 animate-slide-in-up">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-bold text-gray-900">Other Featured Services</h2>
           <button className="text-green-600 text-sm font-medium">View All</button>
