@@ -22,7 +22,7 @@ const categoryDetails = {
       { label: "Brand", values: [] },
     ],
   },
-  fertilizers: {
+  "fertilizers": {
     title: "Fertilizers",
     properties: [
       { label: "Fertilizer Type", values: ["NPK", "Urea", "Organic"] },
