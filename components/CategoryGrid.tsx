@@ -22,7 +22,8 @@ const categories = [
   },
   {
     id: "chemicals-insecticides-pesticides",
-    name: "Chemicals / Insecticides & Pesticides",
+    name: "Chemicals & Pesticides",
+    // name: "Chemicals / Insecticides & Pesticides",
     icon: SprayCan,
     color: "bg-yellow-100 text-yellow-600",
     count: 28,
