@@ -38,7 +38,7 @@ export default function FeaturedServices() {
         <>
             <div>
                 <h2 className="text-xl font-bold text-gray-900 mb-4">Why Choose Us</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4">
                     {services.map((service) => {
                         const Icon = service.icon
                         return (
