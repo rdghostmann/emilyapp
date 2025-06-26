@@ -1,7 +1,7 @@
 "use server";
 import { revalidatePath } from "next/cache";
 import { connectToDB } from "@/lib/connectDB";
-import Product from "@/models/Product"; // Make sure you have a Product model defined
+import Product from "@/models/Product";
 
 export default async function createProduct(productData) {
   try {
