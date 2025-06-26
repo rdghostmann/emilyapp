@@ -12,7 +12,118 @@ import { Badge } from "@/components/ui/badge"
 import { Upload, X, Plus } from "lucide-react"
 import createProduct from "@/controllers/CreateProduct"
 
-// ...categoryDetails, CategoryKey, categories, units as before...
+// Move this to a shared file if needed
+const categoryDetails = {
+  "equipment-machines": {
+    title: "Equipment & Machines",
+    properties: [
+      { label: "Condition", values: ["New", "Used"] },
+      { label: "Machine Type", values: ["Tractor", "Sheller", "Sprayer", "Other"] },
+      { label: "Fuel Type", values: ["Diesel", "Petrol", "Manual"] },
+      { label: "Brand", values: [] },
+    ],
+  },
+  "fertilizers": {
+    title: "Fertilizers",
+    properties: [
+      { label: "Fertilizer Type", values: ["NPK", "Urea", "Organic"] },
+      { label: "Application Use", values: ["Soil", "Foliar"] },
+      { label: "Pack Size", values: [] },
+    ],
+  },
+  "chemicals-insecticides-pesticides": {
+    title: "Chemicals / Insecticides & Pesticides",
+    properties: [
+      { label: "Chemical Type", values: ["Herbicides", "Insecticides", "Fungicides"] },
+      { label: "Application Type", values: [] },
+    ],
+  },
+  "fruits-vegetables": {
+    title: "Fruits & Vegetables",
+    properties: [
+      { label: "Type", values: ["Fruit", "Vegetable"] },
+      { label: "Form", values: ["Fresh", "Dried", "Packaged"] },
+      { label: "Harvest Date", values: [] },
+    ],
+  },
+  "livestock-pets": {
+    title: "Livestock & Pets",
+    properties: [
+      { label: "Animal Type", values: ["Poultry", "Cattle", "Goat", "Other"] },
+      { label: "Breed", values: [] },
+      { label: "Age Range", values: [] },
+      { label: "Health Status / Vaccination", values: [] },
+    ],
+  },
+  "animal-mating": {
+    title: "Animal Mating",
+    properties: [
+      { label: "Animal Type", values: ["Dog", "Goat", "Pig"] },
+      { label: "Insemination Services", values: ["Mobile AI Service"] },
+      { label: "Breed Type", values: [] },
+      { label: "Age", values: [] },
+      { label: "Service Type", values: ["Natural", "Artificial"] },
+    ],
+  },
+  "ornamental-crops": {
+    title: "Ornamental Crops",
+    properties: [],
+  },
+  seedlings: {
+    title: "Seedlings",
+    properties: [
+      { label: "Crop Type", values: ["Maize", "Tomatoes", "Cocoa", "Other"] },
+      { label: "Seedlings Age", values: ["1 week", "2 weeks", "3 weeks"] },
+      { label: "Type", values: ["Hybrid", "Open-pollination"] },
+    ],
+  },
+  services: {
+    title: "Services",
+    properties: [
+      { label: "Service Type", values: ["Tractor Hiring", "Farm Setup", "Veterinary"] },
+      { label: "Area Coverage", values: ["Local", "State Wide", "National Wide"] },
+      { label: "Availability", values: ["On-demand", "Booking"] },
+    ],
+  },
+  "animal-pharmacy": {
+    title: "Animal Pharmacy",
+    properties: [
+      { label: "Type of Animal", values: [] },
+      { label: "Use", values: ["Preventive", "Curative", "Supplement"] },
+      { label: "Product Form", values: ["Powder", "Injectable", "Oral"] },
+    ],
+  },
+  "animal-accessories": {
+    title: "Animal Accessories",
+    properties: [
+      { label: "Accessories", values: ["Poultry Drinkers", "Bird Cage", "Other"] },
+      { label: "Animal Type", values: ["Dog", "Pig", "Other"] },
+      { label: "Use", values: ["Feeding", "Transporting", "Housing"] },
+    ],
+  },
+  "animal-feeds": {
+    title: "Animal Feeds",
+    properties: [
+      { label: "Animal Type", values: [] },
+      { label: "Feed Type", values: [] },
+      { label: "Bag Size", values: ["10kg", "25kg", "50kg"] },
+      { label: "Brand", values: ["Top Feeds", "Vital", "Other"] },
+    ],
+  },
+  "agro-insurance": {
+    title: "Agro Insurance",
+    properties: [],
+  },
+};
+
+type CategoryKey = keyof typeof categoryDetails;
+
+const categories = Object.entries(categoryDetails).map(([id, cat]) => ({
+  id,
+  name: cat.title,
+}));
+
+const units = ["kg", "lbs", "tons", "pieces", "dozens", "liters", "gallons"]
 
 export default function PostProductForm() {
   const [images, setImages] = useState<string[]>([])
@@ -20,30 +131,6 @@ export default function PostProductForm() {
   const [newTag, setNewTag] = useState("")
   const [selectedCategory, setSelectedCategory] = useState<CategoryKey | "">("")
   const [categoryProps, setCategoryProps] = useState<{ [key: string]: string }>({})
-  const [features, setFeatures] = useState<string[]>([])
-  const [newFeature, setNewFeature] = useState("")
-  const [nutritionFacts, setNutritionFacts] = useState({
-    calories: "",
-    protein: "",
-    carbs: "",
-    fiber: "",
-    vitaminC: "",
-  })
-  const [farmer, setFarmer] = useState({
-    name: "",
-    location: "",
-    avatar: "",
-    rating: "",
-    totalReviews: "",
-    verified: false,
-    joinedDate: "",
-    totalProducts: "",
-    responseTime: "",
-  })
-  const [minOrder, setMinOrder] = useState("")
-  const [maxOrder, setMaxOrder] = useState("")
-  const [originalPrice, setOriginalPrice] = useState("")
-  const [discount, setDiscount] = useState("")
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
@@ -68,84 +155,44 @@ export default function PostProductForm() {
     setTags((prev) => prev.filter((t) => t !== tag))
   }
 
-  const addFeature = () => {
-    if (newFeature.trim() && !features.includes(newFeature.trim())) {
-      setFeatures((prev) => [...prev, newFeature.trim()])
-      setNewFeature("")
-    }
-  }
-
-  const removeFeature = (feature: string) => {
-    setFeatures((prev) => prev.filter((f) => f !== feature))
-  }
-
   const handleCategoryPropChange = (label: string, value: string) => {
     setCategoryProps((prev) => ({ ...prev, [label]: value }))
   }
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
 
-  const handleNutritionChange = (field: string, value: string) => {
-    setNutritionFacts((prev) => ({ ...prev, [field]: value }))
-  }
+  // Gather form data
+  const form = e.target as HTMLFormElement;
+  const formData = new FormData(form);
 
-  const handleFarmerChange = (field: string, value: string) => {
-    setFarmer((prev) => ({ ...prev, [field]: value }))
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const form = e.target as HTMLFormElement;
-    const formData = new FormData(form);
-
-    const productData: any = {
-      title: formData.get("title"),
-      category: selectedCategory,
-      description: formData.get("description"),
-      longDescription: formData.get("longDescription"),
-      price: formData.get("price"),
-      originalPrice: originalPrice || undefined,
-      unit: formData.get("unit"),
-      images,
-      farmer: {
-        name: farmer.name,
-        location: farmer.location,
-        avatar: farmer.avatar,
-        rating: farmer.rating ? Number(farmer.rating) : undefined,
-        totalReviews: farmer.totalReviews ? Number(farmer.totalReviews) : undefined,
-        verified: farmer.verified,
-        joinedDate: farmer.joinedDate,
-        totalProducts: farmer.totalProducts ? Number(farmer.totalProducts) : undefined,
-        responseTime: farmer.responseTime,
-      },
-      inStock: true,
-      quantity: formData.get("quantity"),
-      minOrder: minOrder ? Number(minOrder) : undefined,
-      maxOrder: maxOrder ? Number(maxOrder) : undefined,
-      postedAt: new Date().toISOString(),
-      discount: discount ? Number(discount) : undefined,
-      features,
-      nutritionFacts: {
-        calories: nutritionFacts.calories ? Number(nutritionFacts.calories) : undefined,
-        protein: nutritionFacts.protein,
-        carbs: nutritionFacts.carbs,
-        fiber: nutritionFacts.fiber,
-        vitaminC: nutritionFacts.vitaminC,
-      },
-      tags,
-      phone: formData.get("phone"),
-      email: formData.get("email"),
-      ...categoryProps,
-    };
-
-    const result = await createProduct(productData);
-
-    if (result.success) {
-      alert("Product created successfully!");
-      // Optionally reset form or redirect
-    } else {
-      alert(result.error || "Failed to create product");
-    }
+  // Build product data object
+  const productData: any = {
+    title: formData.get("title"),
+    category: selectedCategory,
+    description: formData.get("description"),
+    price: formData.get("price"),
+    unit: formData.get("unit"),
+    quantity: formData.get("quantity"),
+    location: formData.get("location"),
+    harvestDate: formData.get("harvest-date"),
+    phone: formData.get("phone"),
+    email: formData.get("email"),
+    tags,
+    images,
+    ...categoryProps,
   };
+
+  // Call server action
+  const result = await createProduct(productData);
+
+  if (result.success) {
+    // Optionally redirect or show success message
+    alert("Product created successfully!");
+    // Reset form or navigate as needed
+  } else {
+    alert(result.error || "Failed to create product");
+  }
+};
 
   const selectedCategoryDetails =
     selectedCategory && selectedCategory in categoryDetails
@@ -193,14 +240,13 @@ export default function PostProductForm() {
           <div className="grid md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="title">Product Title</Label>
-              <Input id="title" name="title" placeholder="e.g., Fresh Organic Tomatoes" required />
+              <Input id="title" placeholder="e.g., Fresh Organic Tomatoes" required />
             </div>
             <div className="space-y-2">
               <Label htmlFor="category">Category</Label>
-              <Select required value={selectedCategory} onValueChange={value => setSelectedCategory(value as CategoryKey)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select category" />
-                </SelectTrigger>
+              <Select required value={selectedCategory} onValueChange={value => setSelectedCategory(value as CategoryKey)}>                <SelectTrigger>
+                <SelectValue placeholder="Select category" />
+              </SelectTrigger>
                 <SelectContent>
                   {categories.map((category) => (
                     <SelectItem key={category.id} value={category.id}>
@@ -252,20 +298,9 @@ export default function PostProductForm() {
             <Label htmlFor="description">Description</Label>
             <Textarea
               id="description"
-              name="description"
               placeholder="Describe your product, growing methods, quality, etc."
               rows={4}
               required
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="longDescription">Long Description</Label>
-            <Textarea
-              id="longDescription"
-              name="longDescription"
-              placeholder="Detailed product information, features, storage instructions, etc."
-              rows={4}
             />
           </div>
 
@@ -273,21 +308,11 @@ export default function PostProductForm() {
           <div className="grid md:grid-cols-3 gap-4">
             <div className="space-y-2">
               <Label htmlFor="price">Price</Label>
-              <Input id="price" name="price" type="number" step="0.01" placeholder="0.00" required />
+              <Input id="price" type="number" step="0.01" placeholder="0.00" required />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="originalPrice">Original Price</Label>
-              <Input id="originalPrice" name="originalPrice" type="number" step="0.01" placeholder="(optional)" value={originalPrice} onChange={e => setOriginalPrice(e.target.value)} />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="discount">Discount (%)</Label>
-              <Input id="discount" name="discount" type="number" step="1" placeholder="(optional)" value={discount} onChange={e => setDiscount(e.target.value)} />
-            </div>
-          </div>
-          <div className="grid md:grid-cols-3 gap-4">
             <div className="space-y-2">
               <Label htmlFor="unit">Unit</Label>
-              <Select required name="unit">
+              <Select required>
                 <SelectTrigger>
                   <SelectValue placeholder="Select unit" />
                 </SelectTrigger>
@@ -302,96 +327,19 @@ export default function PostProductForm() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="quantity">Available Quantity</Label>
-              <Input id="quantity" name="quantity" type="number" placeholder="100" required />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="inStock">In Stock</Label>
-              <Select name="inStock" defaultValue="true">
-                <SelectTrigger>
-                  <SelectValue placeholder="In Stock?" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="true">Yes</SelectItem>
-                  <SelectItem value="false">No</SelectItem>
-                </SelectContent>
-              </Select>
+              <Input id="quantity" type="number" placeholder="100" required />
             </div>
           </div>
+
+          {/* Location */}
           <div className="grid md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="minOrder">Minimum Order</Label>
-              <Input id="minOrder" name="minOrder" type="number" placeholder="(optional)" value={minOrder} onChange={e => setMinOrder(e.target.value)} />
+              <Label htmlFor="location">Location</Label>
+              <Input id="location" placeholder="City, State" required />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="maxOrder">Maximum Order</Label>
-              <Input id="maxOrder" name="maxOrder" type="number" placeholder="(optional)" value={maxOrder} onChange={e => setMaxOrder(e.target.value)} />
-            </div>
-          </div>
-
-          {/* Farmer Info */}
-          <div className="space-y-2">
-            <Label>Farmer Information</Label>
-            <div className="grid md:grid-cols-3 gap-4">
-              <Input placeholder="Farmer Name" value={farmer.name} onChange={e => handleFarmerChange("name", e.target.value)} required />
-              <Input placeholder="Location" value={farmer.location} onChange={e => handleFarmerChange("location", e.target.value)} required />
-              <Input placeholder="Avatar URL" value={farmer.avatar} onChange={e => handleFarmerChange("avatar", e.target.value)} />
-            </div>
-            <div className="grid md:grid-cols-3 gap-4">
-              <Input placeholder="Rating" type="number" step="0.1" value={farmer.rating} onChange={e => handleFarmerChange("rating", e.target.value)} />
-              <Input placeholder="Total Reviews" type="number" value={farmer.totalReviews} onChange={e => handleFarmerChange("totalReviews", e.target.value)} />
-              <Input placeholder="Joined Date" value={farmer.joinedDate} onChange={e => handleFarmerChange("joinedDate", e.target.value)} />
-            </div>
-            <div className="grid md:grid-cols-3 gap-4">
-              <Input placeholder="Total Products" type="number" value={farmer.totalProducts} onChange={e => handleFarmerChange("totalProducts", e.target.value)} />
-              <Input placeholder="Response Time" value={farmer.responseTime} onChange={e => handleFarmerChange("responseTime", e.target.value)} />
-              <div className="flex items-center gap-2">
-                <input type="checkbox" id="verified" checked={farmer.verified} onChange={e => handleFarmerChange("verified", e.target.checked)} />
-                <Label htmlFor="verified">Verified</Label>
-              </div>
-            </div>
-          </div>
-
-          {/* Nutrition Facts */}
-          <div className="space-y-2">
-            <Label>Nutrition Facts</Label>
-            <div className="grid md:grid-cols-5 gap-4">
-              <Input placeholder="Calories" type="number" value={nutritionFacts.calories} onChange={e => handleNutritionChange("calories", e.target.value)} />
-              <Input placeholder="Protein" value={nutritionFacts.protein} onChange={e => handleNutritionChange("protein", e.target.value)} />
-              <Input placeholder="Carbs" value={nutritionFacts.carbs} onChange={e => handleNutritionChange("carbs", e.target.value)} />
-              <Input placeholder="Fiber" value={nutritionFacts.fiber} onChange={e => handleNutritionChange("fiber", e.target.value)} />
-              <Input placeholder="Vitamin C" value={nutritionFacts.vitaminC} onChange={e => handleNutritionChange("vitaminC", e.target.value)} />
-            </div>
-          </div>
-
-          {/* Features */}
-          <div className="space-y-2">
-            <Label>Features</Label>
-            <div className="flex flex-wrap gap-2 mb-2">
-              {features.map((feature) => (
-                <Badge key={feature} variant="secondary" className="flex items-center gap-1">
-                  {feature}
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    className="h-4 w-4 p-0 hover:bg-transparent"
-                    onClick={() => removeFeature(feature)}
-                  >
-                    <X className="h-3 w-3" />
-                  </Button>
-                </Badge>
-              ))}
-            </div>
-            <div className="flex gap-2">
-              <Input
-                placeholder="Add feature (e.g., Organic, Fresh)"
-                value={newFeature}
-                onChange={(e) => setNewFeature(e.target.value)}
-                onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), addFeature())}
-              />
-              <Button type="button" variant="outline" onClick={addFeature}>
-                <Plus className="h-4 w-4" />
-              </Button>
+              <Label htmlFor="harvest-date">Harvest/Production Date</Label>
+              <Input id="harvest-date" type="date" />
             </div>
           </div>
 
@@ -431,19 +379,19 @@ export default function PostProductForm() {
           <div className="grid md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="phone">Phone Number</Label>
-              <Input id="phone" name="phone" type="tel" placeholder="+234 801 234 5678" />
+              <Input id="phone" type="tel" placeholder="+234 801 234 5678" />
             </div>
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
-              <Input id="email" name="email" type="email" placeholder="farmer@example.com" />
+              <Input id="email" type="email" placeholder="farmer@example.com" />
             </div>
           </div>
 
           <div className="flex gap-4 pt-4">
-            <Button type="submit" className="cursor-pointer flex-1 bg-green-600 hover:bg-green-700">
+            <Button type="submit" className="cursor-pointerflex-1 bg-green-600 hover:bg-green-700">
               Post Product
             </Button>
-            <Button type="button" variant="outline" className="cursor-pointer flex-1">
+            <Button type="button" variant="outline" className="cursor-pointerflex-1">
               Save as Draft
             </Button>
           </div>
