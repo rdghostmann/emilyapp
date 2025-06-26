@@ -10,7 +10,6 @@ import { MapPin, Star, CheckCircle, Calendar, Package, MessageSquare, Edit, Phon
 import ProductCard from "./ProductCard"
 import LogoutButton from "@/components/Logout-button/logout-button"
 
-
 const mockUserProducts = [
   {
     id: "1",
@@ -33,7 +32,17 @@ const mockUserProducts = [
   },
 ]
 
-export default function UserProfile({user:any}) {
+interface UserProfileProps {
+  user: {
+    username?: string
+    email?: string
+    phone?: string
+    avatar?: string
+    [key: string]: any
+  } | null
+}
+
+export default function UserProfile({ user }: UserProfileProps) {
   const [isEditing, setIsEditing] = useState(false)
 
   const userStats = {
@@ -52,8 +61,8 @@ export default function UserProfile({user:any}) {
           <div className="flex flex-col md:flex-row items-start md:items-center space-y-4 md:space-y-0 md:space-x-6">
             <div className="relative">
               <Avatar className="h-24 w-24">
-                <AvatarImage src="/placeholder-user.jpg" alt="John Doe" />
-                <AvatarFallback>JD</AvatarFallback>
+                <AvatarImage src={user?.avatar || "/placeholder-user.jpg"} alt="user-img" />
+                <AvatarFallback>{user?.username?.charAt(0) || "U"}</AvatarFallback>
               </Avatar>
               <div className="absolute -bottom-1 -right-1 h-6 w-6 bg-green-500 rounded-full border-2 border-white flex items-center justify-center">
                 <CheckCircle className="h-4 w-4 text-white" />
@@ -62,7 +71,7 @@ export default function UserProfile({user:any}) {
 
             <div className="flex-1">
               <div className="flex items-center space-x-2 mb-2">
-                <h1 className="text-2xl font-bold">John Doe</h1>
+                <h1 className="text-2xl font-bold">{user?.username || "User"}</h1>
                 <Badge className="bg-green-600 hover:bg-green-700">Verified Farmer</Badge>
               </div>
 
@@ -131,11 +140,11 @@ export default function UserProfile({user:any}) {
           <CardContent className="space-y-3">
             <div className="flex items-center space-x-3">
               <Phone className="h-4 w-4 text-gray-500" />
-              <span>+1 (555) 123-4567</span>
+              <span>{user?.phone || "+1 (555) 123-4567"}</span>
             </div>
             <div className="flex items-center space-x-3">
               <Mail className="h-4 w-4 text-gray-500" />
-              <span>john.doe@example.com</span>
+              <span>{user?.email || "john.doe@example.com"}</span>
             </div>
           </CardContent>
         </Card>
