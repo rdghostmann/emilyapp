@@ -9,7 +9,7 @@ export default function Loading() {
             <Sprout className="h-10 w-10 text-white" />
           {/* </div> */}
         </div>
-        <p className="text-slate-600 italic animate-bounce">Loading...</p>
+        <p className="text-slate-600 animate-bounce">Loading...</p>
       </div>
     </div>
   )
