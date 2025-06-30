@@ -61,13 +61,13 @@ export default function FeaturedProducts() {
         options={{
           type: "loop",
           perPage: 2,
-          gap: "1rem",
+          gap: "1.2rem",
           pauseOnHover: true,
           arrows: false,
           pagination: false,
           drag: "free",
           breakpoints: {
-            1024: { perPage: 4 },
+            1024: { perPage: 3 },
             640: { perPage: 2 },
           },
         }}
