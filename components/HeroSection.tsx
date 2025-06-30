@@ -6,7 +6,7 @@ import { getServerSession } from "next-auth"
 
 export default async function HeroSection() {
   const session = await getServerSession(authOptions)
-  const username = session?.user?.name || "Guest"
+  const username = session?.user?.username || "Guest"
 
   return (
     <section className="bg-gradient-to-br from-green-600 to-green-700 text-white">
