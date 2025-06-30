@@ -6,7 +6,7 @@ import { getServerSession } from "next-auth"
 
 export default async function HeroSection() {
   const session = await getServerSession(authOptions)
-  const username = session?.user?.name || "there"
+  const username = session?.user?.name || "Guest"
 
   return (
     <section className="bg-gradient-to-br from-green-600 to-green-700 text-white">
@@ -27,7 +27,7 @@ export default async function HeroSection() {
         {/* Welcome Message */}
         <div className="mb-6">
           <h1 className="text-2xl font-bold mb-2">
-            Good Morning, {username}! 👋
+            Good Morning, {username}!
           </h1>
           <p className="text-green-100">Find fresh products from local farmers</p>
         </div>

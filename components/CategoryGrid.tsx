@@ -122,7 +122,7 @@ export default function CategoryGrid() {
                 <Icon className="h-6 w-6" />
               </div>
               <p className="text-sm font-medium text-gray-900 mb-1">{category.name}</p>
-              <p className="text-xs text-gray-500">{category.count} items</p>
+              <p className="hidden text-xs text-gray-500">{category.count} items</p>
             </Link>
           );
         })}
