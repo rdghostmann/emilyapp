@@ -8,18 +8,7 @@ export interface IProduct extends Document {
   originalPrice?: number;
   unit: string;
   images: string[];
-  farmer: {
-    id?: string;
-    name: string;
-    location: string;
-    avatar?: string;
-    rating?: number;
-    totalReviews?: number;
-    verified?: boolean;
-    joinedDate?: string;
-    totalProducts?: number;
-    responseTime?: string;
-  };
+  farmer: Types.ObjectId; // Reference to User
   category: string;
   inStock: boolean;
   quantity: number | string;
@@ -39,22 +28,6 @@ export interface IProduct extends Document {
   phone?: string;
   email?: string;
 }
-
-const FarmerSchema = new Schema(
-  {
-    id: { type: String },
-    name: { type: String, required: true },
-    location: { type: String, required: true },
-    avatar: { type: String },
-    rating: { type: Number },
-    totalReviews: { type: Number },
-    verified: { type: Boolean },
-    joinedDate: { type: String },
-    totalProducts: { type: Number },
-    responseTime: { type: String },
-  },
-  { _id: false }
-);
 
 const NutritionFactsSchema = new Schema(
   {
@@ -76,7 +49,7 @@ const ProductSchema = new Schema<IProduct>(
     originalPrice: { type: Number },
     unit: { type: String, required: true },
     images: { type: [String], default: [] },
-    farmer: { type: FarmerSchema, required: true },
+    farmer: { type: Schema.Types.ObjectId, ref: "User", required: true }, // Reference to User
     category: { type: String, required: true },
     inStock: { type: Boolean, default: true },
     quantity: { type: Schema.Types.Mixed, required: true },
