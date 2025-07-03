@@ -1,5 +1,14 @@
 import mongoose, { Schema, Document, Types } from "mongoose";
 
+export interface IReview {
+  user: string;
+  avatar?: string;
+  rating: number;
+  comment: string;
+  date: string;
+  verified?: boolean;
+}
+
 export interface IProduct extends Document {
   title: string;
   description: string;
@@ -27,6 +36,7 @@ export interface IProduct extends Document {
   tags?: string[];
   phone?: string;
   email?: string;
+  reviews?: IReview[];
 }
 
 const NutritionFactsSchema = new Schema(
@@ -40,6 +50,18 @@ const NutritionFactsSchema = new Schema(
   { _id: false }
 );
 
+const ReviewSchema = new Schema(
+  {
+    user: { type: String, required: true },
+    avatar: { type: String },
+    rating: { type: Number, required: true },
+    comment: { type: String, required: true },
+    date: { type: String, required: true },
+    verified: { type: Boolean, default: false },
+  },
+  { _id: false }
+);
+
 const ProductSchema = new Schema<IProduct>(
   {
     title: { type: String, required: true },
@@ -49,7 +71,7 @@ const ProductSchema = new Schema<IProduct>(
     originalPrice: { type: Number },
     unit: { type: String, required: true },
     images: { type: [String], default: [] },
-    farmer: { type: Schema.Types.ObjectId, ref: "User", required: true }, // Reference to User
+    farmer: { type: Schema.Types.ObjectId, ref: "User", required: true },
     category: { type: String, required: true },
     inStock: { type: Boolean, default: true },
     quantity: { type: Schema.Types.Mixed, required: true },
@@ -62,6 +84,7 @@ const ProductSchema = new Schema<IProduct>(
     tags: { type: [String], default: [] },
     phone: { type: String },
     email: { type: String },
+    reviews: { type: [ReviewSchema], default: [] },
   },
   { timestamps: true }
 );
