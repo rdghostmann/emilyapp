@@ -1,5 +1,8 @@
 "use client";
 import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import getProductsByCategory from "@/controllers/GetProductByCategory";
 
 type CategoryProperty = {
   label: string;
@@ -139,6 +142,15 @@ export default function CategoryPage() {
     description: "Browse items in this category.",
     properties: [],
   };
+ const [products, setProducts] = useState<any[]>([]);
+
+  useEffect(() => {
+    async function fetchProducts() {
+      const data = await getProductsByCategory(id);
+      setProducts(data);
+    }
+    if (id) fetchProducts();
+  }, [id]);
 
   return (
     <div className="max-w-3xl mx-auto p-6">
@@ -154,9 +166,19 @@ export default function CategoryPage() {
           ))}
         </div>
       )}
-      {/* Here you can add a ProductFeed or listing for this category */}
 
-      
+      {/* Product Feed */}
+      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+        {products.map((product) => (
+          <div key={product.id} className="border rounded-lg p-4 flex flex-col">
+            <Image src={product.images[0] || "/placeholder.svg"} alt={product.title} width={200} height={150} className="rounded mb-2" />
+            <h2 className="font-semibold text-lg">{product.title}</h2>
+            <p className="text-gray-600">{product.description}</p>
+            <div className="mt-2 font-bold text-green-700">${product.price} / {product.unit}</div>
+            <div className="text-xs text-gray-500 mt-1">{product.inStock ? "In Stock" : "Out of Stock"}</div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
