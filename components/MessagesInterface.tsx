@@ -288,10 +288,9 @@ export default function MessagesInterface() {
                     <Avatar className="h-12 w-12">
                       <AvatarImage src={conversation.user.avatar || "/placeholder.svg"} alt={conversation.user.name} />
                       <AvatarFallback>
-                        {conversation.user.name
-                          .split(" ")
-                          .map((n) => n[0])
-                          .join("")}
+                        {conversation.user?.name
+                          ? conversation.user.name.split(" ").map((n) => n[0]).join("")
+                          : "?"}
                       </AvatarFallback>
                     </Avatar>
                     {conversation.user.online && (
@@ -335,10 +334,9 @@ export default function MessagesInterface() {
               alt={selectedConversation.user.name}
             />
             <AvatarFallback>
-              {selectedConversation.user.name
-                .split(" ")
-                .map((n: string) => n[0])
-                .join("")}
+              {selectedConversation.user?.name
+                ? selectedConversation.user.name.split(" ").map((n: string) => n[0]).join("")
+                : "?"}
             </AvatarFallback>
           </Avatar>
           <div>
@@ -396,9 +394,8 @@ export default function MessagesInterface() {
           return (
             <div key={message.id} className={`flex ${isOwnMessage ? "justify-end" : "justify-start"}`}>
               <div
-                className={`max-w-xs lg:max-w-md px-4 py-2 rounded-2xl ${
-                  isOwnMessage ? "bg-green-600 text-white" : "bg-gray-100 text-gray-900"
-                }`}
+                className={`max-w-xs lg:max-w-md px-4 py-2 rounded-2xl ${isOwnMessage ? "bg-green-600 text-white" : "bg-gray-100 text-gray-900"
+                  }`}
               >
                 <p className="text-sm">{message.content}</p>
                 <span className={`text-xs mt-1 block ${isOwnMessage ? "text-green-100" : "text-gray-500"}`}>

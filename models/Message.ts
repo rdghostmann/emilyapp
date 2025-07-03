@@ -1,8 +1,8 @@
-import mongoose, { Schema, Document } from "mongoose"
+import mongoose, { Schema, Document, Types } from "mongoose"
 
 export interface IMessage extends Document {
-  conversationId: string
-  senderId: string
+  conversationId: Types.ObjectId
+  senderId: Types.ObjectId
   senderName: string
   content: string
   timestamp: Date
@@ -17,18 +17,18 @@ export interface IMessage extends Document {
 
 const ProductDataSchema = new Schema(
   {
-    title: { type: String, required: true },
-    price: { type: Number, required: true },
-    unit: { type: String, required: true },
-    image: { type: String, required: true },
+    title: String,
+    price: Number,
+    unit: String,
+    image: String,
   },
   { _id: false }
-)
+);
 
 const MessageSchema = new Schema<IMessage>(
   {
-    conversationId: { type: String, required: true },
-    senderId: { type: String, required: true },
+    conversationId: { type: Schema.Types.ObjectId, ref: "Conversation", required: true },
+    senderId: { type: Schema.Types.ObjectId, ref: "User", required: true },
     senderName: { type: String, required: true },
     content: { type: String, required: true },
     timestamp: { type: Date, default: Date.now },
@@ -36,7 +36,8 @@ const MessageSchema = new Schema<IMessage>(
     productData: { type: ProductDataSchema, required: false },
   },
   { timestamps: true }
-)
+);
 
-const Message = mongoose.models.Message || mongoose.model<IMessage>("Message", MessageSchema)
-export default Message
+// Fix the model export
+const Message = mongoose.models?.Message || mongoose.model<IMessage>("Message", MessageSchema);
+export default Message;

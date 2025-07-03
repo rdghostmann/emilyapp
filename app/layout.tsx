@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/sonner";
 import SessionWrapper from "@/components/SessionWrapper/SessionWrapper";
 import PWAInstallPrompt from "@/components/PWAInstallPrompt/PWAInstallPrompt";
 import MobileTabNavigation from "@/components/MobileTabNavigation";
+import Head from "next/head";
 
 
 
@@ -22,6 +23,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "EmilyAgros",
   description: "Your Gateway to the Future of Agriculture and Marketplace",
+  icons: {
+    icon: "/emily-logo.jpg",
+  },
 };
 
 export default function RootLayout({
@@ -42,11 +46,11 @@ export default function RootLayout({
   }
   return (
     <html lang="en" className="light" style={{ colorScheme: "light" }}>
-      <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
+      <Head>
+        <link rel="icon" href="/emily-logo.jpg" sizes="any" />
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#4CAF50" />
-      </head>
+      </Head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} cz-shortcut-listen="true">
         <SessionWrapper>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
