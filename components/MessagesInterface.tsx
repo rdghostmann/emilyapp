@@ -9,8 +9,8 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Send, Search, ArrowLeft, Phone, Video, MoreVertical, ImageIcon } from "lucide-react"
 import Image from "next/image"
-import getConversations from "../controllers/GetConversations"
 import getMessages from "../controllers/GetMessages"
+import getConversations from "@/controllers/getConversations"
 
 
 interface Message {
