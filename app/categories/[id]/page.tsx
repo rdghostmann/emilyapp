@@ -1,6 +1,6 @@
 "use client";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import getProductsByCategory from "@/controllers/GetProductByCategory";
 import ProductCard from "@/components/ProductCard";
 import Loading from "./loading";
@@ -143,32 +143,41 @@ export default function CategoryPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const details = categoryDetails[id] || {
-    title: id?.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase()),
-    description: "Browse items in this category.",
-    properties: [],
-  };
-
+  const [details, setDetails] = useState<CategoryDetail | null>(null);
   const [products, setProducts] = useState<any[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<any[]>([]);
   const [selectedFilters, setSelectedFilters] = useState<Record<string, string[]>>({});
-  const [isLoading, setIsLoading] = useState(true); // ✅ added loading state
+  const [isLoading, setIsLoading] = useState(true);
 
-
-  // Load filters from query string on initial render
+ // Handle details safely (avoid hydration issues)
   useEffect(() => {
-    const filtersFromQuery: Record<string, string[]> = {};
+    if (!id) return;
+    const fallbackTitle = id.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
+    const category = categoryDetails[id] || {
+      title: fallbackTitle,
+      description: "Browse items in this category.",
+      properties: [],
+    };
+    setDetails(category);
+  }, [id]);
+
+  // Load filters from URL on mount
+  const filtersFromQuery = useMemo(() => {
+    const result: Record<string, string[]> = {};
     for (const [key, value] of searchParams.entries()) {
-      filtersFromQuery[key] = value.split(",");
+      result[key] = value.split(",");
     }
+    return result;
+  }, [searchParams]);
+
+  useEffect(() => {
     setSelectedFilters(filtersFromQuery);
-  }, []);
+  }, [filtersFromQuery]);
 
-  // Fetch and set products
-
+  // Fetch products
   useEffect(() => {
     async function fetchProducts() {
-      setIsLoading(true); // ✅ Start loading
+      setIsLoading(true);
       try {
         const data = await getProductsByCategory(id);
         setProducts(data);
@@ -178,39 +187,43 @@ export default function CategoryPage() {
         setProducts([]);
         setFilteredProducts([]);
       } finally {
-        setIsLoading(false); // ✅ Stop loading
+        setIsLoading(false);
       }
     }
+
     if (id) fetchProducts();
   }, [id]);
 
-  // Filter products when filters change
+  // Filter when selectedFilters change
   useEffect(() => {
     const filtered = products.filter((product) =>
       Object.entries(selectedFilters).every(([key, values]) =>
-        values.some((filterVal) =>
-          typeof product[key] === "string" &&
-          product[key].toLowerCase().includes(filterVal.toLowerCase())
-        )
+        values.some((filterVal) => {
+          const field = product[key];
+          return typeof field === "string"
+            ? field.toLowerCase().includes(filterVal.toLowerCase())
+            : Array.isArray(field)
+            ? field.map(String).some(val => val.toLowerCase().includes(filterVal.toLowerCase()))
+            : false;
+        })
       )
     );
     setFilteredProducts(filtered);
 
-    // Update query string in URL
+    // Update URL query string
     const query = new URLSearchParams();
     Object.entries(selectedFilters).forEach(([key, values]) => {
       if (values.length > 0) query.set(key, values.join(","));
     });
-    router.replace(`?${query.toString()}`, { scroll: false });
+
+    router.replace(`${window.location.pathname}?${query.toString()}`, { scroll: false });
   }, [selectedFilters, products]);
 
   const toggleFilter = (label: string, value: string) => {
     setSelectedFilters((prev) => {
       const current = prev[label] || [];
       const exists = current.includes(value);
-      const updated = exists
-        ? current.filter((v) => v !== value)
-        : [...current, value];
+      const updated = exists ? current.filter((v) => v !== value) : [...current, value];
 
       const result = { ...prev, [label]: updated };
       if (updated.length === 0) delete result[label];
@@ -218,16 +231,14 @@ export default function CategoryPage() {
     });
   };
 
-
   return (
     <div className="max-w-5xl mx-auto p-6">
       <TopNavigation />
 
-      {/* Product Feed */}
-      {isLoading ? (
-        <div className="flex justify-center items-center py-10">
+      {isLoading || !details ? (
+        <>
           <Loading />
-        </div>
+        </>
       ) : (
         <>
           <h1 className="text-2xl font-bold mb-2">{details.title}</h1>
@@ -245,10 +256,11 @@ export default function CategoryPage() {
                         return (
                           <button
                             key={val}
-                            className={`px-3 py-1 text-sm rounded border ${isActive
-                              ? "bg-green-600 text-white border-green-700"
-                              : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
-                              }`}
+                            className={`px-3 py-1 text-sm rounded border ${
+                              isActive
+                                ? "bg-green-600 text-white border-green-700"
+                                : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+                            }`}
                             onClick={() => toggleFilter(prop.label, val)}
                           >
                             {val}
@@ -263,6 +275,7 @@ export default function CategoryPage() {
               ))}
             </div>
           )}
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredProducts.length > 0 ? (
               filteredProducts.map((product) => (
@@ -276,8 +289,10 @@ export default function CategoryPage() {
           </div>
         </>
       )}
+
       <MobileTabNavigation />
     </div>
   );
-
 }
+
+
