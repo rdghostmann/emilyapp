@@ -1,9 +1,11 @@
 "use client";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import getProductsByCategory from "@/controllers/GetProductByCategory";
 import ProductCard from "@/components/ProductCard";
+import Loading from "./loading";
+import TopNavigation from "@/components/TopNavigation";
+import MobileTabNavigation from "@/components/MobileTabNavigation";
 
 type CategoryProperty = {
   label: string;
@@ -150,6 +152,7 @@ export default function CategoryPage() {
   const [products, setProducts] = useState<any[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<any[]>([]);
   const [selectedFilters, setSelectedFilters] = useState<Record<string, string[]>>({});
+  const [isLoading, setIsLoading] = useState(true); // ✅ added loading state
 
 
   // Load filters from query string on initial render
@@ -162,11 +165,21 @@ export default function CategoryPage() {
   }, []);
 
   // Fetch and set products
+
   useEffect(() => {
     async function fetchProducts() {
-      const data = await getProductsByCategory(id);
-      setProducts(data);
-      setFilteredProducts(data);
+      setIsLoading(true); // ✅ Start loading
+      try {
+        const data = await getProductsByCategory(id);
+        setProducts(data);
+        setFilteredProducts(data);
+      } catch (err) {
+        console.error("Failed to fetch products", err);
+        setProducts([]);
+        setFilteredProducts([]);
+      } finally {
+        setIsLoading(false); // ✅ Stop loading
+      }
     }
     if (id) fetchProducts();
   }, [id]);
@@ -205,74 +218,66 @@ export default function CategoryPage() {
     });
   };
 
+
   return (
     <div className="max-w-5xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-2">{details.title}</h1>
-      <p className="mb-4 text-gray-600">{details.description}</p>
+      <TopNavigation />
 
-      {details.properties.length > 0 && (
-        <div className="mb-6 space-y-4">
-          {details.properties.map((prop) => (
-            <div key={prop.label}>
-              <div className="font-semibold mb-1">{prop.label}:</div>
-              <div className="flex flex-wrap gap-2">
-                {prop.values.length > 0 ? (
-                  prop.values.map((val) => {
-                    const isActive = selectedFilters[prop.label]?.includes(val);
-                    return (
-                      <button
-                        key={val}
-                        className={`px-3 py-1 text-sm rounded border ${isActive
-                            ? "bg-green-600 text-white border-green-700"
-                            : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
-                          }`}
-                        onClick={() => toggleFilter(prop.label, val)}
-                      >
-                        {val}
-                      </button>
-                    );
-                  })
-                ) : (
-                  <span className="text-gray-400">Any</span>
-                )}
-              </div>
-            </div>
-          ))}
+      {/* Product Feed */}
+      {isLoading ? (
+        <div className="flex justify-center items-center py-10">
+          <Loading />
         </div>
-      )}
+      ) : (
+        <>
+          <h1 className="text-2xl font-bold mb-2">{details.title}</h1>
+          <p className="mb-4 text-gray-600">{details.description}</p>
 
-      {/* Product Feed */}
-      {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredProducts.length > 0 ? (
-          filteredProducts.map((product) => (
-            <div key={product.id} className="border rounded-lg p-4 flex flex-col shadow-sm hover:shadow-md transition">
-              <Image
-                src={product.images?.[0] || "/placeholder.svg"}
-                alt={product.title}
-                width={200}
-                height={150}
-                className="rounded mb-2 object-cover w-full h-[150px]"
-              />
-              <h2 className="font-semibold text-lg">{product.title}</h2>
-              <p className="text-gray-600 text-sm line-clamp-2">{product.description}</p>
-              <div className="mt-2 font-bold text-green-700">${product.price} / {product.unit}</div>
-              <div className="text-xs text-gray-500 mt-1">{product.inStock ? "In Stock" : "Out of Stock"}</div>
+          {details.properties.length > 0 && (
+            <div className="mb-6 space-y-4">
+              {details.properties.map((prop) => (
+                <div key={prop.label}>
+                  <div className="font-semibold mb-1">{prop.label}:</div>
+                  <div className="flex flex-wrap gap-2">
+                    {prop.values.length > 0 ? (
+                      prop.values.map((val) => {
+                        const isActive = selectedFilters[prop.label]?.includes(val);
+                        return (
+                          <button
+                            key={val}
+                            className={`px-3 py-1 text-sm rounded border ${isActive
+                              ? "bg-green-600 text-white border-green-700"
+                              : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+                              }`}
+                            onClick={() => toggleFilter(prop.label, val)}
+                          >
+                            {val}
+                          </button>
+                        );
+                      })
+                    ) : (
+                      <span className="text-gray-400">Any</span>
+                    )}
+                  </div>
+                </div>
+              ))}
             </div>
-          ))
-        ) : (
-          <p className="text-center col-span-full text-gray-400">No products found for selected filters.</p>
-        )}
-      </div> */}
-      {/* Product Feed */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredProducts.length > 0 ? (
-          filteredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))
-        ) : (
-          <p className="text-center col-span-full text-gray-400">No products found for selected filters.</p>
-        )}
-      </div>
+          )}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredProducts.length > 0 ? (
+              filteredProducts.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))
+            ) : (
+              <p className="text-center col-span-full text-gray-400">
+                No products found for selected filters.
+              </p>
+            )}
+          </div>
+        </>
+      )}
+      <MobileTabNavigation />
     </div>
   );
+
 }
