@@ -1,3 +1,4 @@
+// "use client"
 import TopNavigation from "@/components/TopNavigation"
 import MobileTabNavigation from "@/components/MobileTabNavigation";
 import ProductFeed from "@/components/ProductFeed"

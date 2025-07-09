@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Heart, MessageCircle, MapPin, Star, CheckCircle, Clock } from "lucide-react"
 import { useState } from "react"
+import moment from "moment"
 import { useRouter } from "next/navigation"
 
 interface Product {
@@ -92,7 +93,7 @@ export default function ProductCard({ product }: { product: Product }) {
           <div className="absolute bottom-3 right-3">
             <Badge variant="secondary" className="bg-white/90">
               <Clock className="h-3 w-3 mr-1" />
-              {product.postedAt}
+              {product.postedAt ? moment(product.postedAt).fromNow() : ""}
             </Badge>
           </div>
         </div>
