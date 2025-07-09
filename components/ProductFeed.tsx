@@ -1,23 +1,10 @@
-"use client"
-
 import ProductCard from "./ProductCard"
-import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import getAllProducts from "@/controllers/GetAllProducts"
 
-export default function ProductFeed() {
-    const [products, setProducts] = useState<any[]>([])
-    const [showAll, setShowAll] = useState(false)
-	
-    useEffect(() => {
-        async function fetchProducts() {
-            const data = await getAllProducts()
-            setProducts(data || [])
-        }
-        fetchProducts()
-    }, [])
-
-    const displayedProducts = showAll ? products : products.slice(0, 4)
+export default async function ProductFeed() {
+    const products = await getAllProducts()
+    const displayedProducts = products.slice(0, 4)
 
     return (
         <div>
@@ -27,20 +14,20 @@ export default function ProductFeed() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {displayedProducts.map((product) => (
+                {displayedProducts.map((product: any) => (
                     <ProductCard key={product.id} product={product} />
                 ))}
             </div>
 
-            {!showAll && products.length > 4 && (
+            {/* For server components, pagination or "Load More" should be handled via routing or props */}
+            {/* Example: You can add a link to a full products page */}
+            {products.length > 4 && (
                 <div className="text-center mt-6">
-                    <Button
-                        variant="outline"
-                        onClick={() => setShowAll(true)}
-                        className="w-full sm:w-auto"
-                    >
-                        Load More Products
-                    </Button>
+                    <a href="/products">
+                        <Button variant="outline" className="w-full sm:w-auto">
+                            View All Products
+                        </Button>
+                    </a>
                 </div>
             )}
         </div>

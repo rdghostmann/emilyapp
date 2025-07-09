@@ -27,6 +27,7 @@ import {
 } from "lucide-react"
 import { useCart } from "@/hooks/useCart"
 import getAllProducts from "@/controllers/GetAllProducts" // or a getProductById action
+import Loading from "./loading"
 
 export default function ProductDetails({ productId }: { productId: string }) {
   const router = useRouter()
@@ -50,21 +51,21 @@ export default function ProductDetails({ productId }: { productId: string }) {
   // console.log("Product Details:", product)
 
   if (!product) {
-    return <div className="p-8 text-center text-gray-500">Loading product...</div>
+    return <Loading />
   }
 
-  const handleAddToCart = () => {
-    addToCart({
-      id: product.id,
-      title: product.title,
-      price: product.price,
-      unit: product.unit,
-      image: product.images?.[0] || "/placeholder.svg",
-      farmer: product.farmer?.name,
-      quantity: quantity,
-      inStock: product.inStock,
-    })
-  }
+const handleAddToCart: () => void = () => {
+  addToCart({
+    id: product.id,
+    title: product.title,
+    price: product.price,
+    unit: product.unit,
+    image: product.images?.[0] || "/placeholder.svg",
+    farmer: product.farmer?.name,
+    quantity: quantity,
+    inStock: product.inStock,
+  })
+}
 
   const handleContactSeller = () => {
     const conversationData = {
@@ -377,14 +378,14 @@ export default function ProductDetails({ productId }: { productId: string }) {
       </div>
 
       {/* Fixed Bottom Actions */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t p-4 z-50">
-        <div className="flex space-x-3">
-          <Button variant="outline" className="flex-1" onClick={handleContactSeller}>
+      <div className="border w-full fixed bottom-0 left-0 bg-white border-t p-2 z-50">
+        <div className="flex items-center justify-center space-x-1 md:px-4">
+          <Button variant="outline" className="text-xs mx-2" onClick={handleContactSeller}>
             <MessageCircle className="h-4 w-4 mr-2" />
             Contact Seller
           </Button>
           <Button
-            className="flex-1 bg-green-600 hover:bg-green-700"
+            className="text-xs mx-2 bg-green-600 hover:bg-green-700"
             onClick={handleAddToCart}
             disabled={!product.inStock}
           >

@@ -20,7 +20,6 @@ export default function HomePage() {
           <FeaturedServices />
           <FeaturedProducts />
           <Suspense fallback={<Loading />}>
-            {/* ProductFeed is a lazy-loaded component */}
             <ProductFeed />
           </Suspense>
         </div>
