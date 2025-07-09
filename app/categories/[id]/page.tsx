@@ -1,8 +1,9 @@
 "use client";
-import { useParams } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import getProductsByCategory from "@/controllers/GetProductByCategory";
+import ProductCard from "@/components/ProductCard";
 
 type CategoryProperty = {
   label: string;
@@ -137,47 +138,140 @@ const categoryDetails: CategoryDetailsMap = {
 
 export default function CategoryPage() {
   const { id } = useParams<{ id: string }>();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
   const details = categoryDetails[id] || {
-    title: id?.replace(/-/g, " ").replace(/\b\w/g, l => l.toUpperCase()),
+    title: id?.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase()),
     description: "Browse items in this category.",
     properties: [],
   };
- const [products, setProducts] = useState<any[]>([]);
 
+  const [products, setProducts] = useState<any[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<any[]>([]);
+  const [selectedFilters, setSelectedFilters] = useState<Record<string, string[]>>({});
+
+
+  // Load filters from query string on initial render
+  useEffect(() => {
+    const filtersFromQuery: Record<string, string[]> = {};
+    for (const [key, value] of searchParams.entries()) {
+      filtersFromQuery[key] = value.split(",");
+    }
+    setSelectedFilters(filtersFromQuery);
+  }, []);
+
+  // Fetch and set products
   useEffect(() => {
     async function fetchProducts() {
       const data = await getProductsByCategory(id);
       setProducts(data);
+      setFilteredProducts(data);
     }
     if (id) fetchProducts();
   }, [id]);
 
+  // Filter products when filters change
+  useEffect(() => {
+    const filtered = products.filter((product) =>
+      Object.entries(selectedFilters).every(([key, values]) =>
+        values.some((filterVal) =>
+          typeof product[key] === "string" &&
+          product[key].toLowerCase().includes(filterVal.toLowerCase())
+        )
+      )
+    );
+    setFilteredProducts(filtered);
+
+    // Update query string in URL
+    const query = new URLSearchParams();
+    Object.entries(selectedFilters).forEach(([key, values]) => {
+      if (values.length > 0) query.set(key, values.join(","));
+    });
+    router.replace(`?${query.toString()}`, { scroll: false });
+  }, [selectedFilters, products]);
+
+  const toggleFilter = (label: string, value: string) => {
+    setSelectedFilters((prev) => {
+      const current = prev[label] || [];
+      const exists = current.includes(value);
+      const updated = exists
+        ? current.filter((v) => v !== value)
+        : [...current, value];
+
+      const result = { ...prev, [label]: updated };
+      if (updated.length === 0) delete result[label];
+      return result;
+    });
+  };
+
   return (
-    <div className="max-w-3xl mx-auto p-6">
+    <div className="max-w-5xl mx-auto p-6">
       <h1 className="text-2xl font-bold mb-2">{details.title}</h1>
       <p className="mb-4 text-gray-600">{details.description}</p>
+
       {details.properties.length > 0 && (
-        <div className="space-y-4">
+        <div className="mb-6 space-y-4">
           {details.properties.map((prop) => (
             <div key={prop.label}>
-              <span className="font-semibold">{prop.label}:</span>{" "}
-              {prop.values.length > 0 ? prop.values.join(", ") : <span className="text-gray-400">Any</span>}
+              <div className="font-semibold mb-1">{prop.label}:</div>
+              <div className="flex flex-wrap gap-2">
+                {prop.values.length > 0 ? (
+                  prop.values.map((val) => {
+                    const isActive = selectedFilters[prop.label]?.includes(val);
+                    return (
+                      <button
+                        key={val}
+                        className={`px-3 py-1 text-sm rounded border ${isActive
+                            ? "bg-green-600 text-white border-green-700"
+                            : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+                          }`}
+                        onClick={() => toggleFilter(prop.label, val)}
+                      >
+                        {val}
+                      </button>
+                    );
+                  })
+                ) : (
+                  <span className="text-gray-400">Any</span>
+                )}
+              </div>
             </div>
           ))}
         </div>
       )}
 
       {/* Product Feed */}
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-        {products.map((product) => (
-          <div key={product.id} className="border rounded-lg p-4 flex flex-col">
-            <Image src={product.images[0] || "/placeholder.svg"} alt={product.title} width={200} height={150} className="rounded mb-2" />
-            <h2 className="font-semibold text-lg">{product.title}</h2>
-            <p className="text-gray-600">{product.description}</p>
-            <div className="mt-2 font-bold text-green-700">${product.price} / {product.unit}</div>
-            <div className="text-xs text-gray-500 mt-1">{product.inStock ? "In Stock" : "Out of Stock"}</div>
-          </div>
-        ))}
+      {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {filteredProducts.length > 0 ? (
+          filteredProducts.map((product) => (
+            <div key={product.id} className="border rounded-lg p-4 flex flex-col shadow-sm hover:shadow-md transition">
+              <Image
+                src={product.images?.[0] || "/placeholder.svg"}
+                alt={product.title}
+                width={200}
+                height={150}
+                className="rounded mb-2 object-cover w-full h-[150px]"
+              />
+              <h2 className="font-semibold text-lg">{product.title}</h2>
+              <p className="text-gray-600 text-sm line-clamp-2">{product.description}</p>
+              <div className="mt-2 font-bold text-green-700">${product.price} / {product.unit}</div>
+              <div className="text-xs text-gray-500 mt-1">{product.inStock ? "In Stock" : "Out of Stock"}</div>
+            </div>
+          ))
+        ) : (
+          <p className="text-center col-span-full text-gray-400">No products found for selected filters.</p>
+        )}
+      </div> */}
+      {/* Product Feed */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {filteredProducts.length > 0 ? (
+          filteredProducts.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))
+        ) : (
+          <p className="text-center col-span-full text-gray-400">No products found for selected filters.</p>
+        )}
       </div>
     </div>
   );
