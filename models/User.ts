@@ -1,23 +1,21 @@
-// User Model
-import mongoose from "mongoose";
+import mongoose, { Schema, Document, models } from "mongoose";
 
-const UserSchema = new mongoose.Schema(
+const UserSchema = new Schema(
   {
     userID: {
       type: String,
       required: true,
+      unique: true,
+    },
+    firstName: {
+      type: String,
+    },
+    lastName: {
+      type: String,
     },
     username: {
       type: String,
       required: true,
-    },
-    firstName: {
-      type: String,
-      required: false,
-    },
-    lastName: {
-      type: String,
-      required: false,
     },
     email: {
       type: String,
@@ -30,29 +28,32 @@ const UserSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: [true, 'Password is required'],
-      minlength: [6, 'Password must be at least 6 characters'],
-      select: false // Don't return password by default
+      required: [true, "Password is required"],
     },
+    isVerified: { type: Boolean, default: false },
+    kycDocuments: {
+      type: Map,
+      of: String
+    },
+    role: {
+      type: String,
+      enum: ["user", "buyer", "seller", "farmer", "superAdmin", "admin", "buyer", "seller"],
+      default: "farmer",
+    },
+    status: {
+      type: String,
+      enum: ["active", "inactive"],
+      default: "active",
+    },
+    listedProducts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }],
+    walletBalance: { type: Number, default: 0 },
     avatar: {
       type: String,
       default: null,
     },
-    balance: {
-      type: Number,
-      default: null,
-    },
     joinDate: {
       type: Date,
-      default: null,
-    },
-    lastLogin: {
-      type: Date,
-      default: null,
-    },
-    accountType: {
-      type: String,
-      default: null,
+      default: Date.now,
     },
     phone: {
       type: String,
@@ -70,23 +71,12 @@ const UserSchema = new mongoose.Schema(
       type: String,
       default: null,
     },
-    role: {
-      type: String,
-      enum: ["user", "superAdmin", "admin", "buyer", "seller"],
-      default: "user",
-    },
-    status: {
-      type: String,
-      enum: ["active", "inactive"],
-      default: "active",
-    },
   },
   {
     timestamps: true,
   }
 );
 
-
-// Fix the model export
-const User = mongoose.models?.User || mongoose.model("User", UserSchema);
+// Prevent model overwrite issue in dev
+const User = models?.User || mongoose.model("User", UserSchema);
 export default User;

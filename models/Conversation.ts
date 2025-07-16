@@ -19,5 +19,5 @@ const ConversationSchema = new Schema<IConversation>(
 );
 
 // Fix the model export
-const Conversation = mongoose.models?.Conversation || mongoose.model<IConversation>("Conversation", ConversationSchema);
+const Conversation = mongoose.models.Conversation || mongoose.model<IConversation>("Conversation", ConversationSchema);
 export default Conversation;

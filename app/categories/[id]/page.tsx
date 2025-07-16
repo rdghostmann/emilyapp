@@ -22,13 +22,14 @@ type CategoryDetailsMap = {
   [key: string]: CategoryDetail;
 };
 
+
 const categoryDetails: CategoryDetailsMap = {
   "equipment-machines": {
     title: "Equipment & Machines",
     description: "Find new and used tractors, shellers, sprayers, and more.",
     properties: [
-      { label: "Condition", values: ["New", "Used"] },
       { label: "Machine Type", values: ["Tractor", "Sheller", "Sprayer", "Other"] },
+      { label: "Condition", values: ["New", "Used"] },
       { label: "Fuel Type", values: ["Diesel", "Petrol", "Manual"] },
       { label: "Brand", values: [] },
     ],
@@ -63,7 +64,7 @@ const categoryDetails: CategoryDetailsMap = {
     title: "Livestock & Pets",
     description: "Find poultry, cattle, and other animals.",
     properties: [
-      { label: "Animal Type", values: ["Poultry", "Cattle", "Goat", "Other"] },
+      { label: "AnimalType", values: ["Poultry", "Cattle", "Goat", "Other"] },
       { label: "Breed", values: [] },
       { label: "Age Range", values: [] },
       { label: "Health Status / Vaccination", values: [] },
@@ -73,7 +74,7 @@ const categoryDetails: CategoryDetailsMap = {
     title: "Animal Mating",
     description: "Animal mating and insemination services.",
     properties: [
-      { label: "Animal Type", values: ["Dog", "Goat", "Pig"] },
+      { label: "AnimalType", values: ["Dog", "Goat", "Pig"] },
       { label: "Insemination Services", values: ["Mobile AI Service"] },
       { label: "Breed Type", values: [] },
       { label: "Age", values: [] },
@@ -83,18 +84,21 @@ const categoryDetails: CategoryDetailsMap = {
   "ornamental-crops": {
     title: "Ornamental Crops",
     description: "Browse ornamental crops and flowers.",
-    properties: [],
+    properties: [
+      { label: "OrnamentalType", values: ["Maize", "Tomatoes", "Cocoa", "Other"] },
+
+    ],
   },
-  seedlings: {
+  "seedlings": {
     title: "Seedlings",
     description: "Browse a variety of seedlings for your farm.",
     properties: [
-      { label: "Crop Type", values: ["Maize", "Tomatoes", "Cocoa", "Other"] },
+      { label: "seedlingsType", values: ["Maize", "Tomatoes", "Cocoa", "Other"] },
       { label: "Seedlings Age", values: ["1 week", "2 weeks", "3 weeks"] },
       { label: "Type", values: ["Hybrid", "Open-pollination"] },
     ],
   },
-  services: {
+  "services": {
     title: "Services",
     description: "Find agricultural services.",
     properties: [
@@ -137,6 +141,13 @@ const categoryDetails: CategoryDetailsMap = {
     properties: [],
   },
 };
+
+// Get all properties arrays from all categories as a flat array
+const allProperties = Object.values(categoryDetails).flatMap((category) => category.properties);
+
+// subCategories[0] is the first property object in the array
+const subCategory0 = allProperties[0]; // { label: string, values: string[] }
+
 
 export default function CategoryPage() {
   const { id } = useParams<{ id: string }>();
@@ -231,68 +242,37 @@ export default function CategoryPage() {
     });
   };
 
-  return (
-    <div className="max-w-5xl mx-auto p-6">
+ return (
+    <div className="w-full mx-auto">
       <TopNavigation />
 
-      {isLoading || !details ? (
-        <>
-          <Loading />
-        </>
-      ) : (
-        <>
-          <h1 className="text-2xl font-bold mb-2">{details.title}</h1>
-          <p className="mb-4 text-gray-600">{details.description}</p>
-
-          {details.properties.length > 0 && (
-            <div className="mb-6 space-y-4">
-              {details.properties.map((prop) => (
-                <div key={prop.label}>
-                  <div className="font-semibold mb-1">{prop.label}:</div>
-                  <div className="flex flex-wrap gap-2">
-                    {prop.values.length > 0 ? (
-                      prop.values.map((val) => {
-                        const isActive = selectedFilters[prop.label]?.includes(val);
-                        return (
-                          <button
-                            key={val}
-                            className={`px-3 py-1 text-sm rounded border ${
-                              isActive
-                                ? "bg-green-600 text-white border-green-700"
-                                : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
-                            }`}
-                            onClick={() => toggleFilter(prop.label, val)}
-                          >
-                            {val}
-                          </button>
-                        );
-                      })
-                    ) : (
-                      <span className="text-gray-400">Any</span>
-                    )}
-                  </div>
-                </div>
-              ))}
+      <div className="max-w-full px-4 py-8">
+        <h1 className="text-2xl font-bold mb-2">
+          {subCategory0?.label}
+        </h1>
+        <div className="mb-6 space-y-4">
+          <div>
+            <div className="font-semibold mb-1">Values:</div>
+            <div className="flex flex-wrap gap-2">
+              {subCategory0?.values && subCategory0.values.length > 0 ? (
+                subCategory0.values.map((val) => (
+                  <span
+                    key={val}
+                    className="px-3 py-1 text-sm rounded border bg-white text-gray-700 border-gray-300"
+                  >
+                    {val}
+                  </span>
+                ))
+              ) : (
+                <span className="text-gray-400">No values</span>
+              )}
             </div>
-          )}
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredProducts.length > 0 ? (
-              filteredProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))
-            ) : (
-              <p className="text-center col-span-full text-gray-400">
-                No products found for selected filters.
-              </p>
-            )}
           </div>
-        </>
-      )}
+        </div>
+      </div>
 
       <MobileTabNavigation />
     </div>
   );
 }
-
 

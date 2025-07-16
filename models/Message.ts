@@ -39,5 +39,5 @@ const MessageSchema = new Schema<IMessage>(
 );
 
 // Fix the model export
-const Message = mongoose.models?.Message || mongoose.model<IMessage>("Message", MessageSchema);
+const Message = mongoose.models.Message || mongoose.model<IMessage>("Message", MessageSchema);
 export default Message;
