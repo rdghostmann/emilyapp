@@ -7,10 +7,10 @@ export default function CategoryGrid() {
   return (
     <div className="w-full">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold text-gray-900">Categories</h2>
-        <Link 
-          href="/categories" 
-          className="text-green-600 hover:text-green-700 text-sm font-medium transition-colors"
+        <h2 className="text-xl font-bold text-gray-900">Categories</h2>
+        <Link
+          href="/categories"
+          className="hidden lg:block text-green-600 hover:text-green-700 text-sm font-medium transition-colors"
         >
           View All Categories
         </Link>
