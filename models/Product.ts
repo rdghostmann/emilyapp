@@ -1,4 +1,6 @@
 import mongoose, { Schema, Document, Types } from "mongoose";
+import { ReviewSchema } from "./Review";
+import { NutritionFactsSchema } from "./NutritionFacts";
 
 export interface IReview {
   user: string;
@@ -9,6 +11,14 @@ export interface IReview {
   verified?: boolean;
 }
 
+export interface INutritionFacts {
+  calories?: number;
+  protein?: string;
+  carbs?: string;
+  fiber?: string;
+  vitaminC?: string;
+}
+
 export interface IProduct extends Document {
   title: string;
   description: string;
@@ -17,50 +27,21 @@ export interface IProduct extends Document {
   originalPrice?: number;
   unit: string;
   images: string[];
-  farmer: Types.ObjectId; // Reference to User
+  farmer: Types.ObjectId;
   category: string;
   inStock: boolean;
   quantity: number | string;
   minOrder?: number;
   maxOrder?: number;
-  postedAt?: string | Date;
+  postedAt?: Date | string;
   discount?: number;
   features?: string[];
-  nutritionFacts?: {
-    calories?: number;
-    protein?: string;
-    carbs?: string;
-    fiber?: string;
-    vitaminC?: string;
-  };
+  nutritionFacts?: INutritionFacts;
   tags?: string[];
   phone?: string;
   email?: string;
   reviews?: IReview[];
 }
-
-const NutritionFactsSchema = new Schema(
-  {
-    calories: Number,
-    protein: String,
-    carbs: String,
-    fiber: String,
-    vitaminC: String,
-  },
-  { _id: false }
-);
-
-const ReviewSchema = new Schema(
-  {
-    user: { type: String, required: true },
-    avatar: { type: String },
-    rating: { type: Number, required: true },
-    comment: { type: String, required: true },
-    date: { type: String, required: true },
-    verified: { type: Boolean, default: false },
-  },
-  { _id: false }
-);
 
 const ProductSchema = new Schema<IProduct>(
   {
@@ -77,11 +58,11 @@ const ProductSchema = new Schema<IProduct>(
     quantity: { type: Schema.Types.Mixed, required: true },
     minOrder: { type: Number },
     maxOrder: { type: Number },
-    postedAt: { type: Schema.Types.Mixed },
-    discount: { type: Number },
+    postedAt: { type: Schema.Types.Mixed, default: Date.now },
+    discount: { type: Number , required: false },
     features: { type: [String], default: [] },
-    nutritionFacts: { type: NutritionFactsSchema },
-    tags: { type: [String], default: [] },
+    nutritionFacts: { type: NutritionFactsSchema, default: {}, required: false },
+    tags: { type: [String], default: [] , required: false },
     phone: { type: String },
     email: { type: String },
     reviews: { type: [ReviewSchema], default: [] },
@@ -90,5 +71,4 @@ const ProductSchema = new Schema<IProduct>(
 );
 
 const Product = mongoose.models.Product || mongoose.model<IProduct>("Product", ProductSchema);
-
 export default Product;

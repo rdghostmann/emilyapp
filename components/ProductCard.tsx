@@ -116,7 +116,7 @@ export default function ProductCard({ product }: { product: Product }) {
             </Badge>
           </div>
 
-          <p className="text-sm text-gray-600">{product.quantity}</p>
+          <p className="text-sm text-gray-600">{`${product.quantity} as Quantity`}</p>
 
           <div className="flex items-center space-x-2 pt-2 border-t">
             <Avatar className="h-8 w-8">

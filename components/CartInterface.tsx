@@ -10,6 +10,7 @@ import { Separator } from "@/components/ui/separator"
 import { ShoppingCart, Plus, Minus, Trash2, CreditCard, Truck, Tag } from "lucide-react"
 import { useCart } from "../hooks/useCart"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 
 export default function CartInterface() {
   const { cartItems, updateQuantity, removeFromCart, getTotalPrice, getTotalItems } = useCart()
@@ -36,9 +37,10 @@ export default function CartInterface() {
           <ShoppingCart className="h-16 w-16 text-gray-300 mx-auto mb-4" />
           <h3 className="text-lg font-semibold text-gray-900 mb-2">Your cart is empty</h3>
           <p className="text-gray-600 mb-6">Add some products to get started</p>
-          <Button className="bg-green-600 hover:bg-green-700" onClick={() => router.push("/")}>
+          <Link href="/products">
+          <Button className="bg-green-600 hover:bg-green-700">
             Browse Products
-          </Button>
+          </Button></Link>
         </div>
       </div>
     )

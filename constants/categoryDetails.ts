@@ -1,3 +1,19 @@
+import { 
+  Wrench, 
+  Leaf, 
+  SprayCan, 
+  Apple, 
+  Beef, 
+  HeartHandshake, 
+  Flower, 
+  TreePine, 
+  Handshake, 
+  Pill, 
+  PawPrint, 
+  Drumstick, 
+  ShieldCheck 
+} from "lucide-react"
+
 export type CategoryProperty = {
   label: string;
   values: string[];
@@ -7,6 +23,10 @@ export type CategoryDetail = {
   title: string;
   description: string;
   properties: CategoryProperty[];
+  icon: React.ComponentType<{ className?: string }>;
+  image: string;
+  color: string;
+  count: number;
 };
 
 export type CategoryDetailsMap = {
@@ -24,6 +44,10 @@ export const categoryDetails: CategoryDetailsMap = {
       { label: "Fuel Type", values: ["Diesel", "Petrol", "Manual"] },
       { label: "Brand", values: [] },
     ],
+    icon: Wrench,
+    image: "/icons/equipments-machines.jpg",
+    color: "bg-gray-100 text-gray-600",
+    count: 45,
   },
   "fertilizers": {
     title: "Fertilizers",
@@ -33,6 +57,10 @@ export const categoryDetails: CategoryDetailsMap = {
       { label: "Application Use", values: ["Soil", "Foliar"] },
       { label: "Pack Size", values: [] },
     ],
+    icon: Leaf,
+    image: "/icons/fertilizers.jpg",
+    color: "bg-green-100 text-green-600",
+    count: 30,
   },
   "chemicals-insecticides-pesticides": {
     title: "Chemicals / Insecticides & Pesticides",
@@ -41,6 +69,10 @@ export const categoryDetails: CategoryDetailsMap = {
       { label: "Chemical Type", values: ["Herbicides", "Insecticides", "Fungicides"] },
       { label: "Application Type", values: [] },
     ],
+    icon: SprayCan,
+    image: "/icons/chemicals-insecticides-pesticides.jpg",
+    color: "bg-yellow-100 text-yellow-600",
+    count: 28,
   },
   "fruits-vegetables": {
     title: "Fruits & Vegetables",
@@ -50,6 +82,10 @@ export const categoryDetails: CategoryDetailsMap = {
       { label: "Form", values: ["Fresh", "Dried", "Packaged"] },
       { label: "Harvest Date", values: [] },
     ],
+    icon: Apple,
+    image: "/icons/food-fruits-vegetables.jpg",
+    color: "bg-red-100 text-red-600",
+    count: 320,
   },
   "livestock-pets": {
     title: "Livestock & Pets",
@@ -60,6 +96,10 @@ export const categoryDetails: CategoryDetailsMap = {
       { label: "Age Range", values: [] },
       { label: "Health Status / Vaccination", values: [] },
     ],
+    icon: Beef,
+    image: "/icons/livestock-pets.jpg",
+    color: "bg-purple-100 text-purple-600",
+    count: 80,
   },
   "animal-mating": {
     title: "Animal Mating",
@@ -71,6 +111,10 @@ export const categoryDetails: CategoryDetailsMap = {
       { label: "Age", values: [] },
       { label: "Service Type", values: ["Natural", "Artificial"] },
     ],
+    icon: HeartHandshake,
+    image: "/icons/animal-mating.jpg",
+    color: "bg-pink-100 text-pink-600",
+    count: 12,
   },
   "ornamental-crops": {
     title: "Ornamental Crops",
@@ -78,6 +122,10 @@ export const categoryDetails: CategoryDetailsMap = {
     properties: [
       { label: "Ornamental-Crops", values: ["Maize", "Tomatoes", "Cocoa", "Other"] },
     ],
+    icon: Flower,
+    image: "/icons/ornamental-crops.jpg",
+    color: "bg-pink-50 text-pink-400",
+    count: 20,
   },
   "seedlings": {
     title: "Seedlings",
@@ -87,6 +135,10 @@ export const categoryDetails: CategoryDetailsMap = {
       { label: "Seedlings Age", values: ["1 week", "2 weeks", "3 weeks"] },
       { label: "Type", values: ["Hybrid", "Open-pollination"] },
     ],
+    icon: TreePine,
+    image: "/icons/seedlings.jpg",
+    color: "bg-green-50 text-green-500",
+    count: 60,
   },
   "services": {
     title: "Services",
@@ -96,6 +148,10 @@ export const categoryDetails: CategoryDetailsMap = {
       { label: "Area Coverage", values: ["Local", "State Wide", "National Wide"] },
       { label: "Availability", values: ["On-demand", "Booking"] },
     ],
+    icon: Handshake,
+    image: "/icons/services.jpg",
+    color: "bg-blue-100 text-blue-600",
+    count: 18,
   },
   "animal-pharmacy": {
     title: "Animal Pharmacy",
@@ -105,6 +161,10 @@ export const categoryDetails: CategoryDetailsMap = {
       { label: "Use", values: ["Preventive", "Curative", "Supplement"] },
       { label: "Product Form", values: ["Powder", "Injectable", "Oral"] },
     ],
+    icon: Pill,
+    image: "/icons/animal-pharmacy.jpg",
+    color: "bg-indigo-100 text-indigo-600",
+    count: 10,
   },
   "animal-accessories": {
     title: "Animal Accessories",
@@ -114,6 +174,10 @@ export const categoryDetails: CategoryDetailsMap = {
       { label: "Animal Type", values: ["Dog", "Pig", "Other"] },
       { label: "Use", values: ["Feeding", "Transporting", "Housing"] },
     ],
+    icon: PawPrint,
+    image: "/icons/animal-accessories.jpg",
+    color: "bg-orange-100 text-orange-600",
+    count: 15,
   },
   "animal-feeds": {
     title: "Animal Feeds",
@@ -124,6 +188,10 @@ export const categoryDetails: CategoryDetailsMap = {
       { label: "Bag Size", values: ["10kg", "25kg", "50kg"] },
       { label: "Brand", values: ["Top Feeds", "Vital", "Other"] },
     ],
+    icon: Drumstick,
+    image: "/icons/animal-feeds.jpg",
+    color: "bg-amber-100 text-amber-600",
+    count: 25,
   },
   "agro-insurance": {
     title: "Agro Insurance",
@@ -131,5 +199,29 @@ export const categoryDetails: CategoryDetailsMap = {
     properties: [
       { label: "Animal-Insurance", values: [] },
     ],
+    icon: ShieldCheck,
+    image: "/icons/agro-insurance.jpg",
+    color: "bg-teal-100 text-teal-600",
+    count: 5,
   },
 };
+
+// Helper type for the simplified category array items
+export type CategoryItem = {
+  id: string;
+  name: string;
+  icon: React.ComponentType<{ className?: string }>;
+  image: string;
+  color: string;
+  count: number;
+};
+
+// Export the categories as an array
+export const categories: CategoryItem[] = Object.entries(categoryDetails).map(([id, detail]) => ({
+  id,
+  name: detail.title,
+  icon: detail.icon,
+  image: detail.image,
+  color: detail.color,
+  count: detail.count,
+}));

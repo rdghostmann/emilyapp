@@ -11,110 +11,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge"
 import { Upload, X, Plus } from "lucide-react"
 import createProduct from "@/controllers/CreateProduct"
-
-// Move this to a shared file if needed
-const categoryDetails = {
-  "equipment-machines": {
-    title: "Equipment & Machines",
-    properties: [
-      { label: "Condition", values: ["New", "Used"] },
-      { label: "Machine Type", values: ["Tractor", "Sheller", "Sprayer", "Other"] },
-      { label: "Fuel Type", values: ["Diesel", "Petrol", "Manual"] },
-      { label: "Brand", values: [] },
-    ],
-  },
-  "fertilizers": {
-    title: "Fertilizers",
-    properties: [
-      { label: "Fertilizer Type", values: ["NPK", "Urea", "Organic"] },
-      { label: "Application Use", values: ["Soil", "Foliar"] },
-      { label: "Pack Size", values: [] },
-    ],
-  },
-  "chemicals-insecticides-pesticides": {
-    title: "Chemicals / Insecticides & Pesticides",
-    properties: [
-      { label: "Chemical Type", values: ["Herbicides", "Insecticides", "Fungicides"] },
-      { label: "Application Type", values: [] },
-    ],
-  },
-  "fruits-vegetables": {
-    title: "Fruits & Vegetables",
-    properties: [
-      { label: "Type", values: ["Fruit", "Vegetable"] },
-      { label: "Form", values: ["Fresh", "Dried", "Packaged"] },
-      { label: "Harvest Date", values: [] },
-    ],
-  },
-  "livestock-pets": {
-    title: "Livestock & Pets",
-    properties: [
-      { label: "Animal Type", values: ["Poultry", "Cattle", "Goat", "Other"] },
-      { label: "Breed", values: [] },
-      { label: "Age Range", values: [] },
-      { label: "Health Status / Vaccination", values: [] },
-    ],
-  },
-  "animal-mating": {
-    title: "Animal Mating",
-    properties: [
-      { label: "Animal Type", values: ["Dog", "Goat", "Pig"] },
-      { label: "Insemination Services", values: ["Mobile AI Service"] },
-      { label: "Breed Type", values: [] },
-      { label: "Age", values: [] },
-      { label: "Service Type", values: ["Natural", "Artificial"] },
-    ],
-  },
-  "ornamental-crops": {
-    title: "Ornamental Crops",
-    properties: [],
-  },
-  seedlings: {
-    title: "Seedlings",
-    properties: [
-      { label: "Crop Type", values: ["Maize", "Tomatoes", "Cocoa", "Other"] },
-      { label: "Seedlings Age", values: ["1 week", "2 weeks", "3 weeks"] },
-      { label: "Type", values: ["Hybrid", "Open-pollination"] },
-    ],
-  },
-  services: {
-    title: "Services",
-    properties: [
-      { label: "Service Type", values: ["Tractor Hiring", "Farm Setup", "Veterinary"] },
-      { label: "Area Coverage", values: ["Local", "State Wide", "National Wide"] },
-      { label: "Availability", values: ["On-demand", "Booking"] },
-    ],
-  },
-  "animal-pharmacy": {
-    title: "Animal Pharmacy",
-    properties: [
-      { label: "Type of Animal", values: [] },
-      { label: "Use", values: ["Preventive", "Curative", "Supplement"] },
-      { label: "Product Form", values: ["Powder", "Injectable", "Oral"] },
-    ],
-  },
-  "animal-accessories": {
-    title: "Animal Accessories",
-    properties: [
-      { label: "Accessories", values: ["Poultry Drinkers", "Bird Cage", "Other"] },
-      { label: "Animal Type", values: ["Dog", "Pig", "Other"] },
-      { label: "Use", values: ["Feeding", "Transporting", "Housing"] },
-    ],
-  },
-  "animal-feeds": {
-    title: "Animal Feeds",
-    properties: [
-      { label: "Animal Type", values: [] },
-      { label: "Feed Type", values: [] },
-      { label: "Bag Size", values: ["10kg", "25kg", "50kg"] },
-      { label: "Brand", values: ["Top Feeds", "Vital", "Other"] },
-    ],
-  },
-  "agro-insurance": {
-    title: "Agro Insurance",
-    properties: [],
-  },
-};
+import { categoryDetails, CategoryDetailsMap, CategoryDetail } from "@/constants/categoryDetails"
+import { DatePicker } from "./ui/date-picker"
 
 type CategoryKey = keyof typeof categoryDetails;
 
@@ -123,13 +21,13 @@ const categories = Object.entries(categoryDetails).map(([id, cat]) => ({
   name: cat.title,
 }));
 
-const units = ["kg", "lbs", "tons", "pieces", "dozens", "liters", "gallons"]
+const units = ["kg", "lbs", "tons", "pieces", "dozens", "liters", "gallons", "session"]
 
 export default function PostProductForm() {
   const [images, setImages] = useState<string[]>([])
   const [tags, setTags] = useState<string[]>([])
   const [newTag, setNewTag] = useState("")
-  const [selectedCategory, setSelectedCategory] = useState<CategoryKey | "">("")
+  const [selectedCategory, setSelectedCategory] = useState<CategoryKey | undefined>()
   const [categoryProps, setCategoryProps] = useState<{ [key: string]: string }>({})
   const [features, setFeatures] = useState<string[]>([])
   const [newFeature, setNewFeature] = useState("")
@@ -198,9 +96,9 @@ export default function PostProductForm() {
     setNutritionFacts((prev) => ({ ...prev, [field]: value }))
   }
 
- const handleFarmerChange = (field: string, value: string | boolean) => {
-  setFarmer((prev) => ({ ...prev, [field]: value }))
-}
+  const handleFarmerChange = (field: string, value: string | boolean) => {
+    setFarmer((prev) => ({ ...prev, [field]: value }))
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -258,10 +156,7 @@ export default function PostProductForm() {
     }
   };
 
-  const selectedCategoryDetails =
-    selectedCategory && selectedCategory in categoryDetails
-      ? categoryDetails[selectedCategory as CategoryKey]
-      : null;
+  const selectedCategoryDetails = selectedCategory ? categoryDetails[selectedCategory] : null;
 
   return (
     <Card>
@@ -308,7 +203,11 @@ export default function PostProductForm() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="category">Category</Label>
-              <Select required value={selectedCategory} onValueChange={value => setSelectedCategory(value as CategoryKey)}>
+              <Select
+                required
+                value={selectedCategory || undefined}
+                onValueChange={(value) => setSelectedCategory(value as CategoryKey)}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Select category" />
                 </SelectTrigger>
@@ -329,7 +228,14 @@ export default function PostProductForm() {
               {selectedCategoryDetails.properties.map((prop) => (
                 <div className="space-y-2" key={prop.label}>
                   <Label>{prop.label}</Label>
-                  {prop.values.length > 0 ? (
+                  {prop.label === "Harvest Date" ? (
+                    <DatePicker
+                      selected={categoryProps[prop.label] ? new Date(categoryProps[prop.label]) : undefined}
+                      onChange={(date) => handleCategoryPropChange(prop.label, date?.toISOString() || "")}
+                      placeholderText="Select harvest date"
+                      required
+                    />
+                  ) : prop.values.length > 0 ? (
                     <Select
                       value={categoryProps[prop.label] || ""}
                       onValueChange={(value) => handleCategoryPropChange(prop.label, value)}
@@ -415,7 +321,7 @@ export default function PostProductForm() {
               <Label htmlFor="quantity">Available Quantity</Label>
               <Input id="quantity" name="quantity" type="number" placeholder="100" required />
             </div>
-            <div className="space-y-2">
+            <div className="hidden space-y-2">
               <Label htmlFor="inStock">In Stock</Label>
               <Select name="inStock" defaultValue="true">
                 <SelectTrigger>
@@ -440,7 +346,7 @@ export default function PostProductForm() {
           </div>
 
           {/* Farmer Info */}
-          <div className="space-y-2">
+          <div className="hidden space-y-2">
             <Label>Farmer Information</Label>
             <div className="grid md:grid-cols-3 gap-4">
               <Input placeholder="Farmer Name" value={farmer.name} onChange={e => handleFarmerChange("name", e.target.value)} required />
@@ -463,7 +369,7 @@ export default function PostProductForm() {
           </div>
 
           {/* Nutrition Facts */}
-          <div className="space-y-2">
+          <div className="hidden space-y-2">
             <Label>Nutrition Facts</Label>
             <div className="grid md:grid-cols-5 gap-4">
               <Input placeholder="Calories" type="number" value={nutritionFacts.calories} onChange={e => handleNutritionChange("calories", e.target.value)} />
