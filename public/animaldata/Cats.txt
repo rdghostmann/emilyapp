@@ -1,0 +1,61 @@
+<option value="" disabled selected>Please Select</option>
+<option>Abyssinian</option>
+<option>American Bobtail</option>
+<option>American Curl</option>
+<option>American Wirehair</option>
+<option>Balinese and Javanese</option>
+<option>Bengal</option>
+<option>Birman</option>
+<option>Bombay</option>
+<option>British Shorthair</option>
+<option>Burmese</option>
+<option>Burmilla</option>
+<option>Chartreux</option>
+<option>Chausie</option>
+<option>Colorpoint Shorthair</option>
+<option>Cornish Rex</option>
+<option>Cymric (Longhaired Manx)</option>
+<option>Devon Rex</option>
+<option>Donskoy</option>
+<option>Egyptian Mau</option>
+<option>Exotic Shorthair</option>
+<option>Havana Brown</option>
+<option>Highlander</option>
+<option>Himalayan</option>
+<option>Japanese Bobtail</option>
+<option>Khao Manee</option>
+<option>Kinkalow</option>
+<option>Korat</option>
+<option>Kurilian Bobtail</option>
+<option>Lambkin Dwarf</option>
+<option>Laperm</option>
+<option>Lykoi</option>
+<option>Maine Coon</option>
+<option>Manx</option>
+<option>Minskin</option>
+<option>Munchkin</option>
+<option>Nebelung</option>
+<option>Norwegian Forest</option>
+<option>Ocicat</option>
+<option>Ojos Azules</option>
+<option>Oriental</option>
+<option>Persian</option>
+<option>Peterbald</option>
+<option>Pixie Bob</option>
+<option>Ragdoll</option>
+<option>Ragamuffin</option>
+<option>Russian Blue</option>
+<option>Savannah</option>
+<option>Scottish Fold</option>
+<option>Selkirk Rex</option>
+<option>Serengeti</option>
+<option>Siamese</option>
+<option>Siberian</option>
+<option>Singapura</option>
+<option>Snowshoe</option>
+<option>Sokoke</option>
+<option>Somali</option>
+<option>Sphynx</option>
+<option>Toyger</option>
+<option>Turkish Van</option>
+<option>Other</option>

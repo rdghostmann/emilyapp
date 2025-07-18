@@ -1,0 +1,15 @@
+<option value="" disabled selected>Please Select</option>
+<option>Dutch</option>
+<option>Himalayan</option>
+<option>Polish</option>
+<option>New Zealand</option>
+<option>American Chinchilla</option>
+<option>Californian</option>
+<option>Champagne d’Argent</option>
+<option>English Spot</option>
+<option>Silver Martens</option>
+<option>Angora</option>
+<option>Rex</option>
+<option>Checkered Giants</option>
+<option>Flemish Giants</option>
+<option>Other</option>

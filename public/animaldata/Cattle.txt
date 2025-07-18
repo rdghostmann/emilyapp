@@ -1,0 +1,332 @@
+<option value="" disabled selected>Please Select</option>
+<option>Rath Cattle</option>
+<option>Vestland Fjord Cattle</option>
+<option>Africander Cattle</option>
+<option>Akaushi</option>
+<option>Alberes Cattle</option>
+<option>Alentejana Cattle</option>
+<option>Allmogekor Cattle</option>
+<option>American Braford Cattle</option>
+<option>American White Park Cattle</option>
+<option>Amerifax Cattle</option>
+<option>Amrit Mahal Cattle</option>
+<option>Anatolian Black Cattle</option>
+<option>Andalusian Black Cattle</option>
+<option>Andalusian Grey Cattle</option>
+<option>Angeln Cattle</option>
+<option>Angus Cattle</option>
+<option>Angus Cattle</option>
+<option>Angus Cattle Registries</option>
+<option>Ankole Cattle</option>
+<option>Ankole Cattle</option>
+<option>Ankole-Watusi Cattle</option>
+<option>Argentine Criollo Cattle</option>
+<option>Asturian Mountain Cattle</option>
+<option>Asturian Valley Cattle</option>
+<option>Aubrac Cattle</option>
+<option>Aulie-Ata Cattle</option>
+<option>Australian Braford Cattle</option>
+<option>Australian Friesian Sahiwal Cattle</option>
+<option>Australian Lowline Cattle</option>
+<option>Australian Milking Zebu Cattle</option>
+<option>Ayrshire Cattle</option>
+<option>Ayrshire Cattle</option>
+<option>Ayrshire Cattle Registries</option>
+<option>Azaouak - NW Niger</option>
+<option>Bachaur Cattle</option>
+<option>Baladi Cattle</option>
+<option>Baltata Romaneasca Cattle</option>
+<option>Barka Cattle</option>
+<option>Barka Cattle</option>
+<option>Barzona Cattle</option>
+<option>Barzona Cattle Registries</option>
+<option>Bazadais Cattle</option>
+<option>Béarnais Cattle</option>
+<option>Beefalo Cattle</option>
+<option>Beefalo Cattle Registries</option>
+<option>Beefmaker Cattle</option>
+<option>Beefmaster Cattle</option>
+<option>Beefmaster Cattle Registries</option>
+<option>Belarus Red Cattle</option>
+<option>Belgian Blue Cattle</option>
+<option>Belgian Blue Cattle Registries</option>
+<option>Belgian Red Cattle</option>
+<option>Belmont Adaptaur Cattle</option>
+<option>Belmont Red Cattle</option>
+<option>Belted Galloway Cattle</option>
+<option>Belted Galloway Cattle Registries</option>
+<option>Bengali Cattle</option>
+<option>Berrendas Cattle</option>
+<option>Bhagnari Cattle</option>
+<option>Blacksided Trondheim and Norland Cattle</option>
+<option>Blanca Cacereña/White Cáceres Cattle</option>
+<option>Blanco Orejinegro Cattle</option>
+<option>Blonde d'Aquitaine Cattle</option>
+<option>Blonde d'Aquitaine Cattle Registries</option>
+<option>Boran Cattle</option>
+<option>Boran Cattle</option>
+<option>Bordelais Cattle</option>
+<option>Brahman Cattle</option>
+<option>Brahman Cattle Registries</option>
+<option>Brahmousin Cattle</option>
+<option>Brangus Cattle</option>
+<option>Brangus Cattle Registries</option>
+<option>Braunvieh Cattle</option>
+<option>British White Cattle</option>
+<option>Brown Swiss Cattle</option>
+<option>Busa Cattle</option>
+<option>Cachena Cattle</option>
+<option>Canadian Highland Cattle</option>
+<option>Canadienne Cattle</option>
+<option>Canary Island Cattle</option>
+<option>Canchim Cattle</option>
+<option>Carinthian Blond Cattle</option>
+<option>Cattle</option>
+<option>Caucasian Cattle</option>
+<option>Channi Cattle</option>
+<option>Charbray Cattle</option>
+<option>Charbray Cattle Registries</option>
+<option>Charolais Cattle</option>
+<option>Charolais Cattle Registries</option>
+<option>Chianina Cattle</option>
+<option>Chianina Cattle Registries</option>
+<option>Chinampo Cattle</option>
+<option>Chinese Black-and-White Cattle</option>
+<option>Cholistani Cattle</option>
+<option>Corriente Cattle</option>
+<option>Costeño con Cuernos Cattle</option>
+<option>Dajal Cattle</option>
+<option>Damascus Cattle</option>
+<option>Damascus Cattle</option>
+<option>Damietta Cattle</option>
+<option>Damietta Cattle</option>
+<option>Dangi Cattle</option>
+<option>Danish Jersey Cattle</option>
+<option>Danish Red Cattle</option>
+<option>Deoni Cattle</option>
+<option>Devon Cattle</option>
+<option>Devon Cattle Registries</option>
+<option>Dexter Cattle</option>
+<option>Dexter Cattle</option>
+<option>Dhanni Cattle</option>
+<option>Dølafe Cattle</option>
+<option>Droughtmaster Cattle</option>
+<option>Dulong Cattle</option>
+<option>Dutch Belted (Lakenvelder) Cattle</option>
+<option>Dutch Belted (Lakenvelder) Cattle</option>
+<option>Dutch Friesian Cattle</option>
+<option>East Anatolian Red Cattle</option>
+<option>Enderby Island Cattle</option>
+<option>English Longhorn Cattle</option>
+<option>Estonian Red Cattle</option>
+<option>Evolène</option>
+<option>Fighting Cattle</option>
+<option>Finnish Cattle</option>
+<option>Fjall Cattle</option>
+<option>Florida Cracker Cattle</option>
+<option>Florida Cracker/Pineywoods Cattle Registries</option>
+<option>Galician Blond Cattle</option>
+<option>Galloway cattle</option>
+<option>Galloway Cattle Registries</option>
+<option>Galloway Cattle Registries</option>
+<option>Gaolao Cattle</option>
+<option>Gascon Cattle</option>
+<option>Gelbvieh Cattle</option>
+<option>Gelbvieh Cattle Registries</option>
+<option>German Angus Moiled Cattle</option>
+<option>German Red Pied Cattle</option>
+<option>Gir Cattle</option>
+<option>Gir Cattle</option>
+<option>Glan Cattle</option>
+<option>Gloucester Cattle</option>
+<option>Gobra</option>
+<option>Greek Shorthorn Cattle</option>
+<option>Greek Steppe Cattle</option>
+<option>Groningen Cattle</option>
+<option>Guernsey Cattle</option>
+<option>Guernsey Cattle</option>
+<option>Guzerat Cattle</option>
+<option>Hallikar Cattle</option>
+<option>Hariana Cattle</option>
+<option>Harton Cattle</option>
+<option>Hays Converter Cattle</option>
+<option>Hereford Cattle</option>
+<option>Hereford Cattle</option>
+<option>Hereford Cattle Registries</option>
+<option>Herens Cattle</option>
+<option>Herens Cattle Registries</option>
+<option>Highland Cattle</option>
+<option>Highland Cattle</option>
+<option>Hinterwald Cattle</option>
+<option>Hinterwald Cattle Registries</option>
+<option>Holando-Argentino Cattle</option>
+<option>Holstein Cattle</option>
+<option>Holstein Cattle</option>
+<option>Horro Cattle</option>
+<option>Horro Cattle</option>
+<option>Hungarian Grey Cattle</option>
+<option>Icelandic Cattle</option>
+<option>Illawarra Cattle</option>
+<option>Indo-Brazilian Cattle</option>
+<option>Irish Moiled Cattle</option>
+<option>Israeli Holstein Cattle</option>
+<option>Israeli Red Cattle</option>
+<option>Istoben Cattle</option>
+<option>Jamaica Black Cattle</option>
+<option>Jamaica Hope Cattle</option>
+<option>Jamaica Red Cattle</option>
+<option>Jaulan Cattle</option>
+<option>Jaulan Cattle</option>
+<option>Jersey Cattle</option>
+<option>Jersey Cattle</option>
+<option>Kangayam Cattle</option>
+<option>Kankrej Cattle</option>
+<option>Karan Fries Cattle</option>
+<option>Karan Swiss Cattle</option>
+<option>Kazakh Cattle</option>
+<option>Kenwariya Cattle</option>
+<option>Kerry Cattle</option>
+<option>Kerry Cattle</option>
+<option>Kherigarh Cattle</option>
+<option>Khillari Cattle</option>
+<option>Kholmogory Cattle</option>
+<option>Kilis Cattle</option>
+<option>Krishna Valley Cattle</option>
+<option>Kurdi Black Cattle</option>
+<option>Kuri Cattle</option>
+<option>Latvian Brown (Buraya latviiskaya) Cattle</option>
+<option>Limousin Cattle</option>
+<option>Limousin Cattle</option>
+<option>Limousin Cattle Registries</option>
+<option>Limpurger Cattle</option>
+<option>Lincoln Red Cattle</option>
+<option>Lithuanian Red Cattle</option>
+<option>Lohani Cattle</option>
+<option>Lourdais Cattle</option>
+<option>Luing Cattle</option>
+<option>Luing Cattle</option>
+<option>Madagascar Zebu Cattle</option>
+<option>Maine-Anjou Cattle</option>
+<option>Malvi Cattle</option>
+<option>Mandalong Cattle</option>
+<option>Marchigiana Cattle</option>
+<option>Marchigiana Cattle Registries</option>
+<option>Maremmana Cattle</option>
+<option>Masai Cattle</option>
+<option>Mashona Cattle</option>
+<option>Mashona Cattle</option>
+<option>Maure Cattle</option>
+<option>Mazandarani Cattle</option>
+<option>Meuse-Rhine-Yssel Cattle</option>
+<option>Mewati Cattle</option>
+<option>Milking Devon Cattle</option>
+<option>Milking Shorthorn Cattle</option>
+<option>Modicana Cattle</option>
+<option>Montbéliard Cattle</option>
+<option>Morucha Cattle</option>
+<option>Murboden Cattle</option>
+<option>Murray Grey Cattle</option>
+<option>Murray Grey Cattle Registries</option>
+<option>Muturu - West African Dwarf Shorthorn</option>
+<option>N'dama Cattle</option>
+<option>N'dama Cattle</option>
+<option>Nagori Cattle</option>
+<option>Nanyang Cattle</option>
+<option>Nelore Cattle</option>
+<option>Nelore Cattle</option>
+<option>Nimari Cattle</option>
+<option>Normande Cattle</option>
+<option>Norwegian Red Cattle</option>
+<option>Norwegian Red Cattle Registries</option>
+<option>Ongole Cattle</option>
+<option>Oropa Cattle</option>
+<option>Ovambo Cattle</option>
+<option>Parthenais Cattle</option>
+<option>Parthenais Cattle Registries</option>
+<option>Philippine Native Cattle</option>
+<option>Piedmontese Cattle</option>
+<option>Piedmontese Cattle Registries</option>
+<option>Pinzgauer Cattle</option>
+<option>Polish Red Cattle</option>
+<option>Polled Hereford</option>
+<option>Ponwar Cattle</option>
+<option>Qinchuan Cattle</option>
+<option>Rathi Cattle</option>
+<option>Rätien Gray</option>
+<option>Red Angus Cattle</option>
+<option>Red Angus Cattle</option>
+<option>Red Brangus Cattle</option>
+<option>Red Brangus Cattle Registries</option>
+<option>Red Fulani or Mbororo</option>
+<option>Red Pied Friesian Cattle</option>
+<option>Red Poll Cattle</option>
+<option>Red Poll Cattle</option>
+<option>Red Poll Cattle Registries</option>
+<option>Red Polled Østland Cattle</option>
+<option>Red Sindhi Cattle</option>
+<option>Red Steppe Cattle</option>
+<option>Reggiana Cattle</option>
+<option>Retinta Cattle</option>
+<option>Rojhan Cattle</option>
+<option>Romagnola Cattle Registries</option>
+<option>Romosinuano Cattle</option>
+<option>Russian Black Pied Cattle</option>
+<option>RX3 Cattle</option>
+<option>Sahiwal Cattle</option>
+<option>Salers Cattle</option>
+<option>Salers Cattle</option>
+<option>Salers Cattle Registries</option>
+<option>Salorn Cattle</option>
+<option>San Martinero Cattle</option>
+<option>Sanhe Cattle</option>
+<option>Santa Cruz Cattle</option>
+<option>Santa Gertrudis Cattle</option>
+<option>Santa Gertrudis Cattle</option>
+<option>Sarabi Cattle</option>
+<option>Senepol Cattle</option>
+<option>Shetland Cattle</option>
+<option>Shorthorn Cattle</option>
+<option>Shorthorn Cattle</option>
+<option>Shorthorn Cattle Registries</option>
+<option>Siboney Cattle</option>
+<option>Simbrah Cattle</option>
+<option>Simbrah Cattle</option>
+<option>Simmental Cattle</option>
+<option>Siri Cattle</option>
+<option>Slovenian Cika Cattle</option>
+<option>South Devon Cattle</option>
+<option>South Devon Cattle Registries</option>
+<option>Sudanese Fulani</option>
+<option>Sussex Cattle</option>
+<option>Sussex Cattle</option>
+<option>Sussex Cattle Registries</option>
+<option>Swedish Friesian Cattle</option>
+<option>Swedish Red Polled Cattle</option>
+<option>Swedish Red-and-White Cattle</option>
+<option>Tarentaise Cattle</option>
+<option>Telemark Cattle</option>
+<option>Texas Longhorn Cattle</option>
+<option>Texon Cattle</option>
+<option>Tharparkar Cattle</option>
+<option>Tswana Cattle</option>
+<option>Tswana Cattle</option>
+<option>Turkish Grey Steppe Cattle</option>
+<option>Ukrainian Beef Cattle</option>
+<option>Ukrainian Grey Cattle</option>
+<option>Ukrainian Whitehead Cattle</option>
+<option>Umblachery Cattle</option>
+<option>Ural Black Pied Cattle</option>
+<option>Vestland Red Polled Cattle</option>
+<option>Vosges Cattle</option>
+<option>Wagyu Cattle Registries</option>
+<option>Waygu Cattle</option>
+<option>Waygu Cattle</option>
+<option>Welsh Black Cattle</option>
+<option>White Park Cattle</option>
+<option>White Park Cattle</option>
+<option>Yanbian Cattle</option>
+<option>Chinese Mongolian cattle</option>
+<option>Chinese Xinjiang Brown cattle</option>
+<option>Gelbray Cattle</option>
+<option>American Breed cattle</option>
+<option>Other</option>

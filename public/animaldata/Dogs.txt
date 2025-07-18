@@ -1,0 +1,191 @@
+<option value="" disabled selected>Please Select</option>
+<option>Affenpinscher</option>
+<option>Afghan Hound</option>
+<option>Ainu</option>
+<option>Airedale Terrier</option>
+<option>Akita</option>
+<option>Alaskan Husky</option>
+<option>Alaskan Klee Kai</option>
+<option>Alaskan Malamute</option>
+<option>American Bulldog</option>
+<option>American Eskimo Dog</option>
+<option>American Foxhound</option>
+<option>American Pit Bull Terrier</option>
+<option>American Staffordshire Terrier</option>
+<option>American Water Spaniel</option>
+<option>Anatolian Shepherd Dog</option>
+<option>Australian Cattle Dog</option>
+<option>Australian Shepherd</option>
+<option>Australian Terrier</option>
+<option>Basenji</option>
+<option>Basset Hound</option>
+<option>Beagle</option>
+<option>Bearded Collie</option>
+<option>Beauceron</option>
+<option>Bedlington terrier</option>
+<option>Belgian Malinois</option>
+<option>Belgian sheepdog</option>
+<option>Belgian Tervuren</option>
+<option>Bergamasco</option>
+<option>Bernese Mountain Dog</option>
+<option>Bichon Frise</option>
+<option>Black and Tan Coonhound</option>
+<option>Black Russian Terrier</option>
+<option>Bloodhound</option>
+<option>Bolognese</option>
+<option>Border Collie</option>
+<option>Border Terrier</option>
+<option>Borzoi</option>
+<option>Boston Terrier</option>
+<option>Bouvier des Flandres</option>
+<option>Boxer</option>
+<option>Biard</option>
+<option>Brittany</option>
+<option>Brussels Griffon</option>
+<option>Bull Terrier</option>
+<option>Bulldog</option>
+<option>Bullmastiff</option>
+<option>Cairn Terrier</option>
+<option>Canaan Dog</option>
+<option>Cane Corso</option>
+<option>Cardigan Welsh Corgi</option>
+<option>Catahoula Leopard Dog</option>
+<option>Cavalier King Charles Spaniel</option>
+<option>Caucasian</option>
+<option>Cesky Terrier</option>
+<option>Chesapeake Bey Retriever</option>
+<option>Chihuahua</option>
+<option>Chinese Crested</option>
+<option>Chinese Shar-Pei</option>
+<option>Chinook</option>
+<option>Chow Chow</option>
+<option>Clumber Spaniel</option>
+<option>Cocker Spaniel</option>
+<option>Collie</option>
+<option>Coton de tular</option>
+<option>Curly-coated Retriever</option>
+<option>Dauchshund</option>
+<option>Dalmation</option>
+<option>Dandie Dinmount Terrier</option>
+<option>Dingo</option>
+<option>Doberman Pinscher</option>
+<option>English Cocker Spaniel</option>
+<option>English Foxhoud</option>
+<option>English Setter</option>
+<option>English Springer Spaniel</option>
+<option>English Toy Spaniel</option>
+<option>Estrela Mountain Dog</option>
+<option>Field Spaniel</option>
+<option>Finnish Spitz</option>
+<option>Flat-coated Retriever</option>
+<option>French Bulldog</option>
+<option>German Pinscher</option>
+<option>German Shepard dog</option>
+<option>German short-haired Pointer</option>
+<option>German wire-haired Pointer</option>
+<option>Giant Schnauzer</option>
+<option>Glen of Imaal Terrier</option>
+<option>Golden Retriever</option>
+<option>Gordon Setter</option>
+<option>Great Dane</option>
+<option>Great Pyreness</option>
+<option>Greater Swiss mountain dog</option>
+<option>Greyhound</option>
+<option>Harrier</option>
+<option>Havanese</option>
+<option>Ibizan Hound</option>
+<option>Icelandic Sheepdog</option>
+<option>Irish Red and White Setter</option>
+<option>Irish Setter</option>
+<option>Irish Terrier</option>
+<option>Irish Water Spaniel</option>
+<option>Irish Wolfhound</option>
+<option>Italian Greyhound</option>
+<option>Jack Russell Terrier</option>
+<option>Japanese Chin</option>
+<option>Japanese Terrier</option>
+<option>Keeshond</option>
+<option>Kerry Beagle</option>
+<option>Kerry Blue Terrier</option>
+<option>Komondor</option>
+<option>Kuvasz</option>
+<option>Labradoodle</option>
+<option>Labrador Retreiver</option>
+<option>Lakeland Terrier</option>
+<option>Lancashire Heeler</option>
+<option>Leonberber</option>
+<option>Lhasa Apso</option>
+<option>Lowchen</option>
+<option>Maltese</option>
+<option>Manchester Terrier</option>
+<option>Mastiff</option>
+<option>Miniature Bull Terrier</option>
+<option>Miniature Pinscher</option>
+<option>Miniature Schnauzer</option>
+<option>Neapolitan Mastiff</option>
+<option>Newfoundland</option>
+<option>Norfolk Terrier</option>
+<option>Nowegian Elkhound</option>
+<option>Norewegian Lundehund</option>
+<option>Norwich Terrier</option>
+<option>Nova Scotia Duck Tolling Retriever</option>
+<option>Old English Sheepdog</option>
+<option>Otterhound</option>
+<option>Papillon</option>
+<option>Parson Russell Terrier</option>
+<option>Pekingese</option>
+<option>Pembroke Welsh Corgi</option>
+<option>Petit Basset Griffon Vendeen</option>
+<option>Pharaoh Hound</option>
+<option>Plott</option>
+<option>Pointer</option>
+<option>Ploish Lowland Sheepdog</option>
+<option>Pomeranian</option>
+<option>Poodle</option>
+<option>Portuguese Water Dog</option>
+<option>Pug</option>
+<option>Puli</option>
+<option>Rat Terrier</option>
+<option>Redbone Coonhound</option>
+<option>Rhodesian Ridgeback</option>
+<option>Rottweiler</option>
+<option>Saint Bernard</option>
+<option>Saluki</option>
+<option>Samoyed</option>
+<option>Schipperke</option>
+<option>Scottish Deerhound</option>
+<option>Sealyham Terrier</option>
+<option>Shetland Sheepdog</option>
+<option>Shiba Inu</option>
+<option>Shih Tzu</option>
+<option>Siberian Husky</option>
+<option>Silky Terrier</option>
+<option>Skye Terrier</option>
+<option>Sloughi</option>
+<option>Smooth Fox Terrier</option>
+<option>Soft Coated Wheaten Terrier</option>
+<option>Spanish Mastiff</option>
+<option>Spinone Italiano</option>
+<option>Staffordshire Bull Terrier</option>
+<option>Standard Shnauzer</option>
+<option>Sussex Spaniel</option>
+<option>Swedish Vallhund</option>
+<option>Thai Ridgeback</option>
+<option>Tibetan Mastiff</option>
+<option>Tibetan Terrier</option>
+<option>Toy Fox Terrier</option>
+<option>Toy Manchester</option>
+<option>Toy Poodle</option>
+<option>Transylvanian Hound</option>
+<option>Vizsla</option>
+<option>Volpino Italiano</option>
+<option>Weimaraner</option>
+<option>Welsh Springer Spaniel</option>
+<option>Welsh Terrier</option>
+<option>West Highland White Terrier</option>
+<option>Whippet</option>
+<option>Wire Fox Terrier</option>
+<option>Wirehaired Pointing Griffon</option>
+<option>Xoloitzcuintli</option>
+<option>Yorkshire Terrier</option>
+<option>Other</option>
