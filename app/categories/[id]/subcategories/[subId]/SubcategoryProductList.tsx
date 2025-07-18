@@ -125,16 +125,15 @@ export default function SubcategoryProductList() {
             Filter by {filterLabel}:
           </h3>
           <div className="flex flex-wrap gap-2">
-            {filterOptions.map((option) => {
+            {filterOptions.map((option, index) => {
               const isSelected = selectedFilter === option;
               return (
                 <button
-                  key={option}
-                  className={`px-3 py-1 text-sm rounded border transition ${
-                    isSelected
-                      ? "bg-green-600 text-white border-green-700"
-                      : "bg-white text-gray-800 border-gray-300 hover:bg-gray-100"
-                  }`}
+                  key={`${option}-${index}`}  // ✅ Now always unique
+                  className={`px-3 py-1 text-sm rounded border transition ${isSelected
+                    ? "bg-green-600 text-white border-green-700"
+                    : "bg-white text-gray-800 border-gray-300 hover:bg-gray-100"
+                    }`}
                   onClick={() => setSelectedFilter(isSelected ? null : option)}
                 >
                   {option}
@@ -150,8 +149,8 @@ export default function SubcategoryProductList() {
         <Loading />
       ) : filteredProducts.length > 0 ? (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-          {filteredProducts.map((product) => (
-            <ProductCard key={product._id} product={product} />
+          {filteredProducts.map((product, index) => (
+            <ProductCard key={product._id ?? index} product={product} />
           ))}
         </div>
       ) : (
