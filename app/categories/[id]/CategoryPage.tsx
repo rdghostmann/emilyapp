@@ -29,7 +29,7 @@ const categoryDetails: CategoryDetailsMap = {
         title: "Equipment & Machines",
         description: "Find new and used tractors, shellers, sprayers, and more.",
         properties: [
-            { label: "Machine Type", values: ["Tractor", "Sheller", "Sprayer", "Other"] },
+            { label: "Machine Type", values: ["Tractor", "Sheller", "Sprayer", "Otibaco Shredder"] },
             { label: "Condition", values: ["New", "Used"] },
             { label: "Fuel Type", values: ["Diesel", "Petrol", "Manual"] },
             { label: "Brand", values: [] },
@@ -223,18 +223,7 @@ export default function CategoryPage() {
         router.replace(`${window.location.pathname}?${query.toString()}`, { scroll: false });
     }, [selectedFilters, products]);
 
-    const toggleFilter = (label: string, value: string) => {
-        setSelectedFilters((prev) => {
-            const current = prev[label] || [];
-            const exists = current.includes(value);
-            const updated = exists ? current.filter((v) => v !== value) : [...current, value];
-
-            const result = { ...prev, [label]: updated };
-            if (updated.length === 0) delete result[label];
-            return result;
-        });
-    };
-
+  
     return (
         <div className="w-full mx-auto">
             <TopNavigation />

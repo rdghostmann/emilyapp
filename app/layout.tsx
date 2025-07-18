@@ -55,7 +55,8 @@ export default function RootLayout({
         <SessionWrapper>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             {/* <TopNavigation /> */}
-            <main className="max-w-6xl mx-auto pb-16 lg:pb-0">
+            <main className="max-w-full mx-auto pb-16 lg:pb-0">
+            {/* <main className="max-w-6xl mx-auto pb-16 lg:pb-0"> */}
               <PWAInstallPrompt />
               {children}
             </main>

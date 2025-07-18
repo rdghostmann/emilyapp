@@ -4,20 +4,34 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import getProductsByCategory from "@/controllers/GetProductByCategory";
 import ProductCard from "@/components/ProductCard";
-import Loading from "../../loading";
 import Head from "next/head";
-import Link from "next/link";
-import { BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import Loading from "../loading";
 
+import { capitalizeWords } from "@/lib/utils";
+import { categoryDetails } from "@/constants/categoryDetails";
 
 export default function SubcategoryProductList() {
-  const { id, subId } = useParams<{ id: string; subId: string }>();
+  const { id, subId } = useParams() as { id: string; subId: string };
   const [filteredProducts, setFilteredProducts] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
 
-  const formattedSubId = subId?.replace(/-/g, " ").toLowerCase();
-  const capitalized = (s: string) =>
-    s?.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
+  const formattedSubId = decodeURIComponent(subId).replace(/-/g, " ").toLowerCase();
+  const capitalizedSubId = capitalizeWords(formattedSubId);
+
+  const categoryDetail = categoryDetails[id];
+  const filterProperties = categoryDetail?.properties?.slice(1) || [];
+
+  // Collect all filter options from properties[1] onward
+  const filterOptions = filterProperties.flatMap((prop) => prop.values || []);
+  const filterLabel = filterProperties[0]?.label ?? "Filter";
 
   useEffect(() => {
     async function fetchProducts() {
@@ -25,8 +39,8 @@ export default function SubcategoryProductList() {
       try {
         const data = await getProductsByCategory(id);
 
-        const matched = data.filter((product) =>
-          Object.values(product).some((field) => {
+        const matched = data.filter((product: Record<string, any>) => {
+          const matchesSubcategory = Object.values(product).some((field) => {
             if (typeof field === "string") {
               return field.toLowerCase().includes(formattedSubId);
             }
@@ -36,8 +50,24 @@ export default function SubcategoryProductList() {
                 .some((val) => val.includes(formattedSubId));
             }
             return false;
-          })
-        );
+          });
+
+          const matchesFilter =
+            !selectedFilter ||
+            Object.entries(product).some(([_, value]) => {
+              if (typeof value === "string") {
+                return value.toLowerCase().includes(selectedFilter.toLowerCase());
+              }
+              if (Array.isArray(value)) {
+                return value
+                  .map((v) => v.toLowerCase())
+                  .includes(selectedFilter.toLowerCase());
+              }
+              return false;
+            });
+
+          return matchesSubcategory && matchesFilter;
+        });
 
         setFilteredProducts(matched);
       } catch (err) {
@@ -48,69 +78,85 @@ export default function SubcategoryProductList() {
       }
     }
 
-    if (id && subId) fetchProducts();
-  }, [id, subId]);
+    if (id && subId) {
+      fetchProducts();
+    }
+  }, [id, subId, selectedFilter]);
 
   return (
-    <>
-      {/* ✅ SEO Meta Tags */}
+    <div className="px-4 py-6 sm:px-6 lg:px-8">
+      {/* SEO Metadata */}
       <Head>
-        <title>{capitalized(subId)} Products - Agro Marketplace</title>
+        <title>{capitalizedSubId} | Agro Marketplace</title>
         <meta
           name="description"
-          content={`Find the best ${formattedSubId} products under ${id} category.`}
+          content={`Explore the best deals on ${capitalizedSubId} in the ${capitalizeWords(id)} category.`}
         />
       </Head>
 
-      {/* ✅ Breadcrumb */}
-      <div className="px-4 pt-4">
-        <BreadcrumbList className="text-sm text-gray-600 space-x-1">
+      {/* Breadcrumbs */}
+      <Breadcrumb>
+        <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link href="/">Home</Link>
+            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink href={`/categories/${id}`}>
+              {capitalizeWords(id)}
             </BreadcrumbLink>
           </BreadcrumbItem>
-          <BreadcrumbSeparator>/</BreadcrumbSeparator>
+          <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link href={`/categories/${id}`}>{capitalized(id)}</Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator>/</BreadcrumbSeparator>
-          <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <span className="font-medium">{capitalized(subId)}</span>
+            <BreadcrumbLink href={`/categories/${id}/subcategories/${subId}`}>
+              {capitalizedSubId}
             </BreadcrumbLink>
           </BreadcrumbItem>
         </BreadcrumbList>
-      </div>
+      </Breadcrumb>
 
-      {/* ✅ Subcategory Header */}
-      <div className="px-4 py-6">
-        <h1 className="text-2xl font-bold capitalize mb-2">
-          {capitalized(subId)}
-        </h1>
-        <p className="text-gray-500">
-          Discover high-quality {formattedSubId} under {capitalized(id)}.
-        </p>
-      </div>
+      {/* Page Title */}
+      <h1 className="text-xl font-bold my-4">{capitalizedSubId}</h1>
 
-      {/* ✅ Product List */}
-      <div className="px-4 pb-8">
-        {isLoading ? (
-          <Loading />
-        ) : filteredProducts.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {filteredProducts.map((product, index) => (
-              <ProductCard key={index} product={product} />
-            ))}
+      {/* Filter Buttons */}
+      {filterOptions.length > 0 && (
+        <div className="pb-6">
+          <h3 className="text-sm font-medium text-gray-700 mb-2">
+            Filter by {filterLabel}:
+          </h3>
+          <div className="flex flex-wrap gap-2">
+            {filterOptions.map((option) => {
+              const isSelected = selectedFilter === option;
+              return (
+                <button
+                  key={option}
+                  className={`px-3 py-1 text-sm rounded border transition ${
+                    isSelected
+                      ? "bg-green-600 text-white border-green-700"
+                      : "bg-white text-gray-800 border-gray-300 hover:bg-gray-100"
+                  }`}
+                  onClick={() => setSelectedFilter(isSelected ? null : option)}
+                >
+                  {option}
+                </button>
+              );
+            })}
           </div>
-        ) : (
-          <p className="text-gray-500 text-center py-8">
-            No products found for this subcategory.
-          </p>
-        )}
-      </div>
-    </>
+        </div>
+      )}
+
+      {/* Product Grid */}
+      {isLoading ? (
+        <Loading />
+      ) : filteredProducts.length > 0 ? (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+          {filteredProducts.map((product) => (
+            <ProductCard key={product._id} product={product} />
+          ))}
+        </div>
+      ) : (
+        <p className="text-gray-600">No products found in this subcategory.</p>
+      )}
+    </div>
   );
 }

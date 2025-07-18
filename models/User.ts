@@ -49,7 +49,7 @@ const UserSchema = new Schema(
     walletBalance: { type: Number, default: 0 },
     avatar: {
       type: String,
-      default: null,
+      default: false,
     },
     joinDate: {
       type: Date,
@@ -57,19 +57,19 @@ const UserSchema = new Schema(
     },
     phone: {
       type: String,
-      default: null,
+      default: true,
     },
     country: {
       type: String,
-      default: null,
+      default: false,
     },
     state: {
       type: String,
-      default: null,
+      default: false,
     },
     zipCode: {
       type: String,
-      default: null,
+      default: false,
     },
   },
   {
