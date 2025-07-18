@@ -205,7 +205,7 @@ export default function PostProductForm() {
               <Label htmlFor="category">Category</Label>
               <Select
                 required
-                value={selectedCategory || undefined}
+                value={selectedCategory as string | undefined}
                 onValueChange={(value) => setSelectedCategory(value as CategoryKey)}
               >
                 <SelectTrigger>

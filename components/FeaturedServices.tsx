@@ -60,7 +60,7 @@ export default function FeaturedServices() {
                     <h2 className="text-lg font-bold text-gray-900">Other Featured Services</h2>
                     <button className="text-green-600 text-sm font-medium">View All</button>
                 </div>
-                <div className="grid grid-cols-1 gap-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div className="bg-green-600 rounded-2xl p-4 text-white relative overflow-hidden">
                         <div className="absolute top-2 right-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-star h-5 w-5 fill-current text-yellow-300">
