@@ -15,6 +15,7 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Search, Menu, Plus, Bell, MessageSquare, User, Settings, LogOut, Sprout, Heart } from "lucide-react"
 import CartIcon from "./CartIcon/CartIcon"
+import Image from "next/image"
 
 export default function TopNavigation() {
   const [isSearchFocused, setIsSearchFocused] = useState(false)
@@ -26,7 +27,14 @@ export default function TopNavigation() {
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-green-600">
-              <Sprout className="h-5 w-5 text-white" />
+              <Image
+                src="/logo.png"
+                alt="AgroMarket Logo"
+                width={32}
+                height={32}
+                className="h-5 w-5 text-white"
+              />
+             {/* <Sprout className="h-5 w-5 text-white" /> */}
             </div>
             <span className="hidden font-bold text-xl text-green-700 sm:inline-block">AgroMarket</span>
           </Link>
