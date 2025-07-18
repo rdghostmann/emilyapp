@@ -36,7 +36,7 @@ export default function CategoryGrid() {
             </div>
             
             {/* Content Overlay */}
-            <div className="relative z-10 h-full flex flex-col justify-end p-4">
+            {/* <div className="relative z-10 h-full flex flex-col justify-end p-4">
               <div className={`w-10 h-10 rounded-lg ${category.color} flex items-center justify-center mb-2`}>
                 <category.icon className="h-5 w-5 text-white" />
               </div>
@@ -46,7 +46,7 @@ export default function CategoryGrid() {
               <p className="text-sm text-white/90 drop-shadow-md">
                 {category.count} {category.count === 1 ? 'item' : 'items'}
               </p>
-            </div>
+            </div> */}
           </Link>
         ))}
       </div>
