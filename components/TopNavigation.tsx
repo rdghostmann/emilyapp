@@ -26,13 +26,13 @@ export default function TopNavigation() {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-green-600">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-green-600">
               <Image
                 src="/logo.png"
                 alt="AgroMarket Logo"
-                width={32}
-                height={32}
-                className="h-5 w-5 text-white"
+                width={36}
+                height={36}
+                className="h-6 w-6 text-white"
               />
              {/* <Sprout className="h-5 w-5 text-white" /> */}
             </div>
@@ -56,7 +56,7 @@ export default function TopNavigation() {
           </nav>
 
           {/* Search Bar (always visible on mobile, centered on desktop) */}
-          <div className="flex-1 max-w-md mx-4">
+          <div className="hidden flex-1 max-w-md mx-4">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
               <Input
@@ -125,13 +125,13 @@ export default function TopNavigation() {
           {/* Mobile Actions: Logo, Search, Cart, Favourites */}
           <div className="flex lg:hidden items-center space-x-2">
             {/* Cart Icon */}
-            <CartIcon />
+            {/* <CartIcon /> */}
             {/* Favourites Icon */}
-            <Link href="/favourites" className="p-2 rounded-full hover:bg-green-50 transition-colors">
+            <Link href="/favourites" className="hidden p-2 rounded-full hover:bg-green-50 transition-colors">
               <Heart className="h-5 w-5 text-green-600" />
             </Link>
             {/* Mobile Menu Button */}
-            <Sheet>
+            {/* <Sheet>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon">
                   <Menu className="h-5 w-5" />
@@ -191,7 +191,7 @@ export default function TopNavigation() {
                   </div>
                 </div>
               </SheetContent>
-            </Sheet>
+            </Sheet> */}
           </div>
         </div>
       </div>
