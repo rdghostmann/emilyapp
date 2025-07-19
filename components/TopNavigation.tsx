@@ -36,7 +36,7 @@ export default function TopNavigation() {
               />
              {/* <Sprout className="h-5 w-5 text-white" /> */}
             </div>
-            <span className="hidden font-bold text-xl text-green-700 sm:inline-block">AgroMarket</span>
+            <span className="font-bold text-xl text-green-700 inline-block">EmilyAgros</span>
           </Link>
 
           {/* Desktop Navigation */}
