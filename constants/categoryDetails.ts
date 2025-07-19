@@ -215,7 +215,7 @@ export const categoryDetails: CategoryDetailsMap = {
     count: 10,
   },
   "animal-accessories": {
-    title: "Animal Accessories",
+  title: "Animal Accessories",
     description: "Accessories for animals and pets.",
     properties: [
       { label: "Animal-Accessories", values: ["Poultry Drinkers", "Bird Cage", "Other"] },
