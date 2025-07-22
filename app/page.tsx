@@ -7,7 +7,7 @@ import ProductFeed from "@/components/ProductFeed"
 import TopNavigation from "@/components/TopNavigation"
 import { Suspense } from "react"
 import Loading from "./loading"
-import Banner from "@/components/Banner/Banner"
+import CallToAction from "@/components/CallToAction/CallToAction"
 
 
 export default function HomePage() {
@@ -15,8 +15,8 @@ export default function HomePage() {
     <>
       <TopNavigation />
       <div className="min-h-screen bg-gray-50">
-        <Banner />
         <HeroSection />
+        <CallToAction />
         <div className="px-4 py-6 space-y-8">
           <CategoryGrid />
           <FeaturedServices />
