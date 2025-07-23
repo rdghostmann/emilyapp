@@ -9,7 +9,7 @@ export default async function Trendings() {
     return (
         <div>
             <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold">All Products</h2>
+                <h2 className="text-2xl font-bold">Trendings</h2>
                 <p className="hidden text-gray-600">{products.length} products found</p>
             </div>
 

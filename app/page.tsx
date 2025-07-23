@@ -8,6 +8,7 @@ import TopNavigation from "@/components/TopNavigation"
 import { Suspense } from "react"
 import Loading from "./loading"
 import CallToAction from "@/components/CallToAction/CallToAction"
+import Trendings from "@/components/Trendings/Trendings"
 
 
 export default function HomePage() {
@@ -22,7 +23,8 @@ export default function HomePage() {
           <FeaturedServices />
           <FeaturedProducts />
           <Suspense fallback={<Loading />}>
-            <ProductFeed />
+            <Trendings />
+            {/* <ProductFeed /> */}
           </Suspense>
         </div>
       </div>
