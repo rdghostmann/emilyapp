@@ -53,7 +53,15 @@ export const categoryDetails: CategoryDetailsMap = {
     title: "Livestock & Pets",
     description: "Find poultry, cattle, and other animals.",
     properties: [
-      { label: "Livestock-Pets", values: ["Poultry", "Cattle", "Goat", "Other"] },
+      {
+        label: "Livestock-Pets",
+        values: [
+          { label: "Poultry", image: "/subimages/poultry.png" },
+          { label: "Cattle", image: "/subimages/cattle.png" },
+          { label: "Goat", image: "/subimages/goat.png" },
+          { label: "Other", image: "/subimages/other.png" },
+        ],
+      },
       { label: "Breed", values: [] },
       { label: "Age Range", values: [] },
       { label: "Health Status / Vaccination", values: [] },
@@ -67,15 +75,29 @@ export const categoryDetails: CategoryDetailsMap = {
     title: "Services",
     description: "Find agricultural services.",
     properties: [
-      { label: "Services", values: ["Tractor Hiring", "Farm Setup", "Veterinary"] },
-      { label: "Area Coverage", values: ["Local", "State Wide", "National Wide"] },
-      { label: "Availability", values: ["On-demand", "Booking"] },
+      {
+        label: "Services",
+        values: [
+          { label: "Tractor Hiring", image: "/subimages/tractor-hiring.png" },
+          { label: "Farm Setup", image: "/subimages/farm-setup.png" },
+          { label: "Veterinary", image: "/subimages/veterinary.png" },
+        ],
+      },
+      {
+        label: "Area Coverage",
+        values: ["Local", "State Wide", "National Wide"],
+      },
+      {
+        label: "Availability",
+        values: ["On-demand", "Booking"],
+      },
     ],
     icon: Handshake,
     image: "/icons/2.jpg",
     color: "bg-blue-100 text-blue-600",
     count: 18,
   },
+
   "agro-insurance": {
     title: "Agro Insurance",
     description: "Insurance products for agriculture.",
@@ -113,26 +135,50 @@ export const categoryDetails: CategoryDetailsMap = {
     title: "Animal Mating",
     description: "Animal mating and insemination services.",
     properties: [
-      { label: "Animal-Mating", values: ["Dog", "Goat", "Pig"] },
-      { label: "Insemination Services", values: ["Mobile AI Service"] },
-      { label: "Breed Type", values: [] },
-      { label: "Age", values: [] },
-      { label: "Service Type", values: ["Natural", "Artificial"] },
+      {
+        label: "Animal-Mating",
+        values: [
+          { label: "Dog", image: "/subimages/dog.png" },
+          { label: "Goat", image: "/subimages/goat.png" },
+          { label: "Pig", image: "/subimages/pig.png" },
+        ],
+      },
+      {
+        label: "Insemination Services",
+        values: [
+          { label: "Mobile AI Service", image: "/subimages/mobile-ai.png" },
+        ],
+      },
+      {
+        label: "Breed Type",
+        values: [],
+      },
+      {
+        label: "Age",
+        values: [],
+      },
+      {
+        label: "Service Type",
+        values: ["Natural", "Artificial"],
+      },
     ],
     icon: HeartHandshake,
     image: "/icons/5.jpg",
     color: "bg-pink-100 text-pink-600",
     count: 12,
   },
+
   "agro-chemicals-insecticides-pesticides": {
     title: "Agro Chemicals / Insecticides & Pesticides",
     description: "Find herbicides, insecticides, fungicides and more.",
     properties: [
-      { label: "Chemical Type", values: [
+      {
+        label: "Chemical Type", values: [
           { label: "Herbicide", image: "/subimages/herbicide.png" },
           { label: "Pesticide", image: "/subimages/pesticide.png" },
           { label: "Fungicide", image: "/subimages/fungicide.png" },
-        ] },
+        ]
+      },
       { label: "Application Type", values: [] },
     ],
     icon: SprayCan,
@@ -144,24 +190,43 @@ export const categoryDetails: CategoryDetailsMap = {
     title: "Food/Fruits & Vegetables",
     description: "Fresh and dried fruits and vegetables.",
     properties: [
-      { label: "Fruits Vegetables", values: ["Fruit", "Vegetable"] },
-      { label: "Form", values: ["Fresh", "Dried", "Packaged"] },
-      { label: "Harvest Date", values: [] },
+      {
+        label: "Fruits Vegetables",
+        values: [
+          { label: "Fruit", image: "/subimages/fruit.png" },
+          { label: "Vegetable", image: "/subimages/vegetable.png" },
+        ],
+      },
+      {
+        label: "Form",
+        values: [
+          { label: "Fresh", image: "/subimages/fresh.png" },
+          { label: "Dried", image: "/subimages/dried.png" },
+          { label: "Packaged", image: "/subimages/packaged.png" },
+        ],
+      },
+      {
+        label: "Harvest Date",
+        values: [],
+      },
     ],
     icon: Apple,
     image: "/icons/7.jpg",
     color: "bg-red-100 text-red-600",
     count: 320,
   },
+
   "seedlings": {
     title: "Seedlings",
     description: "Browse a variety of seedlings for your farm.",
     properties: [
-      { label: "Seedlings",  values: [
+      {
+        label: "Seedlings", values: [
           { label: "Maize", image: "/subimages/maize.png" },
           { label: "Soybean", image: "/subimages/soybean.png" },
           { label: "Groundnut", image: "/subimages/groundnut.png" },
-        ], },
+        ],
+      },
       { label: "Seedlings Age", values: ["1 week", "2 weeks", "3 weeks"] },
       { label: "Type", values: ["Hybrid", "Open-pollination"] },
     ],
@@ -174,13 +239,22 @@ export const categoryDetails: CategoryDetailsMap = {
     title: "Horticulture/Ornamental Crops",
     description: "Browse ornamental crops and flowers.",
     properties: [
-      { label: "Ornamental-Crops", values: ["Maize", "Tomatoes", "Cocoa", "Other"] },
+      {
+        label: "Ornamental-Crops",
+        values: [
+          { label: "Maize", image: "/subimages/maize.png" },
+          { label: "Tomatoes", image: "/subimages/tomatoes.png" },
+          { label: "Cocoa", image: "/subimages/cocoa.png" },
+          { label: "Other", image: "/subimages/other.png" },
+        ],
+      },
     ],
     icon: Flower,
     image: "/icons/9.jpg",
     color: "bg-pink-50 text-pink-400",
     count: 20,
   },
+
   "animal-loan": {
     title: "Animal Loan",
     description: "Loan products for animal health.",
@@ -198,11 +272,13 @@ export const categoryDetails: CategoryDetailsMap = {
     title: "Fertilizers",
     description: "Browse a variety of fertilizers for your crops.",
     properties: [
-      { label: "Fertilizer Type", values: [
+      {
+        label: "Fertilizer Type", values: [
           { label: "NPK", image: "/subimages/npk.png" },
           { label: "Urea", image: "/subimages/urea.png" },
           { label: "DAP", image: "/subimages/dap.png" },
-        ]},
+        ]
+      },
       { label: "Application Use", values: ["Soil", "Foliar"] },
       { label: "Pack Size", values: [] },
     ],
@@ -215,9 +291,26 @@ export const categoryDetails: CategoryDetailsMap = {
     title: "Animal Feed",
     description: "Animal health and pharmacy products.",
     properties: [
-      { label: "Animal-Pharmacy", values: [] },
-      { label: "Use", values: ["Preventive", "Curative", "Supplement"] },
-      { label: "Product Form", values: ["Powder", "Injectable", "Oral"] },
+      {
+        label: "Animal-Pharmacy",
+        values: [],
+      },
+      {
+        label: "Use",
+        values: [
+          { label: "Preventive", image: "/subimages/preventive.png" },
+          { label: "Curative", image: "/subimages/curative.png" },
+          { label: "Supplement", image: "/subimages/supplement.png" },
+        ],
+      },
+      {
+        label: "Product Form",
+        values: [
+          { label: "Powder", image: "/subimages/powder.png" },
+          { label: "Injectable", image: "/subimages/injectable.png" },
+          { label: "Oral", image: "/subimages/oral.png" },
+        ],
+      },
     ],
     icon: Pill,
     image: "/icons/12.jpg",
@@ -241,15 +334,37 @@ export const categoryDetails: CategoryDetailsMap = {
     title: "Animal Accessories",
     description: "Accessories for animals and pets.",
     properties: [
-      { label: "Animal-Accessories", values: ["Poultry Drinkers", "Bird Cage", "Other"] },
-      { label: "Animal Type", values: ["Dog", "Pig", "Other"] },
-      { label: "Use", values: ["Feeding", "Transporting", "Housing"] },
+      {
+        label: "Animal-Accessories",
+        values: [
+          { label: "Poultry Drinkers", image: "/subimages/poultry-drinkers.png" },
+          { label: "Bird Cage", image: "/subimages/bird-cage.png" },
+          { label: "Other", image: "/subimages/other-accessory.png" },
+        ],
+      },
+      {
+        label: "Animal Type",
+        values: [
+          { label: "Dog", image: "/subimages/dog.png" },
+          { label: "Pig", image: "/subimages/pig.png" },
+          { label: "Other", image: "/subimages/other-animal.png" },
+        ],
+      },
+      {
+        label: "Use",
+        values: [
+          { label: "Feeding", image: "/subimages/feeding.png" },
+          { label: "Transporting", image: "/subimages/transporting.png" },
+          { label: "Housing", image: "/subimages/housing.png" },
+        ],
+      },
     ],
     icon: PawPrint,
     image: "/icons/15.jpg",
     color: "bg-orange-100 text-orange-600",
     count: 15,
   },
+
 };
 
 // 🔁 Utility type for rendering category lists
