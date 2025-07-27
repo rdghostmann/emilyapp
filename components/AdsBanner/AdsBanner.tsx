@@ -7,8 +7,7 @@ import { Splide, SplideSlide } from "@splidejs/react-splide";
 const AdsBanner = () => {
     return (
         <div className="mb-6">
-            <h2 className="text-lg font-bold mb-2 px-4">Sponsored Posts</h2>
-            <p className="text-white px-4">Check out our latest offers and promotions!</p>
+            <p className="text-lg font-bold text-white px-4">Check out our latest offers and promotions!</p>
             <div className="w-full">
                 <Splide
                     options={{

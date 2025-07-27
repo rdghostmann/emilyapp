@@ -17,27 +17,32 @@ import { Search, Menu, Plus, Bell, MessageSquare, User, Settings, LogOut, Sprout
 import CartIcon from "./CartIcon/CartIcon"
 import Image from "next/image"
 
-export default function TopNavigation() {
+export default function TopNavigation({ username }: { username: any }) {
   const [isSearchFocused, setIsSearchFocused] = useState(false)
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-green-600">
-              <Image
-                src="/logo.png"
-                alt="AgroMarket Logo"
-                width={36}
-                height={36}
-                className="h-6 w-6 text-white"
-              />
-             {/* <Sprout className="h-5 w-5 text-white" /> */}
-            </div>
-            <span className="font-bold text-xl text-green-700 inline-block">EmilyAgros</span>
-          </Link>
+          <div className="w-full flex items-center space-x-4 justify-between lg:justify-start px-4">
+            {/* Logo */}
+            <Link href="/" className="flex items-center space-x-2">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-green-600">
+                <Image
+                  src="/logo.png"
+                  alt="AgroMarket Logo"
+                  width={42}
+                  height={42}
+                  className="h-8 w-8 text-white"
+                />
+              </div>
+              <span className="font-bold text-xl text-green-700 inline-block">EmilyAgros</span>
+            </Link>
+            <h4 className=" h-5 my-auto text-sm font-bold mb-2">
+              Good day, <span className="text-green-600">{username}</span>!
+            </h4>
+          </div>
+
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-6">

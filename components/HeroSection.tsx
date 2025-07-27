@@ -28,10 +28,7 @@ export default async function HeroSection() {
         {/* Banner  */}
         <Banner />
         {/* Welcome Message */}
-        <div className="px-4 mb-6">
-          <h1 className="text-2xl font-bold mb-2">
-            Good Morning, {username}!
-          </h1>
+        <div className="p-4 my-6">
           <p className="text-green-100">Find fresh products from local farmers</p>
         </div>
         <AdsBanner />
