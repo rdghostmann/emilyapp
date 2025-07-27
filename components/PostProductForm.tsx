@@ -245,11 +245,26 @@ export default function PostProductForm() {
                         <SelectValue placeholder={`Select ${prop.label}`} />
                       </SelectTrigger>
                       <SelectContent>
-                        {prop.values.map((value) => (
-                          <SelectItem key={value} value={value}>
-                            {value}
-                          </SelectItem>
-                        ))}
+                        {prop.values.map((value) => {
+                          const label = typeof value === "string" ? value : value.label;
+                          const image = typeof value === "object" && value.image;
+
+                          return (
+                            <SelectItem key={label} value={label}>
+                              <div className="flex items-center gap-2">
+                                {image && (
+                                  <img
+                                    src={image}
+                                    alt={label}
+                                    className="w-5 h-5 rounded-full object-cover"
+                                  />
+                                )}
+                                <span>{label}</span>
+                              </div>
+                            </SelectItem>
+                          );
+                        })}
+
                       </SelectContent>
                     </Select>
                   ) : (
