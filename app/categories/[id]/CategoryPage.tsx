@@ -17,7 +17,7 @@ import {
   CategoryDetail,
 } from "@/constants/categoryDetails";
 
-export default function CategoryPage() {
+export default function CategoryPage({username}: { username: any }) {
   const { id } = useParams<{ id: string }>();
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -105,7 +105,7 @@ export default function CategoryPage() {
 
   return (
     <div className="w-full mx-auto">
-      <TopNavigation />
+      <TopNavigation username={username} />
 
       <div className="max-w-full px-4 py-4">
         {/* ✅ Breadcrumb Navigation */}
