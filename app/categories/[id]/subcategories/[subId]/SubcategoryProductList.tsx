@@ -126,20 +126,23 @@ export default function SubcategoryProductList() {
           </h3>
           <div className="flex flex-wrap gap-2">
             {filterOptions.map((option, index) => {
-              const isSelected = selectedFilter === option;
+              const label = typeof option === "string" ? option : option.label;
+              const isSelected = selectedFilter === label;
+
               return (
                 <button
-                  key={`${option}-${index}`}  // ✅ Now always unique
+                  key={`${label}-${index}`}
                   className={`px-3 py-1 text-sm rounded border transition ${isSelected
-                    ? "bg-green-600 text-white border-green-700"
-                    : "bg-white text-gray-800 border-gray-300 hover:bg-gray-100"
+                      ? "bg-green-600 text-white border-green-700"
+                      : "bg-white text-gray-800 border-gray-300 hover:bg-gray-100"
                     }`}
-                  onClick={() => setSelectedFilter(isSelected ? null : option)}
+                  onClick={() => setSelectedFilter(isSelected ? null : label)}
                 >
-                  {option}
+                  {label}
                 </button>
               );
             })}
+
           </div>
         </div>
       )}
