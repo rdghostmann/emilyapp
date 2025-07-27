@@ -1,11 +1,15 @@
 import MobileTabNavigation from "@/components/MobileTabNavigation";
 import PostProductForm from "@/components/PostProductForm";
 import TopNavigation from "@/components/TopNavigation";
-
-export default function PostProductPage() {
+import { getServerSession } from "next-auth"
+import { authOptions } from "@/auth"
+export default async function PostProductPage() {
+   const session = await getServerSession(authOptions)
+    const username = session?.user?.username || "Guest"
+  
   return (
     <>
-      <TopNavigation />
+      <TopNavigation username={username} />
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-8">
