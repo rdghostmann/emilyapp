@@ -15,9 +15,10 @@ import {
 import {
   categoryDetails,
   CategoryDetail,
+  CategoryValue,
 } from "@/constants/categoryDetails";
 
-export default function CategoryPage({username}: { username: any }) {
+export default function CategoryPage({ username }: { username: any }) {
   const { id } = useParams<{ id: string }>();
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -85,8 +86,8 @@ export default function CategoryPage({username}: { username: any }) {
           return typeof field === "string"
             ? field.toLowerCase().includes(filterVal.toLowerCase())
             : Array.isArray(field)
-            ? field.map(String).some((val) => val.toLowerCase().includes(filterVal.toLowerCase()))
-            : false;
+              ? field.map(String).some((val) => val.toLowerCase().includes(filterVal.toLowerCase()))
+              : false;
         })
       )
     );
@@ -133,15 +134,17 @@ export default function CategoryPage({username}: { username: any }) {
         {/* ✅ Subcategory Value Thumbnails */}
         <div className="mb-6">
           <ul className="space-y-2">
-            {firstSubcategory?.values?.length ? (
-              firstSubcategory.values.map((val) => {
-                const slug = val.toLowerCase().replace(/\s+/g, "-");
-                const imageUrl =
-                  "https://assets.jijistatic.net/art/attributes/categories/vehicles-x3.png"; // Replace with dynamic if available
+            {Array.isArray(firstSubcategory?.values) && firstSubcategory.values.length > 0 ? (
+              firstSubcategory.values.map((val, idx) => {
+                // Ensure val is a CategoryValue object
+                if (typeof val === "string" || !val?.label) return null;
+
+                const slug = val.label.toLowerCase().replace(/\s+/g, "-");
+                const imageUrl = val.image || "/placeholder.png";
 
                 return (
                   <li
-                    key={val}
+                    key={val.label + idx}
                     className="flex items-center p-3 bg-white rounded shadow-sm border border-gray-200 hover:bg-gray-50 transition-all"
                   >
                     <Link
@@ -151,14 +154,14 @@ export default function CategoryPage({username}: { username: any }) {
                       <div className="flex-shrink-0 mr-4">
                         <img
                           src={imageUrl}
-                          alt={val}
+                          alt={val.label}
                           width={48}
                           height={48}
                           className="rounded object-cover"
                         />
                       </div>
                       <div className="flex flex-col">
-                        <span className="text-base font-medium text-gray-800">{val}</span>
+                        <span className="text-base font-medium text-gray-800">{val.label}</span>
                         <span className="text-sm text-gray-500">View products</span>
                       </div>
                     </Link>
@@ -170,6 +173,7 @@ export default function CategoryPage({username}: { username: any }) {
             )}
           </ul>
         </div>
+
       </div>
 
       <MobileTabNavigation />

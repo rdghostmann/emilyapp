@@ -10,13 +10,18 @@ import {
   Handshake,
   Pill,
   PawPrint,
-  Drumstick,
-  ShieldCheck
-} from "lucide-react"
+  ShieldCheck,
+} from "lucide-react";
+
+// 👇 Individual subcategory value now supports an optional image
+export type CategoryValue = {
+  label: string;
+  image?: string;
+};
 
 export type CategoryProperty = {
   label: string;
-  values: string[];
+  values: (string | CategoryValue)[];
 };
 
 export type CategoryDetail = {
@@ -33,14 +38,12 @@ export type CategoryDetailsMap = {
   [key: string]: CategoryDetail;
 };
 
-// 👇 Category configuration object
+// ✅ Category data definition
 export const categoryDetails: CategoryDetailsMap = {
   "trending": {
     title: "Trending",
     description: "Find new and used tractors, shellers, sprayers, and more.",
-    properties: [
-      { label: "Machine Type", values: ["Tractor", "Sheller", "Sprayer", "Otibaco Shredder"] },
-    ],
+    properties: [],
     icon: Wrench,
     image: "/icons/0.jpg",
     color: "bg-gray-100 text-gray-600",
@@ -50,7 +53,7 @@ export const categoryDetails: CategoryDetailsMap = {
     title: "Livestock & Pets",
     description: "Find poultry, cattle, and other animals.",
     properties: [
-      { label: "livestock-Pets", values: ["Poultry", "Cattle", "Goat", "Other"] },
+      { label: "Livestock-Pets", values: ["Poultry", "Cattle", "Goat", "Other"] },
       { label: "Breed", values: [] },
       { label: "Age Range", values: [] },
       { label: "Health Status / Vaccination", values: [] },
@@ -88,7 +91,15 @@ export const categoryDetails: CategoryDetailsMap = {
     title: "Tractor/Farm Machine",
     description: "Find new and used tractors, shellers, sprayers, and more.",
     properties: [
-      { label: "Machine Type", values: ["Tractor", "Sheller", "Sprayer", "Otibaco Shredder"] },
+      {
+        label: "Machine Type",
+        values: [
+          { label: "Tractor", image: "/farm-equipments/tractor.png" },
+          { label: "Sheller", image: "/farm-equipments/sheller.png" },
+          { label: "Sprayer", image: "/farm-equipments/sprayer.png" },
+          { label: "Otibaco Shredder", image: "/farm-equipments/shredder.png" },
+        ],
+      },
       { label: "Condition", values: ["New", "Used"] },
       { label: "Fuel Type", values: ["Diesel", "Petrol", "Manual"] },
       { label: "Brand", values: [] },
@@ -117,7 +128,11 @@ export const categoryDetails: CategoryDetailsMap = {
     title: "Agro Chemicals / Insecticides & Pesticides",
     description: "Find herbicides, insecticides, fungicides and more.",
     properties: [
-      { label: "Chemical Type", values: ["Herbicides", "Insecticides", "Fungicides"] },
+      { label: "Chemical Type", values: [
+          { label: "Herbicide", image: "/subimages/herbicide.png" },
+          { label: "Pesticide", image: "/subimages/pesticide.png" },
+          { label: "Fungicide", image: "/subimages/fungicide.png" },
+        ] },
       { label: "Application Type", values: [] },
     ],
     icon: SprayCan,
@@ -142,7 +157,11 @@ export const categoryDetails: CategoryDetailsMap = {
     title: "Seedlings",
     description: "Browse a variety of seedlings for your farm.",
     properties: [
-      { label: "Seedlings", values: ["Maize", "Tomatoes", "Cocoa", "Other"] },
+      { label: "Seedlings",  values: [
+          { label: "Maize", image: "/subimages/maize.png" },
+          { label: "Soybean", image: "/subimages/soybean.png" },
+          { label: "Groundnut", image: "/subimages/groundnut.png" },
+        ], },
       { label: "Seedlings Age", values: ["1 week", "2 weeks", "3 weeks"] },
       { label: "Type", values: ["Hybrid", "Open-pollination"] },
     ],
@@ -179,7 +198,11 @@ export const categoryDetails: CategoryDetailsMap = {
     title: "Fertilizers",
     description: "Browse a variety of fertilizers for your crops.",
     properties: [
-      { label: "Fertilizer Type", values: ["NPK", "Urea", "Organic"] },
+      { label: "Fertilizer Type", values: [
+          { label: "NPK", image: "/subimages/npk.png" },
+          { label: "Urea", image: "/subimages/urea.png" },
+          { label: "DAP", image: "/subimages/dap.png" },
+        ]},
       { label: "Application Use", values: ["Soil", "Foliar"] },
       { label: "Pack Size", values: [] },
     ],
@@ -215,7 +238,7 @@ export const categoryDetails: CategoryDetailsMap = {
     count: 10,
   },
   "animal-accessories": {
-  title: "Animal Accessories",
+    title: "Animal Accessories",
     description: "Accessories for animals and pets.",
     properties: [
       { label: "Animal-Accessories", values: ["Poultry Drinkers", "Bird Cage", "Other"] },
@@ -227,10 +250,9 @@ export const categoryDetails: CategoryDetailsMap = {
     color: "bg-orange-100 text-orange-600",
     count: 15,
   },
-
 };
 
-// Helper type for the simplified category array items
+// 🔁 Utility type for rendering category lists
 export type CategoryItem = {
   id: string;
   name: string;
@@ -240,12 +262,14 @@ export type CategoryItem = {
   count: number;
 };
 
-// Export the categories as an array
-export const categories: CategoryItem[] = Object.entries(categoryDetails).map(([id, detail]) => ({
-  id,
-  name: detail.title,
-  icon: detail.icon,
-  image: detail.image,
-  color: detail.color,
-  count: detail.count,
-}));
+// 🔁 Flattened categories list for UI display
+export const categories: CategoryItem[] = Object.entries(categoryDetails).map(
+  ([id, detail]) => ({
+    id,
+    name: detail.title,
+    icon: detail.icon,
+    image: detail.image,
+    color: detail.color,
+    count: detail.count,
+  })
+);
