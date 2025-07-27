@@ -56,10 +56,13 @@ export const categoryDetails: CategoryDetailsMap = {
       {
         label: "Livestock-Pets",
         values: [
-          { label: "Poultry", image: "/subimages/poultry.png" },
-          { label: "Cattle", image: "/subimages/cattle.png" },
-          { label: "Goat", image: "/subimages/goat.png" },
-          { label: "Other", image: "/subimages/other.png" },
+          { label: "Poultry", image: "/farm-animals/chickens.png" },
+          { label: "Cattle", image: "/farm-animals/cows.png" },
+          { label: "Goat", image: "/farm-animals/goats.png" },
+          { label: "Pig", image: "/farm-animals/pigs.png" },
+          { label: "Rabbits", image: "/farm-animals/rabbits.png" },
+          { label: "Sheeps", image: "/farm-animals/sheeps.png" },
+          { label: "Turkey", image: "/farm-animals/turkey.png" },
         ],
       },
       { label: "Breed", values: [] },
