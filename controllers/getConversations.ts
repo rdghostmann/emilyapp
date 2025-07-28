@@ -9,6 +9,15 @@ interface PopulatedUser {
   avatar?: string;
 }
 
+interface RawConversation {
+  _id: Types.ObjectId;
+  participants: PopulatedUser[];
+  lastMessage?: string;
+  unreadCount?: number;
+  productId?: Types.ObjectId;
+  updatedAt?: Date;
+}
+
 interface MappedConversation {
   id: string;
   users: {
@@ -28,21 +37,19 @@ export default async function getConversations(userId: string): Promise<MappedCo
 
   const conversations = await Conversation.find({ participants: userId })
     .populate<{ participants: PopulatedUser[] }>("participants")
-    .lean();
+    .lean<RawConversation[]>();
 
   return conversations.map((conv) => ({
     id: conv._id.toString(),
-    users: Array.isArray(conv.participants)
-      ? conv.participants.map((u) => ({
-          id: u._id?.toString() || "",
-          name: u.username || "",
-          avatar: u.avatar || "",
-          online: true, // Real-time status to be implemented
-        }))
-      : [],
+    users: conv.participants.map((u) => ({
+      id: u._id.toString(),
+      name: u.username || "",
+      avatar: u.avatar || "",
+      online: true,
+    })),
     lastMessage: conv.lastMessage || "",
     unread: conv.unreadCount || 0,
     product: conv.productId ? conv.productId.toString() : null,
-    timestamp: conv.updatedAt ? new Date(conv.updatedAt).toISOString() : "",
+    timestamp: conv.updatedAt ? conv.updatedAt.toISOString() : "",
   }));
 }
