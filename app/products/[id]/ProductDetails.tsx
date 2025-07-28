@@ -36,11 +36,11 @@ import {
 } from "lucide-react"
 import { FaFacebookF } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-
+import moment from "moment";
 import { useCart } from "@/hooks/useCart"
 import getAllProducts from "@/controllers/GetAllProducts"
 import Loading from "./loading"
-import ProductFeed from "@/components/ProductFeed"
+import Link from "next/link"
 
 export default function ProductDetails({ productId }: { productId: string }) {
   const router = useRouter()
@@ -52,7 +52,21 @@ export default function ProductDetails({ productId }: { productId: string }) {
   const [loading, setLoading] = useState(true)
   const [showMoreAttributes, setShowMoreAttributes] = useState(false)
   const [showStoreDetails, setShowStoreDetails] = useState(false)
+  const [showPhone, setShowPhone] = useState(false);
 
+  function ContactToggleButton({ productId }: { productId: string }) {
+    const [showPhone, setShowPhone] = useState(false);
+
+    return (
+      <Button
+        className="w-full bg-green-600 hover:bg-green-700 text-white"
+        onClick={() => setShowPhone((prev) => !prev)}
+      >
+        <Phone className="h-4 w-4 mr-2" />
+        {showPhone ? product.phone : "Show contact"}
+      </Button>
+    );
+  }
   useEffect(() => {
     async function fetchProduct() {
       try {
@@ -334,6 +348,9 @@ export default function ProductDetails({ productId }: { productId: string }) {
         {/* Description */}
         <div>
           <p className="text-gray-700 leading-relaxed">{product.longDescription}</p>
+
+          <ContactToggleButton productId={product.phone} />
+
         </div>
 
 
@@ -409,10 +426,10 @@ export default function ProductDetails({ productId }: { productId: string }) {
                 <Avatar className="h-12 w-12">
                   <AvatarImage
                     src={product.farmer?.avatar || "/placeholder.svg"}
-                    alt={product.farmer?.name}
+                    alt={product.farmer?.lastName || product.farmer?.username}
                   />
                   <AvatarFallback>
-                    {product.farmer?.name
+                    {product.farmer?.username
                       ?.split(" ")
                       .map((n: string) => n[0])
                       .join("")}
@@ -437,20 +454,24 @@ export default function ProductDetails({ productId }: { productId: string }) {
                     </div>
                     <div className="flex items-center">
                       <Clock className="h-3 w-3 mr-1" />
-                      <span>4 y on platform</span>
+                      <span>
+                        Joined {moment(product.farmer?.joinDate).fromNow()} on platform
+                        {/* Joined on {moment(product.farmer?.joinDate).format("MMMM D, YYYY")} */}
+
+                      </span>
                     </div>
                   </div>
                 </div>
               </div>
 
               <div className="space-y-3">
-                <Button
+                <Link
+                  href={`tel:${product.phone}`}
                   className="w-full bg-green-600 hover:bg-green-700 text-white"
-                  onClick={handleContactSeller}
                 >
                   <Phone className="h-4 w-4 mr-2" />
                   Show contact
-                </Button>
+                </Link>
                 <Button
                   variant="outline"
                   className="w-full bg-transparent"
@@ -482,14 +503,15 @@ export default function ProductDetails({ productId }: { productId: string }) {
                 </div>
               </CardContent>
             </Card>
+
             {/* Action Buttons */}
             <div className="grid grid-cols-2 gap-3">
-              <Button variant="outline" className="w-full bg-transparent">
+              <Button variant="outline" className="border border-blue-500 text-blue-500 w-full bg-transparent">
                 Mark unavailable
               </Button>
               <Button
                 variant="outline"
-                className="w-full text-red-600 hover:text-red-700 bg-transparent"
+                className="w-full border border-red-600 text-red-600 hover:text-red-700 bg-transparent"
               >
                 <Flag className="h-4 w-4 mr-2" />
                 Report Abuse
@@ -498,8 +520,6 @@ export default function ProductDetails({ productId }: { productId: string }) {
           </div>
 
         </div>
-
-
 
         {/* Safety Tips */}
         <Card className="border-0 shadow-sm bg-yellow-50 border-yellow-200">
@@ -520,14 +540,12 @@ export default function ProductDetails({ productId }: { productId: string }) {
         </Card>
 
         {/* Post Similar Ad */}
-        <Button variant="outline" className="w-full bg-transparent">
-          Post Ad Like This
-        </Button>
+        <Link href="/post-product" className="block">
+          <Button variant="outline" className="w-full bg-transparent">
+            Post Ad Like This
+          </Button>
+        </Link>
       </div>
-
-      {/* <ProductFeed /> */}
-
-
 
       {/* Fixed Bottom Actions */}
       <div className="fixed bottom-0 left-0 w-full bg-white border-t p-4 z-50">
@@ -549,42 +567,6 @@ export default function ProductDetails({ productId }: { productId: string }) {
           </Button>
         </div>
       </div>
-
-      {/* Quantity Selector */}
-      <div className="hidden bg-white px-4 py-6 mb-4">
-        <Card className="border-0 shadow-sm">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="font-semibold text-gray-900 mb-1">Quantity</h3>
-                <p className="text-sm text-gray-600">
-                  Min: {product.minOrder} kg, Max: {product.maxOrder} kg
-                </p>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => setQuantity(Math.max(product.minOrder, quantity - 1))}
-                  disabled={quantity <= product.minOrder}
-                >
-                  <Minus className="h-4 w-4" />
-                </Button>
-                <span className="w-12 text-center font-semibold">{quantity}</span>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => setQuantity(Math.min(product.maxOrder, quantity + 1))}
-                  disabled={quantity >= product.maxOrder}
-                >
-                  <Plus className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
 
       {/* Tabs */}
       <div className="hidden bg-white px-4 py-6">
@@ -682,33 +664,6 @@ export default function ProductDetails({ productId }: { productId: string }) {
           </TabsContent>
         </Tabs>
       </div>
-
-      {/* Service Features */}
-      <div className="hidden bg-white px-4 py-6 mb-4">
-        <div className="grid grid-cols-3 gap-4">
-          <div className="text-center">
-            <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-2">
-              <Truck className="h-6 w-6 text-green-600" />
-            </div>
-            <p className="text-xs font-medium">Fast Delivery</p>
-          </div>
-          <div className="text-center">
-            <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2">
-              <Shield className="h-6 w-6 text-blue-600" />
-            </div>
-            <p className="text-xs font-medium">Quality Assured</p>
-          </div>
-          <div className="text-center">
-            <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-2">
-              <Award className="h-6 w-6 text-orange-600" />
-            </div>
-            <p className="text-xs font-medium">Certified Organic</p>
-          </div>
-        </div>
-      </div>
-
-
-
 
 
     </div>
