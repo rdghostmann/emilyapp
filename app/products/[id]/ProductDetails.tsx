@@ -477,7 +477,7 @@ export default function ProductDetails({ productId }: { productId: string }) {
 
                 <Button
                   variant="outline"
-                  className="w-full bg-transparent"
+                  className="w-full bg-transparent mt-2 text-white bg-blue-700"
                   onClick={handleContactSeller}
                 >
                   <MessageCircle className="h-5 w-5 mr-2" />
