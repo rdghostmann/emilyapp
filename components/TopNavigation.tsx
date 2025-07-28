@@ -39,7 +39,7 @@ export default function TopNavigation({ username }: { username: any }) {
               <span className="font-bold text-xl text-green-700 inline-block">EmilyAgros</span>
             </Link>
             <h4 className=" h-5 my-auto text-sm font-bold mb-2">
-              Good day, <span className="text-green-600">{username}</span>!
+              Hi, <span className="text-green-600">{username}</span>!
             </h4>
           </div>
 
