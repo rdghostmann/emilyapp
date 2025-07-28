@@ -1,5 +1,4 @@
 "use client"
-
 import { useState, useEffect } from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
@@ -9,6 +8,7 @@ import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Separator } from "@/components/ui/separator"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 import {
   ArrowLeft,
   Heart,
@@ -24,9 +24,19 @@ import {
   Truck,
   Shield,
   Award,
+  Eye,
+  Clock,
+  ChevronDown,
+  ChevronUp,
+  Flag,
+  Facebook,
+  Twitter,
+  Mail,
+  Store,
+  AlertTriangle,
 } from "lucide-react"
 import { useCart } from "@/hooks/useCart"
-import getAllProducts from "@/controllers/GetAllProducts" // or a getProductById action
+import getAllProducts from "@/controllers/GetAllProducts"
 import Loading from "./loading"
 
 export default function ProductDetails({ productId }: { productId: string }) {
@@ -36,36 +46,54 @@ export default function ProductDetails({ productId }: { productId: string }) {
   const [quantity, setQuantity] = useState(1)
   const [isLiked, setIsLiked] = useState(false)
   const [product, setProduct] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
+  const [showMoreAttributes, setShowMoreAttributes] = useState(false)
+  const [showStoreDetails, setShowStoreDetails] = useState(false)
 
   useEffect(() => {
     async function fetchProduct() {
-      // Replace with a getProductById(productId) if available for efficiency
-      const products = await getAllProducts()
-      const found = products.find((p: any) => p.id === productId)
-      setProduct(found)
+      try {
+        setLoading(true)
+        const products = await getAllProducts()
+        const found = products.find((p: any) => p.id === productId)
+        setProduct(found || products[0]) // Fallback to first product if not found
+      } catch (error) {
+        console.error("Error fetching product:", error)
+      } finally {
+        setLoading(false)
+      }
     }
     fetchProduct()
   }, [productId])
 
-
-  // console.log("Product Details:", product)
-
-  if (!product) {
+  if (loading) {
     return <Loading />
   }
 
-const handleAddToCart: () => void = () => {
-  addToCart({
-    id: product.id,
-    title: product.title,
-    price: product.price,
-    unit: product.unit,
-    image: product.images?.[0] || "/placeholder.svg",
-    farmer: product.farmer?.name,
-    quantity: quantity,
-    inStock: product.inStock,
-  })
-}
+  if (!product) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Product not found</h2>
+          <p className="text-gray-600 mb-4">The product you're looking for doesn't exist.</p>
+          <Button onClick={() => router.back()}>Go Back</Button>
+        </div>
+      </div>
+    )
+  }
+
+  const handleAddToCart = () => {
+    addToCart({
+      id: product.id,
+      title: product.title,
+      price: product.price,
+      unit: product.unit,
+      image: product.images?.[0] || "/placeholder.svg",
+      farmer: product.farmer?.name,
+      quantity: quantity,
+      inStock: product.inStock,
+    })
+  }
 
   const handleContactSeller = () => {
     const conversationData = {
@@ -81,10 +109,33 @@ const handleAddToCart: () => void = () => {
     router.push(`/messages?conversation=${encodeURIComponent(JSON.stringify(conversationData))}`)
   }
 
+  const handleShare = (platform: string) => {
+    const url = window.location.href
+    const title = product.title
+
+    switch (platform) {
+      case "facebook":
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, "_blank")
+        break
+      case "twitter":
+        window.open(
+          `https://twitter.com/share?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`,
+          "_blank",
+        )
+        break
+      case "whatsapp":
+        window.open(`whatsapp://send?text=${encodeURIComponent(url)}`, "_blank")
+        break
+      case "email":
+        window.open(`mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(url)}`, "_blank")
+        break
+    }
+  }
+
   const cartItemCount = cartItems.reduce((sum, item) => sum + item.quantity, 0)
 
   return (
-    <div className="pb-20">
+    <div className="pb-20 bg-gray-50">
       {/* Header */}
       <div className="sticky top-0 z-40 bg-white border-b px-4 py-3">
         <div className="flex items-center justify-between">
@@ -110,9 +161,26 @@ const handleAddToCart: () => void = () => {
         </div>
       </div>
 
+      {/* Promoted Badge & Stats */}
+      <div className="bg-white px-4 py-3 border-b">
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center space-x-3">
+            <Badge className="bg-orange-500 hover:bg-orange-600 text-white">Promoted</Badge>
+            <div className="flex items-center text-sm text-gray-500">
+              <MapPin className="h-3 w-3 mr-1" />
+              <span>{product.farmer?.location}, 2 hours ago</span>
+            </div>
+          </div>
+          <div className="flex items-center text-sm text-gray-500">
+            <Eye className="h-3 w-3 mr-1" />
+            <span>134 views</span>
+          </div>
+        </div>
+      </div>
+
       {/* Product Images */}
-      <div className="relative">
-        <div className="aspect-square bg-white">
+      <div className="relative bg-white">
+        <div className="aspect-square">
           <Image
             src={product.images[selectedImageIndex] || "/placeholder.svg"}
             alt={product.title}
@@ -122,20 +190,19 @@ const handleAddToCart: () => void = () => {
             priority
           />
         </div>
-
         {/* Discount Badge */}
         {product.discount > 0 && (
           <Badge className="absolute top-4 left-4 bg-red-500 hover:bg-red-600">-{product.discount}% OFF</Badge>
         )}
-
         {/* Image Thumbnails */}
         <div className="flex space-x-2 p-4 overflow-x-auto">
           {product.images.map((image: string, index: number) => (
             <button
               key={index}
               onClick={() => setSelectedImageIndex(index)}
-              className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 ${selectedImageIndex === index ? "border-green-600" : "border-gray-200"
-                }`}
+              className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 ${
+                selectedImageIndex === index ? "border-green-600" : "border-gray-200"
+              }`}
             >
               <Image
                 src={image || "/placeholder.svg"}
@@ -150,14 +217,19 @@ const handleAddToCart: () => void = () => {
       </div>
 
       {/* Product Info */}
-      <div className="px-4 py-6 space-y-6">
-        {/* Title and Price */}
+      <div className="bg-white px-4 py-6 space-y-6 mb-4">
+        {/* Title and Category */}
         <div>
           <div className="flex items-start justify-between mb-2">
-            <h1 className="text-2xl font-bold text-gray-900">{product.title}</h1>
-            <Badge className="bg-green-100 text-green-800">{product.category}</Badge>
+            <h1 className="text-2xl font-bold text-gray-900 flex-1 mr-2">{product.title}</h1>
+            <div className="flex items-center space-x-2">
+              <Button variant="ghost" size="icon" onClick={() => setIsLiked(!isLiked)}>
+                <Heart className={`h-5 w-5 ${isLiked ? "fill-red-500 text-red-500" : "text-gray-600"}`} />
+              </Button>
+              <span className="text-sm text-gray-500">5</span>
+            </div>
           </div>
-
+          <Badge className="bg-green-100 text-green-800 mb-3">{product.category}</Badge>
           <div className="flex items-center space-x-2 mb-3">
             {product.features?.map((feature: string) => (
               <Badge key={feature} variant="secondary" className="text-xs">
@@ -165,22 +237,163 @@ const handleAddToCart: () => void = () => {
               </Badge>
             ))}
           </div>
-
-          <div className="flex items-center space-x-3">
-            <span className="text-3xl font-bold text-green-600">${product.price}</span>
-            {product.originalPrice > product.price && (
-              <span className="text-lg text-gray-500 line-through">${product.originalPrice}</span>
-            )}
-            <span className="text-gray-600">{product.unit}</span>
-          </div>
-
-          <p className="text-sm text-gray-600 mt-1">{product.quantity} kg available</p>
         </div>
 
-        {/* Farmer Info */}
+        {/* Product Attributes */}
         <Card className="border-0 shadow-sm">
           <CardContent className="p-4">
-            <div className="flex items-center space-x-3">
+            <Collapsible open={showMoreAttributes} onOpenChange={setShowMoreAttributes}>
+              <div className="space-y-3">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <div className="text-sm font-medium text-gray-900">{product.category}</div>
+                    <div className="text-xs text-gray-500">Type</div>
+                  </div>
+                  <div>
+                    <div className="text-sm font-medium text-gray-900">New</div>
+                    <div className="text-xs text-gray-500">Condition</div>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <div className="text-sm font-medium text-gray-900">{product.quantity} kg</div>
+                    <div className="text-xs text-gray-500">Available</div>
+                  </div>
+                  <div>
+                    <div className="text-sm font-medium text-gray-900">Organic</div>
+                    <div className="text-xs text-gray-500">Certification</div>
+                  </div>
+                </div>
+                <CollapsibleContent className="space-y-3">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <div className="text-sm font-medium text-gray-900">Fresh</div>
+                      <div className="text-xs text-gray-500">Quality</div>
+                    </div>
+                    <div>
+                      <div className="text-sm font-medium text-gray-900">Farm Direct</div>
+                      <div className="text-xs text-gray-500">Source</div>
+                    </div>
+                  </div>
+                </CollapsibleContent>
+                <CollapsibleTrigger asChild>
+                  <Button variant="ghost" className="w-full justify-center text-green-600 hover:text-green-700">
+                    {showMoreAttributes ? (
+                      <>
+                        Hide details <ChevronUp className="h-4 w-4 ml-2" />
+                      </>
+                    ) : (
+                      <>
+                        Show more <ChevronDown className="h-4 w-4 ml-2" />
+                      </>
+                    )}
+                  </Button>
+                </CollapsibleTrigger>
+              </div>
+            </Collapsible>
+          </CardContent>
+        </Card>
+
+        {/* Store Address */}
+        <Card className="border-0 shadow-sm">
+          <CardContent className="p-4">
+            <Collapsible open={showStoreDetails} onOpenChange={setShowStoreDetails}>
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center">
+                  <Store className="h-5 w-5 mr-2 text-gray-700" />
+                  <span className="font-medium text-gray-900">Store address</span>
+                </div>
+                <CollapsibleTrigger asChild>
+                  <Button variant="ghost" size="sm" className="text-green-600 hover:text-green-700">
+                    Show 1 options <ChevronDown className="h-4 w-4 ml-1" />
+                  </Button>
+                </CollapsibleTrigger>
+              </div>
+              <CollapsibleContent className="space-y-3">
+                <div className="pl-7">
+                  <div className="flex items-center text-sm text-gray-700 mb-2">
+                    <MapPin className="h-3 w-3 mr-2" />
+                    {product.farmer?.location}
+                  </div>
+                  <div className="text-sm text-gray-600 mb-3">
+                    Farm location: {product.farmer?.address || "Direct from farm"}
+                  </div>
+                  <div className="flex items-center text-sm">
+                    <Clock className="h-3 w-3 mr-2 text-gray-500" />
+                    <span className="text-red-600 mr-2">Available now</span>
+                    <span className="text-gray-500">• Mon - Sat, 08:00-18:00</span>
+                  </div>
+                </div>
+              </CollapsibleContent>
+            </Collapsible>
+          </CardContent>
+        </Card>
+
+        {/* Description */}
+        <div>
+          <p className="text-gray-700 leading-relaxed">{product.longDescription}</p>
+        </div>
+
+        {/* Social Sharing */}
+        <div className="flex items-center justify-between">
+          <span className="text-sm font-medium text-gray-700">Share this product:</span>
+          <div className="flex items-center space-x-2">
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-8 bg-blue-600 text-white border-blue-600 hover:bg-blue-700"
+              onClick={() => handleShare("facebook")}
+            >
+              <Facebook className="h-3 w-3" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-8 bg-blue-400 text-white border-blue-400 hover:bg-blue-500"
+              onClick={() => handleShare("twitter")}
+            >
+              <Twitter className="h-3 w-3" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-8 bg-green-500 text-white border-green-500 hover:bg-green-600"
+              onClick={() => handleShare("whatsapp")}
+            >
+              <MessageCircle className="h-3 w-3" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-8 bg-transparent"
+              onClick={() => handleShare("email")}
+            >
+              <Mail className="h-3 w-3" />
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      {/* Price and Seller Info */}
+      <div className="bg-white px-4 py-6 space-y-6 mb-4">
+        {/* Price Display */}
+        <div className="text-center py-4 border-2 border-green-100 rounded-lg bg-green-50">
+          <div className="text-3xl font-bold text-green-600 mb-1">
+            ${product.price}
+            {product.originalPrice > product.price && (
+              <span className="text-lg text-gray-500 line-through ml-2">${product.originalPrice}</span>
+            )}
+          </div>
+          <div className="text-sm text-gray-600">{product.unit}</div>
+        </div>
+
+        {/* Request Callback Button */}
+        <Button className="w-full bg-green-600 hover:bg-green-700 text-white py-3">Request call back</Button>
+
+        {/* Seller Info */}
+        <Card className="border-0 shadow-sm">
+          <CardContent className="p-4">
+            <div className="flex items-center space-x-3 mb-4">
               <Avatar className="h-12 w-12">
                 <AvatarImage src={product.farmer?.avatar || "/placeholder.svg"} alt={product.farmer?.name} />
                 <AvatarFallback>
@@ -191,39 +404,93 @@ const handleAddToCart: () => void = () => {
                 </AvatarFallback>
               </Avatar>
               <div className="flex-1">
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-2 mb-1">
                   <h3 className="font-semibold text-gray-900">{product.farmer?.username}</h3>
-                  {product.farmer?.verified && <CheckCircle className="h-4 w-4 text-blue-500" />}
+                  {product.farmer?.verified && (
+                    <div className="flex items-center text-blue-600">
+                      <CheckCircle className="h-4 w-4 mr-1" />
+                      <span className="text-xs">Verified ID</span>
+                    </div>
+                  )}
                 </div>
-                <div className="flex items-center space-x-4 text-sm text-gray-600">
-                  <div className="flex items-center space-x-1">
-                    <MapPin className="h-3 w-3" />
-                    <span>{product.farmer?.location}</span>
+                <div className="space-y-1 text-xs text-gray-600">
+                  <div className="flex items-center">
+                    <MessageCircle className="h-3 w-3 mr-1" />
+                    <span>Typically replies within an hour</span>
                   </div>
-                  <div className="flex items-center space-x-1">
-                    <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-                    <span>
-                      {product.farmer?.rating} ({product.farmer?.totalReviews})
-                    </span>
+                  <div className="flex items-center">
+                    <Clock className="h-3 w-3 mr-1" />
+                    <span>4 y on platform</span>
                   </div>
                 </div>
-                <p className="text-xs text-gray-500 mt-1">{product.farmer?.responseTime}</p>
               </div>
-              <div className="flex flex-col space-y-2">
-                <Button size="sm" variant="outline" onClick={handleContactSeller}>
-                  <MessageCircle className="h-3 w-3 mr-1" />
-                  Chat
-                </Button>
-                <Button size="sm" variant="outline">
-                  <Phone className="h-3 w-3 mr-1" />
-                  Call
-                </Button>
+            </div>
+
+            <div className="space-y-3">
+              <Button className="w-full bg-green-600 hover:bg-green-700 text-white" onClick={handleContactSeller}>
+                <Phone className="h-4 w-4 mr-2" />
+                Show contact
+              </Button>
+              <Button variant="outline" className="w-full bg-transparent" onClick={handleContactSeller}>
+                <MessageCircle className="h-4 w-4 mr-2" />
+                Start chat
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Feedback */}
+        <Card className="border-0 shadow-sm">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <Star className="h-5 w-5 text-orange-400 mr-2" />
+                <span className="font-medium">30 Feedback</span>
+              </div>
+              <Button variant="ghost" size="sm" className="text-orange-500 hover:text-orange-600">
+                view all <ChevronDown className="h-4 w-4 ml-1" />
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Action Buttons */}
+        <div className="flex space-x-3">
+          <Button variant="outline" className="flex-1 bg-transparent">
+            Mark unavailable
+          </Button>
+          <Button variant="outline" className="flex-1 text-red-600 hover:text-red-700 bg-transparent">
+            <Flag className="h-4 w-4 mr-2" />
+            Report Abuse
+          </Button>
+        </div>
+
+        {/* Safety Tips */}
+        <Card className="border-0 shadow-sm bg-yellow-50 border-yellow-200">
+          <CardContent className="p-4">
+            <div className="flex items-start space-x-3">
+              <AlertTriangle className="h-5 w-5 text-yellow-600 mt-1 flex-shrink-0" />
+              <div>
+                <h4 className="font-medium text-gray-900 mb-2">Safety tips</h4>
+                <ul className="text-sm text-gray-700 space-y-1">
+                  <li>• Avoid paying in advance, even for delivery</li>
+                  <li>• Meet with the seller at a safe public place</li>
+                  <li>• First, check what you're going to buy to make sure it's what you need</li>
+                  <li>• Only pay if you're satisfied</li>
+                </ul>
               </div>
             </div>
           </CardContent>
         </Card>
 
-        {/* Quantity Selector */}
+        {/* Post Similar Ad */}
+        <Button variant="outline" className="w-full bg-transparent">
+          Post Ad Like This
+        </Button>
+      </div>
+
+      {/* Quantity Selector */}
+      <div className="bg-white px-4 py-6 mb-4">
         <Card className="border-0 shadow-sm">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
@@ -255,8 +522,10 @@ const handleAddToCart: () => void = () => {
             </div>
           </CardContent>
         </Card>
+      </div>
 
-        {/* Service Features */}
+      {/* Service Features */}
+      <div className="bg-white px-4 py-6 mb-4">
         <div className="grid grid-cols-3 gap-4">
           <div className="text-center">
             <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-2">
@@ -277,15 +546,16 @@ const handleAddToCart: () => void = () => {
             <p className="text-xs font-medium">Certified Organic</p>
           </div>
         </div>
+      </div>
 
-        {/* Tabs */}
+      {/* Tabs */}
+      <div className="bg-white px-4 py-6">
         <Tabs defaultValue="description" className="w-full">
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="description">Description</TabsTrigger>
             <TabsTrigger value="nutrition">Nutrition</TabsTrigger>
             <TabsTrigger value="reviews">Reviews</TabsTrigger>
           </TabsList>
-
           <TabsContent value="description" className="mt-4">
             <Card className="border-0 shadow-sm">
               <CardContent className="p-4">
@@ -295,7 +565,6 @@ const handleAddToCart: () => void = () => {
               </CardContent>
             </Card>
           </TabsContent>
-
           <TabsContent value="nutrition" className="mt-4">
             <Card className="border-0 shadow-sm">
               <CardHeader>
@@ -329,7 +598,6 @@ const handleAddToCart: () => void = () => {
               </CardContent>
             </Card>
           </TabsContent>
-
           <TabsContent value="reviews" className="mt-4">
             <div className="space-y-4">
               {product.reviews?.map((review: any, idx: number) => (
@@ -359,8 +627,9 @@ const handleAddToCart: () => void = () => {
                             {[1, 2, 3, 4, 5].map((star) => (
                               <Star
                                 key={star}
-                                className={`h-3 w-3 ${star <= review.rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
-                                  }`}
+                                className={`h-3 w-3 ${
+                                  star <= review.rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
+                                }`}
                               />
                             ))}
                           </div>
@@ -378,14 +647,17 @@ const handleAddToCart: () => void = () => {
       </div>
 
       {/* Fixed Bottom Actions */}
-      <div className="border w-full fixed bottom-0 left-0 bg-white border-t p-2 z-50">
-        <div className="flex items-center justify-center space-x-1 md:px-4">
-          <Button variant="outline" className="text-xs mx-2" onClick={handleContactSeller}>
-            <MessageCircle className="h-4 w-4 mr-2" />
-            Contact Seller
+      <div className="fixed bottom-0 left-0 w-full bg-white border-t p-4 z-50">
+        <div className="flex items-center space-x-3">
+          <Button
+            variant="outline"
+            className="flex-1 bg-green-600 text-white border-green-600 hover:bg-green-700"
+            onClick={handleContactSeller}
+          >
+            Make an offer
           </Button>
           <Button
-            className="text-xs mx-2 bg-green-600 hover:bg-green-700"
+            className="flex-1 bg-green-600 hover:bg-green-700"
             onClick={handleAddToCart}
             disabled={!product.inStock}
           >
