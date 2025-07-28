@@ -10,7 +10,6 @@ import { Input } from "@/components/ui/input"
 import { Send, Search, ArrowLeft, Phone, Video, MoreVertical, ImageIcon } from "lucide-react"
 import Image from "next/image"
 import getConversations from "@/controllers/getConversations"
-import getMessages from "@/controllers/GetMessages"
 import FindMessages from "@/controllers/FindMessages"
 
 
