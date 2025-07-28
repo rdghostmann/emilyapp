@@ -1,12 +1,11 @@
-import ProductFeed from '@/components/ProductFeed'
+'use client'
+
+import { useParams } from 'next/navigation'
 import ProductDetails from './ProductDetails'
 
-export default async function ProductPage({
-  params,
-}: {
-  params: { id: string }
-}) {
-  const id = params.id
+export default function ProductPage() {
+  const params = useParams()
+  const id = params?.id as string
 
   if (!id) {
     return (
@@ -16,10 +15,5 @@ export default async function ProductPage({
     )
   }
 
-  return (
-    <div>
-      <ProductDetails productId={id} />
-      <ProductFeed />
-    </div>
-  )
+  return <ProductDetails productId={id} />
 }
