@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -10,49 +10,10 @@ import Image from "next/image"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Slider } from "@/components/ui/slider"
+import { categories as flatCategories } from "@/constants/categoryDetails"
+import getAllProducts from "@/controllers/GetAllProducts"
 
 const recentSearches = ["Organic tomatoes", "Fresh apples", "Farm eggs", "Wheat grain"]
-
-const searchResults = [
-  {
-    id: "1",
-    title: "Organic Tomatoes",
-    price: 4.99,
-    unit: "per kg",
-    image: "/product/organic-tomatoes.jpg",
-    farmer: "John Smith",
-    location: "California",
-    rating: 4.8,
-    distance: "2.5 km",
-    inStock: true,
-  },
-  {
-    id: "2",
-    title: "Fresh Apples",
-    price: 5.99,
-    unit: "per kg",
-    image: "/product/fresh-apples.jpg",
-    farmer: "Sarah Wilson",
-    location: "Washington",
-    rating: 4.9,
-    distance: "3.2 km",
-    inStock: true,
-  },
-  {
-    id: "3",
-    title: "Farm Eggs",
-    price: 6.99,
-    unit: "per dozen",
-    image: "/product/farm-eggs.jpg",
-    farmer: "David Johnson",
-    location: "Iowa",
-    rating: 4.7,
-    distance: "1.8 km",
-    inStock: false,
-  },
-]
-
-const categories = ["Fruits", "Vegetables", "Grains", "Dairy", "Poultry"]
 const sortOptions = ["Relevance", "Price: Low to High", "Price: High to Low", "Rating", "Distance"]
 
 export default function SearchInterface() {
@@ -61,16 +22,61 @@ export default function SearchInterface() {
   const [priceRange, setPriceRange] = useState([0, 100])
   const [sortBy, setSortBy] = useState("Relevance")
   const [showResults, setShowResults] = useState(false)
+  const [allProducts, setAllProducts] = useState<any[]>([])
+  const [filteredProducts, setFilteredProducts] = useState<any[]>([])
 
-  const handleSearch = () => {
-    if (searchQuery.trim()) {
-      setShowResults(true)
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const products = await getAllProducts()
+      setAllProducts(products)
     }
-  }
+    fetchProducts()
+  }, [])
 
   const clearSearch = () => {
     setSearchQuery("")
     setShowResults(false)
+    setFilteredProducts([])
+  }
+
+  const filterProducts = () => {
+    let results = allProducts
+
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase()
+      results = results.filter(
+        (p) =>
+          p.title.toLowerCase().includes(query) ||
+          p.farmer?.username?.toLowerCase().includes(query)
+      )
+    }
+
+    if (selectedCategories.length > 0) {
+      results = results.filter((p) => selectedCategories.includes(p.category))
+    }
+
+    results = results.filter((p) => p.price >= priceRange[0] && p.price <= priceRange[1])
+
+    switch (sortBy) {
+      case "Price: Low to High":
+        results.sort((a, b) => a.price - b.price)
+        break
+      case "Price: High to Low":
+        results.sort((a, b) => b.price - a.price)
+        break
+      case "Rating":
+        results.sort((a, b) => (b.farmer?.rating ?? 0) - (a.farmer?.rating ?? 0))
+        break
+    }
+
+    setFilteredProducts(results)
+    setShowResults(true)
+  }
+
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      filterProducts()
+    }
   }
 
   return (
@@ -100,6 +106,7 @@ export default function SearchInterface() {
 
         {/* Filter and Sort */}
         <div className="flex items-center space-x-3">
+          {/* Filter */}
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="outline" className="flex-1">
@@ -116,22 +123,18 @@ export default function SearchInterface() {
                 <div>
                   <h3 className="font-semibold mb-3">Categories</h3>
                   <div className="space-y-2">
-                    {categories.map((category) => (
-                      <div key={category} className="flex items-center space-x-2">
+                    {flatCategories.map((cat) => (
+                      <div key={cat.id} className="flex items-center space-x-2">
                         <Checkbox
-                          id={category}
-                          checked={selectedCategories.includes(category)}
+                          id={cat.id}
+                          checked={selectedCategories.includes(cat.id)}
                           onCheckedChange={(checked) => {
-                            if (checked) {
-                              setSelectedCategories([...selectedCategories, category])
-                            } else {
-                              setSelectedCategories(selectedCategories.filter((c) => c !== category))
-                            }
+                            setSelectedCategories((prev) =>
+                              checked ? [...prev, cat.id] : prev.filter((c) => c !== cat.id)
+                            )
                           }}
                         />
-                        <label htmlFor={category} className="text-sm">
-                          {category}
-                        </label>
+                        <label htmlFor={cat.id} className="text-sm">{cat.name}</label>
                       </div>
                     ))}
                   </div>
@@ -141,7 +144,13 @@ export default function SearchInterface() {
                 <div>
                   <h3 className="font-semibold mb-3">Price Range</h3>
                   <div className="px-2">
-                    <Slider value={priceRange} onValueChange={setPriceRange} max={100} step={1} className="mb-2" />
+                    <Slider
+                      value={priceRange}
+                      onValueChange={setPriceRange}
+                      max={100}
+                      step={1}
+                      className="mb-2"
+                    />
                     <div className="flex justify-between text-sm text-gray-600">
                       <span>${priceRange[0]}</span>
                       <span>${priceRange[1]}</span>
@@ -149,11 +158,14 @@ export default function SearchInterface() {
                   </div>
                 </div>
 
-                <Button className="w-full bg-green-600 hover:bg-green-700">Apply Filters</Button>
+                <Button onClick={filterProducts} className="w-full bg-green-600 hover:bg-green-700">
+                  Apply Filters
+                </Button>
               </div>
             </SheetContent>
           </Sheet>
 
+          {/* Sort */}
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="outline" className="flex-1">
@@ -171,7 +183,10 @@ export default function SearchInterface() {
                     key={option}
                     variant={sortBy === option ? "default" : "ghost"}
                     className={`w-full justify-start ${sortBy === option ? "bg-green-600 hover:bg-green-700" : ""}`}
-                    onClick={() => setSortBy(option)}
+                    onClick={() => {
+                      setSortBy(option)
+                      filterProducts()
+                    }}
                   >
                     {option}
                   </Button>
@@ -194,7 +209,7 @@ export default function SearchInterface() {
                 className="cursor-pointer hover:bg-green-100"
                 onClick={() => {
                   setSearchQuery(search)
-                  setShowResults(true)
+                  filterProducts()
                 }}
               >
                 {search}
@@ -209,12 +224,12 @@ export default function SearchInterface() {
         <div>
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-semibold text-gray-900">
-              {searchResults.length} results for "{searchQuery}"
+              {filteredProducts.length} result{filteredProducts.length !== 1 && "s"} for "{searchQuery}"
             </h3>
           </div>
 
           <div className="space-y-4">
-            {searchResults.map((product) => (
+            {filteredProducts.map((product) => (
               <Card key={product.id} className="border-0 shadow-sm">
                 <CardContent className="p-4">
                   <div className="flex space-x-4">
@@ -227,25 +242,25 @@ export default function SearchInterface() {
                     />
                     <div className="flex-1">
                       <h4 className="font-semibold text-gray-900 mb-1">{product.title}</h4>
-                      <p className="text-sm text-gray-600 mb-2">by {product.farmer}</p>
+                      <p className="text-sm text-gray-600 mb-2">
+                        by {product.farmer?.username || "Unknown"}
+                      </p>
 
                       <div className="flex items-center space-x-4 text-xs text-gray-500 mb-2">
                         <div className="flex items-center space-x-1">
                           <MapPin className="h-3 w-3" />
-                          <span>
-                            {product.location} • {product.distance}
-                          </span>
+                          <span>{product.location || "Unknown"}</span>
                         </div>
                         <div className="flex items-center space-x-1">
                           <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-                          <span>{product.rating}</span>
+                          <span>{product.farmer?.rating ?? "N/A"}</span>
                         </div>
                       </div>
 
                       <div className="flex items-center justify-between">
                         <div>
                           <span className="font-bold text-green-600">${product.price}</span>
-                          <span className="text-sm text-gray-500 ml-1">{product.unit}</span>
+                          <span className="text-sm text-gray-500 ml-1">{product.unit || ""}</span>
                         </div>
                         <Badge variant={product.inStock ? "default" : "secondary"}>
                           {product.inStock ? "In Stock" : "Out of Stock"}
