@@ -36,6 +36,7 @@ import {
 } from "lucide-react"
 import { FaFacebookF } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
+import { MdOutlinePhoneCallback } from "react-icons/md";
 import moment from "moment";
 import { useCart } from "@/hooks/useCart"
 import getAllProducts from "@/controllers/GetAllProducts"
@@ -363,10 +364,10 @@ export default function ProductDetails({ productId }: { productId: string }) {
           {/* Price Display */}
           <div className="text-center p-4 rounded-lg">
             <div className="text-3xl font-bold text-green-600 mb-1">
-              ${product.price}
+              ₦{product.price}
               {product.originalPrice > product.price && (
                 <span className="text-lg text-gray-500 line-through ml-2">
-                  ${product.originalPrice}
+                  ₦{product.originalPrice}
                 </span>
               )}
             </div>
@@ -467,17 +468,19 @@ export default function ProductDetails({ productId }: { productId: string }) {
               <div className="space-y-3">
                 <Link
                   href={`tel:${product.phone}`}
-                  className="w-full bg-green-600 hover:bg-green-700 text-white"
                 >
-                  <Phone className="h-4 w-4 mr-2" />
-                  Show contact
+                  <Button className="w-full bg-green-600 hover:bg-green-700 text-white"            >
+                    <MdOutlinePhoneCallback className="h-5 w-5 mr-2" />
+                    Show contact
+                  </Button>
                 </Link>
+
                 <Button
                   variant="outline"
                   className="w-full bg-transparent"
                   onClick={handleContactSeller}
                 >
-                  <MessageCircle className="h-4 w-4 mr-2" />
+                  <MessageCircle className="h-5 w-5 mr-2" />
                   Start chat
                 </Button>
               </div>
@@ -563,7 +566,7 @@ export default function ProductDetails({ productId }: { productId: string }) {
             disabled={!product.inStock}
           >
             <ShoppingCart className="h-4 w-4 mr-2" />
-            Add to Cart • ${(product.price * quantity).toFixed(2)}
+            Add to Cart • ₦{(product.price * quantity).toFixed(2)}
           </Button>
         </div>
       </div>
