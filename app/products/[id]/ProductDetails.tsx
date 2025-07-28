@@ -29,12 +29,14 @@ import {
   ChevronDown,
   ChevronUp,
   Flag,
-  Facebook,
   Twitter,
   Mail,
   Store,
   AlertTriangle,
 } from "lucide-react"
+import { FaFacebookF } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
+
 import { useCart } from "@/hooks/useCart"
 import getAllProducts from "@/controllers/GetAllProducts"
 import Loading from "./loading"
@@ -200,9 +202,8 @@ export default function ProductDetails({ productId }: { productId: string }) {
             <button
               key={index}
               onClick={() => setSelectedImageIndex(index)}
-              className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 ${
-                selectedImageIndex === index ? "border-green-600" : "border-gray-200"
-              }`}
+              className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 ${selectedImageIndex === index ? "border-green-600" : "border-gray-200"
+                }`}
             >
               <Image
                 src={image || "/placeholder.svg"}
@@ -344,7 +345,7 @@ export default function ProductDetails({ productId }: { productId: string }) {
               className="h-8 w-8 bg-blue-600 text-white border-blue-600 hover:bg-blue-700"
               onClick={() => handleShare("facebook")}
             >
-              <Facebook className="h-3 w-3" />
+              <FaFacebookF className="h-3 w-3" />
             </Button>
             <Button
               variant="outline"
@@ -352,7 +353,7 @@ export default function ProductDetails({ productId }: { productId: string }) {
               className="h-8 w-8 bg-blue-400 text-white border-blue-400 hover:bg-blue-500"
               onClick={() => handleShare("twitter")}
             >
-              <Twitter className="h-3 w-3" />
+              <FaXTwitter className="h-3 w-3" />
             </Button>
             <Button
               variant="outline"
@@ -627,9 +628,8 @@ export default function ProductDetails({ productId }: { productId: string }) {
                             {[1, 2, 3, 4, 5].map((star) => (
                               <Star
                                 key={star}
-                                className={`h-3 w-3 ${
-                                  star <= review.rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
-                                }`}
+                                className={`h-3 w-3 ${star <= review.rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
+                                  }`}
                               />
                             ))}
                           </div>
