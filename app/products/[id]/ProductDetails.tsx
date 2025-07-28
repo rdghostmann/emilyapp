@@ -373,7 +373,7 @@ export default function ProductDetails({ productId }: { productId: string }) {
             </div>
             <div className="text-sm text-gray-600">{product.unit}</div>
             {/* Request Callback Button */}
-            <Button className="w-full bg-green-600 hover:bg-green-700 text-white py-3">
+            <Button className="w-full bg-green-600 hover:bg-green-700 text-white text-sm py-3">
               Request call back
             </Button>
           </div>
@@ -471,7 +471,7 @@ export default function ProductDetails({ productId }: { productId: string }) {
                 >
                   <Button className="cursor-pointer w-full bg-green-600 hover:bg-green-700 text-white"            >
                     <MdOutlinePhoneCallback className="h-5 w-5 mr-2" />
-                    Show contact
+                    Contact Seller
                   </Button>
                 </Link>
 
