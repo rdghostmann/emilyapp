@@ -1,11 +1,14 @@
-'use client'
-
-import { useParams } from 'next/navigation'
+import ProductFeed from '@/components/ProductFeed'
 import ProductDetails from './ProductDetails'
 
-export default function ProductPage() {
-  const params = useParams()
-  const id = params?.id as string
+interface ProductPageProps {
+  params: {
+    id: string
+  }
+}
+
+export default async function ProductPage({ params }: ProductPageProps) {
+  const id = params.id
 
   if (!id) {
     return (
@@ -15,5 +18,10 @@ export default function ProductPage() {
     )
   }
 
-  return <ProductDetails productId={id} />
+  return (
+    <div>
+      <ProductDetails productId={id} />
+      <ProductFeed />
+    </div>
+  )
 }
