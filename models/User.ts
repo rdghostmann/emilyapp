@@ -47,30 +47,30 @@ const UserSchema = new Schema(
     },
     listedProducts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }],
     walletBalance: { type: Number, default: 0 },
-    avatar: {
-      type: String,
-      default: false,
-    },
+  avatar: {
+  type: String,
+  default: "", // not false
+},
     joinDate: {
       type: Date,
       default: Date.now,
     },
-    phone: {
-      type: String,
-      default: true,
-    },
-    country: {
-      type: String,
-      default: false,
-    },
-    state: {
-      type: String,
-      default: false,
-    },
-    zipCode: {
-      type: String,
-      default: false,
-    },
+ phone: {
+  type: String,
+  default: "",
+},
+  country: {
+  type: String,
+  default: "",
+},
+  state: {
+  type: String,
+  default: "",
+},
+  zipCode: {
+  type: String,
+  default: "",
+},
   },
   {
     timestamps: true,

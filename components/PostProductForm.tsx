@@ -53,6 +53,7 @@ export default function PostProductForm() {
   const [maxOrder, setMaxOrder] = useState("")
   const [originalPrice, setOriginalPrice] = useState("")
   const [discount, setDiscount] = useState("")
+  const [unit, setUnit] = useState("")
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
@@ -113,25 +114,14 @@ export default function PostProductForm() {
       longDescription: formData.get("longDescription"),
       price: formData.get("price"),
       originalPrice: originalPrice || undefined,
-      unit: formData.get("unit"),
+      unit,
       images,
-      farmer: {
-        name: farmer.name,
-        location: farmer.location,
-        avatar: farmer.avatar,
-        rating: farmer.rating ? Number(farmer.rating) : undefined,
-        totalReviews: farmer.totalReviews ? Number(farmer.totalReviews) : undefined,
-        verified: farmer.verified,
-        joinedDate: farmer.joinedDate,
-        totalProducts: farmer.totalProducts ? Number(farmer.totalProducts) : undefined,
-        responseTime: farmer.responseTime,
-      },
-      inStock: true,
       quantity: formData.get("quantity"),
       minOrder: minOrder ? Number(minOrder) : undefined,
       maxOrder: maxOrder ? Number(maxOrder) : undefined,
-      postedAt: new Date().toISOString(),
       discount: discount ? Number(discount) : undefined,
+      postedAt: new Date().toISOString(),
+      inStock: true,
       features,
       nutritionFacts: {
         calories: nutritionFacts.calories ? Number(nutritionFacts.calories) : undefined,
@@ -150,11 +140,13 @@ export default function PostProductForm() {
 
     if (result.success) {
       alert("Product created successfully!");
-      // Optionally reset form or redirect
+      // form.reset();
+      // optionally clear state here too
     } else {
       alert(result.error || "Failed to create product");
     }
   };
+
 
   const selectedCategoryDetails = selectedCategory ? categoryDetails[selectedCategory] : null;
 
@@ -319,7 +311,7 @@ export default function PostProductForm() {
           <div className="grid md:grid-cols-3 gap-4">
             <div className="space-y-2">
               <Label htmlFor="unit">Unit</Label>
-              <Select required name="unit">
+              <Select required value={unit} onValueChange={setUnit}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select unit" />
                 </SelectTrigger>

@@ -2,6 +2,7 @@ import mongoose, { Schema, Document, Types } from "mongoose";
 import { ReviewSchema } from "./Review";
 import { NutritionFactsSchema } from "./NutritionFacts";
 
+/** Embedded Schemas Types **/
 export interface IReview {
   user: string;
   avatar?: string;
@@ -19,6 +20,7 @@ export interface INutritionFacts {
   vitaminC?: string;
 }
 
+/** Main Product Interface **/
 export interface IProduct extends Document {
   title: string;
   description: string;
@@ -41,34 +43,59 @@ export interface IProduct extends Document {
   phone?: string;
   email?: string;
   reviews?: IReview[];
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
+/** Product Schema **/
 const ProductSchema = new Schema<IProduct>(
   {
-    title: { type: String, required: true },
-    description: { type: String, required: true },
-    longDescription: { type: String },
-    price: { type: Number, required: true },
-    originalPrice: { type: Number },
-    unit: { type: String, required: true },
+    title: { type: String, required: true, trim: true },
+    description: { type: String, required: true, trim: true },
+    longDescription: { type: String, trim: true },
+    price: { type: Number, required: true, min: 0 },
+    originalPrice: { type: Number, min: 0 },
+    unit: { type: String, required: true, trim: true },
     images: { type: [String], default: [] },
-    farmer: { type: Schema.Types.ObjectId, ref: "User", required: true },
-    category: { type: String, required: true },
+
+    farmer: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+
+    category: { type: String, required: true, trim: true },
     inStock: { type: Boolean, default: true },
     quantity: { type: Schema.Types.Mixed, required: true },
-    minOrder: { type: Number },
-    maxOrder: { type: Number },
-    postedAt: { type: Schema.Types.Mixed, default: Date.now },
-    discount: { type: Number , required: false },
+    minOrder: { type: Number, min: 0 },
+    maxOrder: { type: Number, min: 0 },
+
+    postedAt: {
+      type: Date,
+      default: Date.now,
+    },
+
+    discount: { type: Number, min: 0, max: 100 },
     features: { type: [String], default: [] },
-    nutritionFacts: { type: NutritionFactsSchema, default: {}, required: false },
-    tags: { type: [String], default: [] , required: false },
-    phone: { type: String },
-    email: { type: String },
-    reviews: { type: [ReviewSchema], default: [] },
+    nutritionFacts: {
+      type: NutritionFactsSchema,
+      default: {},
+    },
+    tags: { type: [String], default: [] },
+    phone: { type: String, trim: true },
+    email: { type: String, trim: true },
+
+    reviews: {
+      type: [ReviewSchema],
+      default: [],
+    },
   },
-  { timestamps: true }
+  {
+    timestamps: true, // adds createdAt and updatedAt automatically
+  }
 );
 
-const Product = mongoose.models.Product || mongoose.model<IProduct>("Product", ProductSchema);
+/** Avoid model overwrite in dev **/
+const Product =  mongoose.models.Product ||  mongoose.model<IProduct>("Product", ProductSchema);
+
 export default Product;
