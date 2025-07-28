@@ -40,6 +40,7 @@ import { FaXTwitter } from "react-icons/fa6";
 import { useCart } from "@/hooks/useCart"
 import getAllProducts from "@/controllers/GetAllProducts"
 import Loading from "./loading"
+import ProductFeed from "@/components/ProductFeed"
 
 export default function ProductDetails({ productId }: { productId: string }) {
   const router = useRouter()
@@ -335,136 +336,170 @@ export default function ProductDetails({ productId }: { productId: string }) {
           <p className="text-gray-700 leading-relaxed">{product.longDescription}</p>
         </div>
 
-        {/* Social Sharing */}
-        <div className="flex items-center justify-between">
-          <span className="text-sm font-medium text-gray-700">Share this product:</span>
-          <div className="flex items-center space-x-2">
-            <Button
-              variant="outline"
-              size="icon"
-              className="h-8 w-8 bg-blue-600 text-white border-blue-600 hover:bg-blue-700"
-              onClick={() => handleShare("facebook")}
-            >
-              <FaFacebookF className="h-3 w-3" />
-            </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              className="h-8 w-8 bg-blue-400 text-white border-blue-400 hover:bg-blue-500"
-              onClick={() => handleShare("twitter")}
-            >
-              <FaXTwitter className="h-3 w-3" />
-            </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              className="h-8 w-8 bg-green-500 text-white border-green-500 hover:bg-green-600"
-              onClick={() => handleShare("whatsapp")}
-            >
-              <MessageCircle className="h-3 w-3" />
-            </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              className="h-8 w-8 bg-transparent"
-              onClick={() => handleShare("email")}
-            >
-              <Mail className="h-3 w-3" />
-            </Button>
-          </div>
-        </div>
+
       </div>
 
       {/* Price and Seller Info */}
       <div className="bg-white px-4 py-6 space-y-6 mb-4">
-        {/* Price Display */}
-        <div className="text-center py-4 border-2 border-green-100 rounded-lg bg-green-50">
-          <div className="text-3xl font-bold text-green-600 mb-1">
-            ${product.price}
-            {product.originalPrice > product.price && (
-              <span className="text-lg text-gray-500 line-through ml-2">${product.originalPrice}</span>
-            )}
+        {/* Top Grid: Price + Request */}
+        <div className="grid grid-cols-2 gap-4">
+          {/* Price Display */}
+          <div className="text-center p-4 rounded-lg">
+            <div className="text-3xl font-bold text-green-600 mb-1">
+              ${product.price}
+              {product.originalPrice > product.price && (
+                <span className="text-lg text-gray-500 line-through ml-2">
+                  ${product.originalPrice}
+                </span>
+              )}
+            </div>
+            <div className="text-sm text-gray-600">{product.unit}</div>
+            {/* Request Callback Button */}
+            <Button className="w-full bg-green-600 hover:bg-green-700 text-white py-3">
+              Request call back
+            </Button>
           </div>
-          <div className="text-sm text-gray-600">{product.unit}</div>
+          {/* Social Sharing */}
+          <div className="flex flex-wrap items-center justify-center md:justify-between md:px-6 space-x-4 mb-4">
+            <span className="text-sm font-medium text-gray-700">Share this product:</span>
+            <div className="flex items-center space-x-2">
+              <Button
+                variant="outline"
+                size="icon"
+                className="h-8 w-8 bg-blue-600 text-white border-blue-600 hover:bg-blue-700"
+                onClick={() => handleShare("facebook")}
+              >
+                <FaFacebookF className="h-3 w-3" />
+              </Button>
+              <Button
+                variant="outline"
+                size="icon"
+                className="h-8 w-8 bg-blue-400 text-white border-blue-400 hover:bg-blue-500"
+                onClick={() => handleShare("twitter")}
+              >
+                <FaXTwitter className="h-3 w-3" />
+              </Button>
+              <Button
+                variant="outline"
+                size="icon"
+                className="h-8 w-8 bg-green-500 text-white border-green-500 hover:bg-green-600"
+                onClick={() => handleShare("whatsapp")}
+              >
+                <MessageCircle className="h-3 w-3" />
+              </Button>
+              <Button
+                variant="outline"
+                size="icon"
+                className="h-8 w-8 bg-transparent"
+                onClick={() => handleShare("email")}
+              >
+                <Mail className="h-3 w-3" />
+              </Button>
+            </div>
+          </div>
+
         </div>
 
-        {/* Request Callback Button */}
-        <Button className="w-full bg-green-600 hover:bg-green-700 text-white py-3">Request call back</Button>
-
-        {/* Seller Info */}
-        <Card className="border-0 shadow-sm">
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-3 mb-4">
-              <Avatar className="h-12 w-12">
-                <AvatarImage src={product.farmer?.avatar || "/placeholder.svg"} alt={product.farmer?.name} />
-                <AvatarFallback>
-                  {product.farmer?.name
-                    ?.split(" ")
-                    .map((n: string) => n[0])
-                    .join("")}
-                </AvatarFallback>
-              </Avatar>
-              <div className="flex-1">
-                <div className="flex items-center space-x-2 mb-1">
-                  <h3 className="font-semibold text-gray-900">{product.farmer?.username}</h3>
-                  {product.farmer?.verified && (
-                    <div className="flex items-center text-blue-600">
-                      <CheckCircle className="h-4 w-4 mr-1" />
-                      <span className="text-xs">Verified ID</span>
+        {/* Seller Info and Feedback */}
+        <div className="grid md:grid-cols-2 gap-4">
+          {/* Seller Info */}
+          <Card className="border-0 shadow-sm">
+            <CardContent className="p-4">
+              <div className="flex items-center space-x-3 mb-4">
+                <Avatar className="h-12 w-12">
+                  <AvatarImage
+                    src={product.farmer?.avatar || "/placeholder.svg"}
+                    alt={product.farmer?.name}
+                  />
+                  <AvatarFallback>
+                    {product.farmer?.name
+                      ?.split(" ")
+                      .map((n: string) => n[0])
+                      .join("")}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="flex-1">
+                  <div className="flex items-center space-x-2 mb-1">
+                    <h3 className="font-semibold text-gray-900">
+                      {product.farmer?.username}
+                    </h3>
+                    {product.farmer?.verified && (
+                      <div className="flex items-center text-blue-600">
+                        <CheckCircle className="h-4 w-4 mr-1" />
+                        <span className="text-xs">Verified ID</span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="space-y-1 text-xs text-gray-600">
+                    <div className="flex items-center">
+                      <MessageCircle className="h-3 w-3 mr-1" />
+                      <span>Typically replies within an hour</span>
                     </div>
-                  )}
-                </div>
-                <div className="space-y-1 text-xs text-gray-600">
-                  <div className="flex items-center">
-                    <MessageCircle className="h-3 w-3 mr-1" />
-                    <span>Typically replies within an hour</span>
-                  </div>
-                  <div className="flex items-center">
-                    <Clock className="h-3 w-3 mr-1" />
-                    <span>4 y on platform</span>
+                    <div className="flex items-center">
+                      <Clock className="h-3 w-3 mr-1" />
+                      <span>4 y on platform</span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div className="space-y-3">
-              <Button className="w-full bg-green-600 hover:bg-green-700 text-white" onClick={handleContactSeller}>
-                <Phone className="h-4 w-4 mr-2" />
-                Show contact
-              </Button>
-              <Button variant="outline" className="w-full bg-transparent" onClick={handleContactSeller}>
-                <MessageCircle className="h-4 w-4 mr-2" />
-                Start chat
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Feedback */}
-        <Card className="border-0 shadow-sm">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <Star className="h-5 w-5 text-orange-400 mr-2" />
-                <span className="font-medium">30 Feedback</span>
+              <div className="space-y-3">
+                <Button
+                  className="w-full bg-green-600 hover:bg-green-700 text-white"
+                  onClick={handleContactSeller}
+                >
+                  <Phone className="h-4 w-4 mr-2" />
+                  Show contact
+                </Button>
+                <Button
+                  variant="outline"
+                  className="w-full bg-transparent"
+                  onClick={handleContactSeller}
+                >
+                  <MessageCircle className="h-4 w-4 mr-2" />
+                  Start chat
+                </Button>
               </div>
-              <Button variant="ghost" size="sm" className="text-orange-500 hover:text-orange-600">
-                view all <ChevronDown className="h-4 w-4 ml-1" />
+            </CardContent>
+          </Card>
+
+          <div className="space-y-4">
+            {/* Feedback */}
+            <Card className="border-0 shadow-sm h-fit">
+              <CardContent className="">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <Star className="h-5 w-5 text-orange-400 mr-2" />
+                    <span className="font-medium">30 Feedback</span>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-orange-500 hover:text-orange-600"
+                  >
+                    view all <ChevronDown className="h-4 w-4 ml-1" />
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+            {/* Action Buttons */}
+            <div className="grid grid-cols-2 gap-3">
+              <Button variant="outline" className="w-full bg-transparent">
+                Mark unavailable
+              </Button>
+              <Button
+                variant="outline"
+                className="w-full text-red-600 hover:text-red-700 bg-transparent"
+              >
+                <Flag className="h-4 w-4 mr-2" />
+                Report Abuse
               </Button>
             </div>
-          </CardContent>
-        </Card>
+          </div>
 
-        {/* Action Buttons */}
-        <div className="flex space-x-3">
-          <Button variant="outline" className="flex-1 bg-transparent">
-            Mark unavailable
-          </Button>
-          <Button variant="outline" className="flex-1 text-red-600 hover:text-red-700 bg-transparent">
-            <Flag className="h-4 w-4 mr-2" />
-            Report Abuse
-          </Button>
         </div>
+
+
 
         {/* Safety Tips */}
         <Card className="border-0 shadow-sm bg-yellow-50 border-yellow-200">
@@ -490,8 +525,33 @@ export default function ProductDetails({ productId }: { productId: string }) {
         </Button>
       </div>
 
+      {/* <ProductFeed /> */}
+
+
+
+      {/* Fixed Bottom Actions */}
+      <div className="fixed bottom-0 left-0 w-full bg-white border-t p-4 z-50">
+        <div className="flex items-center space-x-3">
+          <Button
+            variant="outline"
+            className="flex-1 bg-green-600 text-white border-green-600 hover:bg-green-700"
+            onClick={handleContactSeller}
+          >
+            Make an offer
+          </Button>
+          <Button
+            className="flex-1 bg-green-600 hover:bg-green-700"
+            onClick={handleAddToCart}
+            disabled={!product.inStock}
+          >
+            <ShoppingCart className="h-4 w-4 mr-2" />
+            Add to Cart • ${(product.price * quantity).toFixed(2)}
+          </Button>
+        </div>
+      </div>
+
       {/* Quantity Selector */}
-      <div className="bg-white px-4 py-6 mb-4">
+      <div className="hidden bg-white px-4 py-6 mb-4">
         <Card className="border-0 shadow-sm">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
@@ -525,29 +585,6 @@ export default function ProductDetails({ productId }: { productId: string }) {
         </Card>
       </div>
 
-      {/* Service Features */}
-      <div className="hidden bg-white px-4 py-6 mb-4">
-        <div className="grid grid-cols-3 gap-4">
-          <div className="text-center">
-            <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-2">
-              <Truck className="h-6 w-6 text-green-600" />
-            </div>
-            <p className="text-xs font-medium">Fast Delivery</p>
-          </div>
-          <div className="text-center">
-            <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2">
-              <Shield className="h-6 w-6 text-blue-600" />
-            </div>
-            <p className="text-xs font-medium">Quality Assured</p>
-          </div>
-          <div className="text-center">
-            <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-2">
-              <Award className="h-6 w-6 text-orange-600" />
-            </div>
-            <p className="text-xs font-medium">Certified Organic</p>
-          </div>
-        </div>
-      </div>
 
       {/* Tabs */}
       <div className="hidden bg-white px-4 py-6">
@@ -646,26 +683,34 @@ export default function ProductDetails({ productId }: { productId: string }) {
         </Tabs>
       </div>
 
-      {/* Fixed Bottom Actions */}
-      <div className="fixed bottom-0 left-0 w-full bg-white border-t p-4 z-50">
-        <div className="flex items-center space-x-3">
-          <Button
-            variant="outline"
-            className="flex-1 bg-green-600 text-white border-green-600 hover:bg-green-700"
-            onClick={handleContactSeller}
-          >
-            Make an offer
-          </Button>
-          <Button
-            className="flex-1 bg-green-600 hover:bg-green-700"
-            onClick={handleAddToCart}
-            disabled={!product.inStock}
-          >
-            <ShoppingCart className="h-4 w-4 mr-2" />
-            Add to Cart • ${(product.price * quantity).toFixed(2)}
-          </Button>
+      {/* Service Features */}
+      <div className="hidden bg-white px-4 py-6 mb-4">
+        <div className="grid grid-cols-3 gap-4">
+          <div className="text-center">
+            <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-2">
+              <Truck className="h-6 w-6 text-green-600" />
+            </div>
+            <p className="text-xs font-medium">Fast Delivery</p>
+          </div>
+          <div className="text-center">
+            <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2">
+              <Shield className="h-6 w-6 text-blue-600" />
+            </div>
+            <p className="text-xs font-medium">Quality Assured</p>
+          </div>
+          <div className="text-center">
+            <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-2">
+              <Award className="h-6 w-6 text-orange-600" />
+            </div>
+            <p className="text-xs font-medium">Certified Organic</p>
+          </div>
         </div>
       </div>
+
+
+
+
+
     </div>
   )
 }
