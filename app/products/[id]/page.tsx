@@ -1,13 +1,11 @@
 import ProductFeed from '@/components/ProductFeed'
 import ProductDetails from './ProductDetails'
 
-interface ProductPageProps {
-  params: {
-    id: string
-  }
-}
-
-export default async function ProductPage({ params }: ProductPageProps) {
+export default async function ProductPage({
+  params,
+}: {
+  params: { id: string }
+}) {
   const id = params.id
 
   if (!id) {
