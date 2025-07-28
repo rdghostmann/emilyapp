@@ -469,7 +469,7 @@ export default function ProductDetails({ productId }: { productId: string }) {
                 <Link
                   href={`tel:${product.phone}`}
                 >
-                  <Button className="w-full bg-green-600 hover:bg-green-700 text-white"            >
+                  <Button className="cursor-pointer w-full bg-green-600 hover:bg-green-700 text-white"            >
                     <MdOutlinePhoneCallback className="h-5 w-5 mr-2" />
                     Show contact
                   </Button>
@@ -477,7 +477,7 @@ export default function ProductDetails({ productId }: { productId: string }) {
 
                 <Button
                   variant="outline"
-                  className="w-full bg-transparent mt-2 text-white bg-blue-700"
+                  className="cursor-pointer w-full bg-transparent mt-2 text-white bg-blue-700 hover:bg-blue-800 hover:text-white"
                   onClick={handleContactSeller}
                 >
                   <MessageCircle className="h-5 w-5 mr-2" />
@@ -509,12 +509,12 @@ export default function ProductDetails({ productId }: { productId: string }) {
 
             {/* Action Buttons */}
             <div className="grid grid-cols-2 gap-3">
-              <Button variant="outline" className="border border-blue-500 text-blue-500 w-full bg-transparent">
+              <Button variant="outline" className="cursor-pointer border border-blue-500 text-blue-500 hover:text-blue-600 w-full bg-transparent">
                 Mark unavailable
               </Button>
               <Button
                 variant="outline"
-                className="w-full border border-red-600 text-red-600 hover:text-red-700 bg-transparent"
+                className="cursor-pointer w-full border border-red-600 text-red-600 hover:text-red-700 bg-transparent"
               >
                 <Flag className="h-4 w-4 mr-2" />
                 Report Abuse
