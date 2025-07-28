@@ -526,7 +526,7 @@ export default function ProductDetails({ productId }: { productId: string }) {
       </div>
 
       {/* Service Features */}
-      <div className="bg-white px-4 py-6 mb-4">
+      <div className="hidden bg-white px-4 py-6 mb-4">
         <div className="grid grid-cols-3 gap-4">
           <div className="text-center">
             <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-2">
@@ -550,7 +550,7 @@ export default function ProductDetails({ productId }: { productId: string }) {
       </div>
 
       {/* Tabs */}
-      <div className="bg-white px-4 py-6">
+      <div className="hidden bg-white px-4 py-6">
         <Tabs defaultValue="description" className="w-full">
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="description">Description</TabsTrigger>
