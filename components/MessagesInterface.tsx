@@ -11,6 +11,7 @@ import { Send, Search, ArrowLeft, Phone, Video, MoreVertical, ImageIcon } from "
 import Image from "next/image"
 import getConversations from "@/controllers/getConversations"
 import FindMessages from "@/controllers/FindMessages"
+import moment from "moment"
 
 
 interface Message {
@@ -142,7 +143,11 @@ export default function MessagesInterface() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between mb-1">
                         <p className="font-medium text-gray-900 truncate">{otherUser?.name || "User"}</p>
-                        <span className="text-xs text-gray-500">{conversation.timestamp}</span>
+                        <span className="text-xs text-gray-500">
+                          {typeof conversation.timestamp === "string"
+                            ? moment(conversation.timestamp).local().fromNow()
+                            : ""}
+                        </span>
                       </div>
                       <p className="text-xs text-green-600 mb-1">{conversation.product}</p>
                       <p className="text-sm text-gray-600 line-clamp-2">{conversation.lastMessage}</p>
@@ -245,7 +250,7 @@ export default function MessagesInterface() {
               >
                 <p className="text-sm">{message.content}</p>
                 <span className={`text-xs mt-1 block ${isOwnMessage ? "text-green-100" : "text-gray-500"}`}>
-                  {message.timestamp}
+                  {moment(message.timestamp).local().fromNow()}
                 </span>
               </div>
             </div>

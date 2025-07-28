@@ -50,6 +50,7 @@ export default async function getConversations(userId: string): Promise<MappedCo
     lastMessage: conv.lastMessage || "",
     unread: conv.unreadCount || 0,
     product: conv.productId ? conv.productId.toString() : null,
-    timestamp: conv.updatedAt ? conv.updatedAt.toISOString() : "",
+    // timestamp: conv.updatedAt ? conv.updatedAt.toISOString() : "",
+    timestamp: conv.updatedAt ? new Date(conv.updatedAt).toISOString() : "",
   }));
 }
