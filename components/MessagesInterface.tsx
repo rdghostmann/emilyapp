@@ -11,6 +11,7 @@ import { Send, Search, ArrowLeft, Phone, Video, MoreVertical, ImageIcon } from "
 import Image from "next/image"
 import getConversations from "@/controllers/getConversations"
 import getMessages from "@/controllers/GetMessages"
+import FindMessages from "@/controllers/FindMessages"
 
 
 interface Message {
@@ -63,7 +64,7 @@ export default function MessagesInterface() {
   useEffect(() => {
     if (selectedConversation) {
       async function fetchMsgs() {
-        const msgs = await getMessages(selectedConversation.id)
+        const msgs = await FindMessages(selectedConversation.id)
         setMessages(msgs)
       }
       fetchMsgs()

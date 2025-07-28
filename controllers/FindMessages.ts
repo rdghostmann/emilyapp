@@ -4,7 +4,7 @@ import { connectToDB } from "@/lib/connectDB";
 import Message from "@/models/Message";
 import { isValidObjectId } from "mongoose";
 
-export default async function getMessages(conversationId: string) {
+export default async function FindMessages(conversationId: string) {
   if (!isValidObjectId(conversationId)) {
     throw new Error("Invalid conversation ID");
   }
