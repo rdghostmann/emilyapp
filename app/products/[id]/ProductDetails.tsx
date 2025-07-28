@@ -180,7 +180,7 @@ export default function ProductDetails({ productId }: { productId: string }) {
       </div>
 
       {/* Promoted Badge & Stats */}
-      <div className="bg-white px-4 py-3 border-b">
+      <div className="hidden bg-white px-4 py-3 border-b">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center space-x-3">
             <Badge className="bg-orange-500 hover:bg-orange-600 text-white">Promoted</Badge>
@@ -566,7 +566,7 @@ export default function ProductDetails({ productId }: { productId: string }) {
             disabled={!product.inStock}
           >
             <ShoppingCart className="h-4 w-4 mr-2" />
-            Add to Cart • ₦{(product.price * quantity).toFixed(2)}
+            <span className="hidden">Add to Cart •</span> ₦{(product.price * quantity).toFixed(0)}
           </Button>
         </div>
       </div>
