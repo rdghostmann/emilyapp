@@ -33,6 +33,11 @@ export default function SearchInterface() {
     fetchProducts()
   }, [])
 
+  // Re-filter products whenever search query, category, price or sort changes
+  useEffect(() => {
+    filterProducts()
+  }, [searchQuery, selectedCategories, priceRange, sortBy, allProducts])
+
   const clearSearch = () => {
     setSearchQuery("")
     setShowResults(false)
@@ -42,8 +47,9 @@ export default function SearchInterface() {
   const filterProducts = () => {
     let results = allProducts
 
-    if (searchQuery.trim()) {
-      const query = searchQuery.toLowerCase()
+    const query = searchQuery.toLowerCase().trim()
+
+    if (query) {
       results = results.filter(
         (p) =>
           p.title.toLowerCase().includes(query) ||
@@ -70,13 +76,7 @@ export default function SearchInterface() {
     }
 
     setFilteredProducts(results)
-    setShowResults(true)
-  }
-
-  const handleSearch = () => {
-    if (searchQuery.trim()) {
-      filterProducts()
-    }
+    setShowResults(results.length > 0 || query !== "" || selectedCategories.length > 0)
   }
 
   return (
@@ -89,7 +89,6 @@ export default function SearchInterface() {
             placeholder="Search for products, farmers..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyPress={(e) => e.key === "Enter" && handleSearch()}
             className="pl-10 pr-12 h-12 rounded-xl border-gray-200"
           />
           {searchQuery && (
@@ -119,20 +118,19 @@ export default function SearchInterface() {
                 <SheetTitle>Filter Products</SheetTitle>
               </SheetHeader>
               <div className="py-6 space-y-6">
-                {/* Categories */}
-                <div>
+                <div className="px-4">
                   <h3 className="font-semibold mb-3">Categories</h3>
                   <div className="space-y-2">
                     {flatCategories.map((cat) => (
-                      <div key={cat.id} className="flex items-center space-x-2">
+                      <div key={cat.id} className="grid grid-cols-3 items-center space-x-2">
                         <Checkbox
                           id={cat.id}
                           checked={selectedCategories.includes(cat.id)}
-                          onCheckedChange={(checked) => {
+                          onCheckedChange={(checked) =>
                             setSelectedCategories((prev) =>
                               checked ? [...prev, cat.id] : prev.filter((c) => c !== cat.id)
                             )
-                          }}
+                          }
                         />
                         <label htmlFor={cat.id} className="text-sm">{cat.name}</label>
                       </div>
@@ -140,27 +138,14 @@ export default function SearchInterface() {
                   </div>
                 </div>
 
-                {/* Price Range */}
-                <div>
+                <div className="px-4">
                   <h3 className="font-semibold mb-3">Price Range</h3>
-                  <div className="px-2">
-                    <Slider
-                      value={priceRange}
-                      onValueChange={setPriceRange}
-                      max={100}
-                      step={1}
-                      className="mb-2"
-                    />
-                    <div className="flex justify-between text-sm text-gray-600">
-                      <span>${priceRange[0]}</span>
-                      <span>${priceRange[1]}</span>
-                    </div>
+                  <Slider value={priceRange} onValueChange={setPriceRange} max={100} step={1} className="mb-2" />
+                  <div className="flex justify-between text-sm text-gray-600">
+                    <span>${priceRange[0]}</span>
+                    <span>${priceRange[1]}</span>
                   </div>
                 </div>
-
-                <Button onClick={filterProducts} className="w-full bg-green-600 hover:bg-green-700">
-                  Apply Filters
-                </Button>
               </div>
             </SheetContent>
           </Sheet>
@@ -183,10 +168,7 @@ export default function SearchInterface() {
                     key={option}
                     variant={sortBy === option ? "default" : "ghost"}
                     className={`w-full justify-start ${sortBy === option ? "bg-green-600 hover:bg-green-700" : ""}`}
-                    onClick={() => {
-                      setSortBy(option)
-                      filterProducts()
-                    }}
+                    onClick={() => setSortBy(option)}
                   >
                     {option}
                   </Button>
@@ -207,10 +189,7 @@ export default function SearchInterface() {
                 key={search}
                 variant="secondary"
                 className="cursor-pointer hover:bg-green-100"
-                onClick={() => {
-                  setSearchQuery(search)
-                  filterProducts()
-                }}
+                onClick={() => setSearchQuery(search)}
               >
                 {search}
               </Badge>
@@ -224,7 +203,7 @@ export default function SearchInterface() {
         <div>
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-semibold text-gray-900">
-              {filteredProducts.length} result{filteredProducts.length !== 1 && "s"} for "{searchQuery}"
+              {filteredProducts.length} result{filteredProducts.length !== 1 && "s"} for "{searchQuery || "filters"}"
             </h3>
           </div>
 
