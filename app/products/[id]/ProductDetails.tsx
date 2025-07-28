@@ -42,6 +42,7 @@ import { useCart } from "@/hooks/useCart"
 import getAllProducts from "@/controllers/GetAllProducts"
 import Loading from "./loading"
 import Link from "next/link"
+import BottomActions from "./BottomActions"
 
 export default function ProductDetails({ productId }: { productId: string }) {
   const router = useRouter()
@@ -551,26 +552,12 @@ export default function ProductDetails({ productId }: { productId: string }) {
       </div>
 
       {/* Fixed Bottom Actions */}
-      <div className="fixed bottom-0 left-0 w-full bg-white border-t p-4 z-50">
-        <div className="flex items-center space-x-3">
-          <Button
-            variant="outline"
-            className="flex-1 bg-green-600 text-white border-green-600 hover:bg-green-700"
-            onClick={handleContactSeller}
-          >
-            Make an offer
-          </Button>
-          <Button
-            className="flex-1 bg-green-600 hover:bg-green-700"
-            onClick={handleAddToCart}
-            disabled={!product.inStock}
-          >
-            <ShoppingCart className="h-4 w-4 mr-2" />
-            <span className="hidden">Add to Cart •</span> ₦{(product.price * quantity).toFixed(0)}
-          </Button>
-        </div>
-      </div>
-
+      <BottomActions
+        product={product}
+        quantity={quantity}
+        handleAddToCart={handleAddToCart}
+        handleContactSeller={handleContactSeller}
+      />
       {/* Tabs */}
       <div className="hidden bg-white px-4 py-6">
         <Tabs defaultValue="description" className="w-full">
