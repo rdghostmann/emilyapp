@@ -12,7 +12,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Badge } from "@/components/ui/badge"
-import { useToast } from "@/hooks/use-toast"
 import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { format } from "date-fns"
@@ -29,6 +28,7 @@ import {
   Clock,
   CheckCircle,
 } from "lucide-react"
+import { toast } from "sonner"
 
 interface AnimalMatingFormData {
   // Basic Info
@@ -177,7 +177,6 @@ export default function AnimalMatingPage() {
   const [documents, setDocuments] = useState<File[]>([])
   const [imagePreviews, setImagePreviews] = useState<string[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const { toast } = useToast()
 
   const getBreedOptions = () => {
     switch (formData.animalType.toLowerCase()) {
@@ -208,11 +207,7 @@ export default function AnimalMatingPage() {
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || [])
     if (images.length + files.length > 3) {
-      toast({
-        title: "Too many images",
-        description: "You can upload maximum 3 images.",
-        variant: "destructive",
-      })
+      toast.error("You can upload maximum 3 images.")
       return
     }
 
@@ -229,11 +224,7 @@ export default function AnimalMatingPage() {
   const handleVideoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || [])
     if (videos.length + files.length > 1) {
-      toast({
-        title: "Video limit exceeded",
-        description: "You can upload maximum 1 video (max 30 seconds).",
-        variant: "destructive",
-      })
+      toast.error("You can upload maximum 1 video (max 30 seconds).")
       return
     }
     setVideos((prev) => [...prev, ...files])
@@ -257,10 +248,7 @@ export default function AnimalMatingPage() {
       // Simulate form submission
       await new Promise((resolve) => setTimeout(resolve, 2000))
 
-      toast({
-        title: "Animal Posted Successfully!",
-        description: "Your animal is now available for mating/study requests.",
-      })
+      toast("Your animal is now available for mating/study requests.")
 
       // Reset form
       setFormData({
@@ -296,11 +284,9 @@ export default function AnimalMatingPage() {
       setDocuments([])
       setImagePreviews([])
     } catch (error) {
-      toast({
-        title: "Submission failed",
-        description: "Something went wrong. Please try again.",
-        variant: "destructive",
-      })
+      toast.error("Submission failed.")
+
+
     } finally {
       setIsSubmitting(false)
     }

@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { useToast } from "@/hooks/use-toast"
 import {
   Star,
   MapPin,
@@ -22,6 +21,7 @@ import {
   ChevronRight,
   User,
 } from "lucide-react"
+import { toast } from "sonner"
 
 // Mock product data - in real app, this would come from API
 const getProductById = (id: string) => {
@@ -433,7 +433,6 @@ export default function ProductPage({ params }: { params: { id: string } }) {
   const [selectedImage, setSelectedImage] = useState(0)
   const [isFavorite, setIsFavorite] = useState(false)
   const [loading, setLoading] = useState(true)
-  const { toast } = useToast()
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -449,10 +448,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
 
   const handleFavorite = () => {
     setIsFavorite(!isFavorite)
-    toast({
-      title: isFavorite ? "Removed from favorites" : "Added to favorites",
-      description: isFavorite ? "Product removed from your favorites" : "Product added to your favorites",
-    })
+    toast(isFavorite ? "Product removed from your favorites" : "Product added to your favorites")
   }
 
   const handleShare = () => {
@@ -464,10 +460,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
       })
     } else {
       navigator.clipboard.writeText(window.location.href)
-      toast({
-        title: "Link copied!",
-        description: "Product link copied to clipboard",
-      })
+      toast("Product link copied to clipboard")
     }
   }
 
