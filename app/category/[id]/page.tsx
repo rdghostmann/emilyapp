@@ -11,17 +11,17 @@ import { Input } from "@/components/ui/input"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Star, MapPin, TrendingUp, Search, ChevronRight, Grid, List } from "lucide-react"
 
-export interface PageProps {
-  params: {
-    id: string;
-  };
-}
-
-// interface PageProps {
+// export interface PageProps {
 //   params: {
 //     id: string;
 //   };
 // }
+
+interface PageProps {
+  params: {
+    id: string;
+  };
+}
 
 
 // Enhanced mock data with subcategories and products
