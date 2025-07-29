@@ -16,6 +16,14 @@ export interface PageProps {
     id: string;
   };
 }
+
+// interface PageProps {
+//   params: {
+//     id: string;
+//   };
+// }
+
+
 // Enhanced mock data with subcategories and products
 const categoryData = {
   grains: {
@@ -281,7 +289,7 @@ const categoryData = {
   },
 }
 
-export default function CategoryPage({ params }: { params: { id: string } }) {
+export default function CategoryPage({ params }: PageProps) {
   const [category, setCategory] = useState<any>(null)
   const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(null)
   const [products, setProducts] = useState<any[]>([])
