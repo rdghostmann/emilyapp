@@ -4,9 +4,10 @@ import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/sonner";
 import SessionWrapper from "@/components/SessionWrapper/SessionWrapper";
-import PWAInstallPrompt from "@/components/PWAInstallPrompt/PWAInstallPrompt";
-import MobileTabNavigation from "@/components/MobileTabNavigation";
 import Head from "next/head";
+import PWAInstallPrompt from "@/components/PWAInstallPrompt/PWAInstallPrompt";
+import MobileTabNavigation from "@/components/MobileTabNavigation/MobileTabNavigation";
+import TopNavigation from "@/components/TopNavigation/TopNavigation";
 
 
 
@@ -56,11 +57,14 @@ export default function RootLayout({
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             {/* <TopNavigation /> */}
             <main className="max-w-full mx-auto pb-16 lg:pb-0">
-            {/* <main className="max-w-6xl mx-auto pb-16 lg:pb-0"> */}
+              {/* <main className="max-w-6xl mx-auto pb-16 lg:pb-0"> */}
               <PWAInstallPrompt />
+              <TopNavigation username={"John Doe"} />
+
               {children}
+
             </main>
-            {/* <MobileTabNavigation /> */}
+            <MobileTabNavigation />
             <Toaster />
           </ThemeProvider>
         </SessionWrapper>

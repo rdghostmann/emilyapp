@@ -1,30 +1,38 @@
-// import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema, Document, models } from "mongoose";
 
-// export const ReviewSchema = new Schema(
-//   {
-//     user: { type: String, required: true },
-//     avatar: { type: String },
-//     rating: { type: Number, required: true },
-//     comment: { type: String, required: true },
-//     date: { type: String, required: true },
-//     verified: { type: Boolean, default: false },
-//   },
-//   { _id: false }
-// );
+export interface IReview extends Document {
+  reviewer: mongoose.Types.ObjectId;
+  rating: number;
+  comment?: string;
+  verifiedBy?: mongoose.Types.ObjectId;
+}
 
-// const Review = mongoose.models.Review || mongoose.model('Review', ReviewSchema);
-// export default Review;
-
-import { Schema } from "mongoose";
-
-export const ReviewSchema = new Schema(
+const ReviewSchema = new Schema<IReview>(
   {
-    user: { type: String, required: true },
-    avatar: { type: String },
-    rating: { type: Number, required: true },
-    comment: { type: String, required: true },
-    date: { type: String, required: true },
-    verified: { type: Boolean, default: false },
+    reviewer: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    rating: {
+      type: Number,
+      min: 1,
+      max: 5,
+      required: true,
+    },
+    comment: {
+      type: String,
+      trim: true,
+    },
+    verifiedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
   },
-  { _id: false }
+  {
+    timestamps: true,
+  }
 );
+
+const Review = models?.Review || mongoose.model<IReview>("Review", ReviewSchema);
+export default Review;

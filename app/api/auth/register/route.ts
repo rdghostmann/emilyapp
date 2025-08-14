@@ -7,32 +7,55 @@ import { v4 as uuidv4 } from "uuid"; // <-- Import uuidv4
 export async function POST(req: any) {
   try {
     await connectToDB();
-    const { name, email, password } = await req.json();
 
-    if (!name || !email || !password) {
-      return NextResponse.json({ error: "All fields are required." }, { status: 400 });
+    const {
+      username,
+      firstName,
+      lastName,
+      phone,
+      email,
+      password
+    } = await req.json();
+
+    if (!username || !firstName || !lastName || !phone || !email || !password) {
+      return NextResponse.json({
+        message: "All required fields must be filled",
+        status: 400
+      });
     }
 
-    // Check if user exists
     const existing = await User.findOne({ email });
     if (existing) {
-      return NextResponse.json({ error: "Email already registered." }, { status: 409 });
+      return NextResponse.json(
+        { message: "Email already registered" },
+        { status: 400 }
+      );
     }
 
-    // Hash password
-    const hashed = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create user
-    const user = await User.create({
+    const newUser = await User.create({
       userID: uuidv4(),
-      username: name,
+      username,
+      firstName: firstName || "",
+      lastName: lastName || "",
+      phone,
       email,
-      password: hashed,
-      role: "user",
+      password: hashedPassword,
     });
-    return NextResponse.json({ success: true, user: { email: user.email, role: user.role } });
+
+    return NextResponse.json({
+      status: 201,
+      success: true,
+      message: "Registration successful"
+    });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Internal server error";
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
+
+
+
+
+

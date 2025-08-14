@@ -1,101 +1,52 @@
-import mongoose, { Schema, Document, Types } from "mongoose";
-import { ReviewSchema } from "./Review";
-import { NutritionFactsSchema } from "./NutritionFacts";
+import mongoose, { Schema, Document, models } from "mongoose";
 
-/** Embedded Schemas Types **/
-export interface IReview {
-  user: string;
-  avatar?: string;
-  rating: number;
-  comment: string;
-  date: string;
-  verified?: boolean;
+// Category type for frontend and schema typing
+export interface Category {
+  name: string;
+  subcategories: string[];
 }
 
-export interface INutritionFacts {
-  calories?: number;
-  protein?: string;
-  carbs?: string;
-  fiber?: string;
-  vitaminC?: string;
-}
-
-/** Main Product Interface **/
+// Product document interface
 export interface IProduct extends Document {
   title: string;
   description: string;
-  longDescription?: string;
   price: number;
-  originalPrice?: number;
-  unit: string;
-  images: string[];
-  farmer: Types.ObjectId;
+  originalPrice: number;
+  negotiable: boolean;
+  condition: "New" | "Old" | "inStock" | "";
+  location: string;
   category: string;
-  inStock: boolean;
-  quantity: number | string;
-  minOrder?: number;
-  maxOrder?: number;
-  postedAt?: Date | string;
-  discount?: number;
-  features?: string[];
-  nutritionFacts?: INutritionFacts;
-  tags?: string[];
-  phone?: string;
-  email?: string;
-  reviews?: IReview[];
-  createdAt?: Date;
-  updatedAt?: Date;
+  subcategory: string;
+  boosted: boolean;
+  images: string[];
+  seller: mongoose.Types.ObjectId;
+  stats: mongoose.Types.ObjectId;
 }
 
-/** Product Schema **/
 const ProductSchema = new Schema<IProduct>(
   {
-    title: { type: String, required: true, trim: true },
-    description: { type: String, required: true, trim: true },
-    longDescription: { type: String, trim: true },
-    price: { type: Number, required: true, min: 0 },
-    originalPrice: { type: Number, min: 0 },
-    unit: { type: String, required: true, trim: true },
-    images: { type: [String], default: [] },
-
-    farmer: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
+    title: { type: String },
+    description: { type: String },
+    price: { type: Number, default: 0 },
+    originalPrice: { type: Number, default: 0 },
+    negotiable: { type: Boolean, default: false },
+    condition: {
+      type: String,
+      enum: ["New", "Old", "inStock"],
+      default: "",
     },
-
-    category: { type: String, required: true, trim: true },
-    inStock: { type: Boolean, default: true },
-    quantity: { type: Schema.Types.Mixed, required: true },
-    minOrder: { type: Number, min: 0 },
-    maxOrder: { type: Number, min: 0 },
-
-    postedAt: {
-      type: Date,
-      default: Date.now,
-    },
-
-    discount: { type: Number, min: 0, max: 100 },
-    features: { type: [String], default: [] },
-    nutritionFacts: {
-      type: NutritionFactsSchema,
-      default: {},
-    },
-    tags: { type: [String], default: [] },
-    phone: { type: String, trim: true },
-    email: { type: String, trim: true },
-
-    reviews: {
-      type: [ReviewSchema],
-      default: [],
-    },
+    location: { type: String, default: "" },
+    category: { type: String, default: "" },
+    subcategory: { type: String, default: "" },
+    boosted: { type: Boolean, default: false },
+    images: [{ type: String }],
+    seller: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    stats: { type: mongoose.Schema.Types.ObjectId, ref: "Stat" },
   },
-  {
-    timestamps: true, // adds createdAt and updatedAt automatically
-  }
+  { timestamps: true }
 );
 
-/** Avoid model overwrite in dev **/
-const Product =  mongoose.models.Product ||  mongoose.model<IProduct>("Product", ProductSchema);
+// Prevent model overwrite in dev mode
+const Product =  models?.Product || mongoose.model<IProduct>("Product", ProductSchema);
 
 export default Product;
