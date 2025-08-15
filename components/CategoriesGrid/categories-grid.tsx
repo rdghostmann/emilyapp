@@ -1,11 +1,14 @@
-import Link from "next/link"
+import Link from "next/link";
 import Image from "next/image";
-import { categories } from "@/constants/categories"
+import { connectToDB } from "@/lib/connectDB";
+import Category from "@/models/Category";
 
+export default async function CategoriesGrid() {
+  await connectToDB();
+  const categories = await Category.find({}).lean();
 
-export default function CategoriesGrid() {
   return (
-  <section className="py-6">
+    <section className="py-6">
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
@@ -20,10 +23,10 @@ export default function CategoriesGrid() {
 
         {/* Category Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
-          {categories.map((category) => (
+          {categories.map((category: any) => (
             <Link
-              key={category.id}
-              href={category.href ?? `/categories/${category.id}`}
+              key={category._id}
+              href={category.href || `/category/${category.slug}`}
               className="group relative overflow-hidden rounded-xl shadow-sm hover:shadow-md transition-all duration-300 aspect-square"
             >
               {/* Background Image */}
@@ -37,12 +40,10 @@ export default function CategoriesGrid() {
                 />
                 <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors duration-300" />
               </div>
-
-     
             </Link>
           ))}
         </div>
       </div>
     </section>
-  )
+  );
 }

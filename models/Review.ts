@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document, models } from "mongoose";
+import mongoose, { Schema, Document } from "mongoose";
 
 export interface IReview extends Document {
   reviewer: mongoose.Types.ObjectId;
@@ -23,10 +23,12 @@ const ReviewSchema = new Schema<IReview>(
     comment: {
       type: String,
       trim: true,
+      default: "",
     },
     verifiedBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
+      default: null,
     },
   },
   {
@@ -34,5 +36,6 @@ const ReviewSchema = new Schema<IReview>(
   }
 );
 
-const Review = models?.Review || mongoose.model<IReview>("Review", ReviewSchema);
+const Review =  mongoose.models.Review || mongoose.model<IReview>("Review", ReviewSchema);
+
 export default Review;
