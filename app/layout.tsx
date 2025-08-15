@@ -60,9 +60,7 @@ export default function RootLayout({
               {/* <main className="max-w-6xl mx-auto pb-16 lg:pb-0"> */}
               <PWAInstallPrompt />
               <TopNavigation username={"John Doe"} />
-
               {children}
-
             </main>
             <MobileTabNavigation />
             <Toaster />
