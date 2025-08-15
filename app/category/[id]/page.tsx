@@ -14,12 +14,10 @@ import { Star, MapPin, TrendingUp, Search, ChevronRight, Grid, List } from "luci
 import { categoryData } from "@/constants/categoryData";
 
 interface CategoryPageProps {
-  params: {
-    id: string;
-  };
+  params: { id: string }
 }
 
-export default function CategoryPage({ params }: CategoryPageProps) {
+export default function CategoryPage({ params }: { params: { id: string } }) {
   const [category, setCategory] = useState<any>(null)
   const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(null)
   const [products, setProducts] = useState<any[]>([])
