@@ -3,14 +3,13 @@ import { getProductsByCategory } from "@/lib/products";
 import CategoryStoreView from "./CategoryStoreView";
 
 interface CategoryPageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 interface Category {
   _id: string;
   name: string;
   slug: string;
-  subCategories?: any[];
 }
 
 interface Product {
@@ -22,7 +21,9 @@ interface Product {
 }
 
 export default async function CategoryPage({ params }: CategoryPageProps) {
-  const category = (await getCategoryBySlug(params.slug)) as Category | null;
+  const { slug } = await params; // ✅ await params first
+
+  const category = (await getCategoryBySlug(slug)) as Category | null;
 
   if (!category) {
     return (
@@ -43,23 +44,21 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     );
   }
 
-  // const categoryId = category._id.toString();
-  const categoryId = category.slug;
-  const subcategories = await getSubcategoriesByCategory(categoryId);
+  // Now pass slug to a fixed version of getSubcategoriesByCategory
+  const subcategories = await getSubcategoriesByCategory(slug);
 
-  // Fetch products and map to frontend-friendly shape
-  const rawProducts = await getProductsByCategory(categoryId);
+  const rawProducts = await getProductsByCategory(slug);
   const products: Product[] = rawProducts.map((p: any) => ({
     _id: p._id.toString(),
     name: p.name,
-    slug: p.slug, // fallback slug
+    slug: p.slug,
     price: p.price,
     image: Array.isArray(p.images) && p.images.length > 0 ? p.images[0] : undefined,
   }));
 
   return (
     <CategoryStoreView
-      category={{ _id: category.slug, name: category.name }}
+      category={{ _id: category._id, name: category.name }}
       subcategories={subcategories}
       initialProducts={products}
     />

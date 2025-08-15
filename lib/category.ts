@@ -7,11 +7,18 @@ export async function getCategoryBySlug(slug: string) {
     return Category.findOne({ slug }).lean();
 }
 
-export async function getSubcategoriesByCategory(categoryId: string) {
-    await connectToDB();
-    const category = await Category.findById(categoryId).lean();
-    if (Array.isArray(category)) {
-        return [];
-    }
-    return category?.subCategories || [];
+export async function getSubcategoriesByCategory(categorySlug: string) {
+  await connectToDB();
+  const category = await Category.findOne({ slug: categorySlug }).lean();
+  if (!category) return [];
+  return category.subCategories || [];
 }
+
+// export async function getSubcategoriesByCategory(categoryId: string) {
+//     await connectToDB();
+//     const category = await Category.findById(categoryId).lean();
+//     if (Array.isArray(category)) {
+//         return [];
+//     }
+//     return category?.subCategories || [];
+// }
