@@ -26,13 +26,13 @@ export default async function CategoriesGrid() {
           {categories.map((category: any) => (
             <Link
               key={category._id}
-              href={category.href || `/category/${category.slug}`}
+              href={`/category/${category.slug}`}
               className="group relative overflow-hidden rounded-xl shadow-sm hover:shadow-md transition-all duration-300 aspect-square"
             >
               {/* Background Image */}
               <div className="absolute inset-0">
                 <Image
-                  src={category.image}
+                  src={category.image || "/placeholder.jpg"}
                   alt={category.name}
                   fill
                   className="object-cover transition-transform duration-300 group-hover:scale-105"

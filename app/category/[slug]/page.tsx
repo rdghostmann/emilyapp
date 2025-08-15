@@ -43,7 +43,8 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     );
   }
 
-  const categoryId = category._id.toString();
+  // const categoryId = category._id.toString();
+  const categoryId = category.slug;
   const subcategories = await getSubcategoriesByCategory(categoryId);
 
   // Fetch products and map to frontend-friendly shape
