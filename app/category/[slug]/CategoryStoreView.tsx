@@ -1,6 +1,8 @@
-// SubcategoriesGrid.tsx
-import Link from "next/link";
-import Image from "next/image";
+"use client";
+
+import { useState } from "react";
+import ProductGrid from "@/components/ProductGrid/ProductGrid";
+import SubcategoriesGrid from "@/components/SubCategoriesGrid/SubcategoriesGrid";
 
 interface Subcategory {
   _id: string;
@@ -11,47 +13,45 @@ interface Subcategory {
   productCount?: number;
 }
 
-interface SubcategoriesGridProps {
-  subcategories: Subcategory[];
-  onSelectSubcategory?: (id: string) => void; // <-- Add optional callback
+interface Product {
+  _id: string;
+  name: string;
+  slug: string;
+  price: number;
+  image?: string;
 }
 
-export default function SubcategoriesGrid({
+interface Category {
+  _id: string;
+  name: string;
+}
+
+interface CategoryStoreViewProps {
+  category: Category;
+  subcategories: Subcategory[];
+  initialProducts: Product[];
+}
+
+export default function CategoryStoreView({
+  category,
   subcategories,
-  onSelectSubcategory,
-}: SubcategoriesGridProps) {
-  if (!subcategories || subcategories.length === 0) return null;
+  initialProducts,
+}: CategoryStoreViewProps) {
+  const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(null);
+  const [products, setProducts] = useState<Product[]>(initialProducts);
 
   return (
-    <div className="mb-8">
-      <h2 className="text-xl font-bold text-gray-800 mb-6">Browse Subcategories</h2>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {subcategories.map((subcategory) => (
-          <div
-            key={subcategory._id}
-            className="cursor-pointer"
-            onClick={() => onSelectSubcategory?.(subcategory._id)} // call callback if defined
-          >
-            <div className="p-4 bg-gray-100 rounded hover:bg-gray-200 text-center">
-              {subcategory.image && (
-                <Image
-                  src={subcategory.image}
-                  alt={subcategory.name}
-                  width={80}
-                  height={80}
-                  className="mx-auto rounded-full mb-2 object-cover"
-                />
-              )}
-              <h3 className="font-semibold text-gray-800">{subcategory.name}</h3>
-              {subcategory.description && (
-                <p className="text-sm text-gray-600">{subcategory.description}</p>
-              )}
-              {subcategory.productCount !== undefined && (
-                <span className="text-xs text-green-600">{subcategory.productCount} products</span>
-              )}
-            </div>
-          </div>
-        ))}
+    <div className="container mx-auto px-4 py-6">
+      <h1 className="text-3xl font-bold mb-6">{category.name}</h1>
+
+      {/* Subcategories Grid */}
+      <SubcategoriesGrid
+        subcategories={subcategories}
+      />
+
+      {/* Products Grid */}
+      <div className="mt-8">
+        <ProductGrid products={products} />
       </div>
     </div>
   );
