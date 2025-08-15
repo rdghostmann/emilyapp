@@ -52,14 +52,14 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   const products: Product[] = rawProducts.map((p: any) => ({
     _id: p._id.toString(),
     name: p.name,
-    slug: p.slug || p._id.toString(), // fallback slug
+    slug: p.slug, // fallback slug
     price: p.price,
     image: Array.isArray(p.images) && p.images.length > 0 ? p.images[0] : undefined,
   }));
 
   return (
     <CategoryStoreView
-      category={{ _id: category._id, name: category.name }}
+      category={{ _id: category.slug, name: category.name }}
       subcategories={subcategories}
       initialProducts={products}
     />
