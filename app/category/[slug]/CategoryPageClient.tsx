@@ -1,7 +1,8 @@
 // /category/[slug]/CategoryPageClient.tsx
+
 "use client"
 
-import { useState } from "react"
+import { useState, Suspense } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
@@ -18,7 +19,19 @@ import { MapPin, Star, ChevronRight, Search, Grid, List } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 import { CategoryDTO } from "@/controllers/categories"
-import { findProductsByCategory } from "@/controllers/findProductsByCategory"
+import { ProductInterface } from "@/types/product";
+import { fetchProductsByCategory } from "@/controllers/products"
+
+// Skeleton UI for loading
+function ProductSkeletonGrid() {
+    return (
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {Array.from({ length: 16 }).map((_, i) => (
+                <div key={i} className="animate-pulse bg-white rounded-lg h-64" />
+            ))}
+        </div>
+    )
+}
 
 interface CategoryPageClientProps {
     initialCategory: CategoryDTO
@@ -36,16 +49,20 @@ export default function CategoryPageClient({ initialCategory }: CategoryPageClie
     const subcategories = category.subcategories || []
 
     // --- Server Action Fetch ---
-    const fetchProducts = async (subcategoryId: string) => {
+    async function fetchProducts(subcategoryId: string) {
         setProductsLoading(true)
         try {
-            const products = await findProductsByCategory({
-                categoryName: category.name,
-                subcategoryId,
+            const products = await fetchProductsByCategory({
+                categorySlug: category.slug, // <-- use slug, not name
                 searchQuery,
-                sortBy
+                sortBy,
             })
-            setProducts(products)
+            // If you want to filter by subcategory after fetching
+            const filtered = subcategoryId
+                ? products.filter(p => p.subcategory === subcategoryId)
+                : products
+
+            setProducts(filtered)
         } catch (err) {
             console.error("Error fetching products:", err)
         } finally {
@@ -72,7 +89,7 @@ export default function CategoryPageClient({ initialCategory }: CategoryPageClie
                         <BreadcrumbSeparator><ChevronRight className="w-4 h-4" /></BreadcrumbSeparator>
                         <BreadcrumbItem>
                             <BreadcrumbLink asChild>
-                                <Link href="/marketplace" className="hover:text-green-600">All Categories</Link>
+                                <Link href="/categories" className="hover:text-green-600">All Categories</Link>
                             </BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator><ChevronRight className="w-4 h-4" /></BreadcrumbSeparator>
@@ -95,13 +112,6 @@ export default function CategoryPageClient({ initialCategory }: CategoryPageClie
                         )}
                     </BreadcrumbList>
                 </Breadcrumb>
-
-                {/* Back to Category */}
-                        <div className="hidden my-4">
-                          <Button asChild variant="outline">
-                            <Link href={`/category/${category.slug}`}>← Back to {category.name}</Link>
-                          </Button>
-                        </div>
 
                 {/* Category Header */}
                 <div className="mb-8 flex items-center gap-3">
@@ -154,19 +164,8 @@ export default function CategoryPageClient({ initialCategory }: CategoryPageClie
                                 />
                             </div>
                             <div className="flex gap-2">
-                                <Select
-                                    value={sortBy}
-                                    onValueChange={(value: string) => {
-                                        if (
-                                            value === "newest" ||
-                                            value === "price-low" ||
-                                            value === "price-high" ||
-                                            value === "rating"
-                                        ) {
-                                            setSortBy(value);
-                                        }
-                                    }}
-                                >   <SelectTrigger className="w-40 bg-white"><SelectValue /></SelectTrigger>
+                                <Select value={sortBy} onValueChange={v => setSortBy(v as any)}>
+                                    <SelectTrigger className="w-40 bg-white"><SelectValue /></SelectTrigger>
                                     <SelectContent>
                                         <SelectItem value="newest">Newest First</SelectItem>
                                         <SelectItem value="price-low">Price: Low to High</SelectItem>
@@ -187,9 +186,11 @@ export default function CategoryPageClient({ initialCategory }: CategoryPageClie
                         </div>
 
                         {/* Products */}
-                        {productsLoading && <p>Loading products...</p>}
-                        {!productsLoading && products.length === 0 && <p>No products found.</p>}
-                        {!productsLoading && products.length > 0 && (
+                        {productsLoading ? (
+                            <ProductSkeletonGrid />
+                        ) : products.length === 0 ? (
+                            <p>No products found.</p>
+                        ) : (
                             <div className={viewMode === "grid" ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" : "space-y-4"}>
                                 {products.map(p => (
                                     <Card key={p.id} className="hover:shadow-lg transition-shadow">

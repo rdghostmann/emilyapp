@@ -20,7 +20,7 @@ export default function CategoriesSection() {
           {categories.map((category) => {
             const IconComponent = category.icon || Package
             return (
-              <Link key={category.id} href={`/category/${category.id}`}>
+              <Link key={category.id} href={`/category/${category.slug}`}>
                 <Card className="hover:shadow-lg transition-shadow cursor-pointer">
                   <CardContent className="p-6">
                     <div className="flex items-center mb-4">

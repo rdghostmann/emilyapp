@@ -129,3 +129,36 @@ export async function getSubcategoryById(id: string): Promise<SubcategoryDTO | n
     products,
   };
 }
+
+
+interface FetchProductsByCategoryInput {
+  categorySlug: string;
+  searchQuery?: string;
+  sortBy?: "newest" | "price-low" | "price-high" | "rating";
+}
+
+export async function fetchProductsByCategory({
+  categorySlug,
+  searchQuery = "",
+  sortBy = "newest",
+}: FetchProductsByCategoryInput) {
+  await connectToDB();
+
+  const filter: any = { category: categorySlug };
+  if (searchQuery) {
+    filter.name = { $regex: searchQuery, $options: "i" };
+  }
+
+  let sortOption: any = { createdAt: -1 };
+  if (sortBy === "price-low") sortOption = { price: 1 };
+  else if (sortBy === "price-high") sortOption = { price: -1 };
+  else if (sortBy === "rating") sortOption = { "seller.rating": -1 };
+
+  const products = await Product.find(filter)
+    .limit(50)
+    .sort(sortOption)
+    .populate("seller", "_id name rating")
+    .lean();
+
+  return Promise.all(products.map(mapProductDocToInterface));
+}

@@ -22,7 +22,18 @@ export default async function HomePage() {
       <CallToAction />
       <div className="px-4 py-6 space-y-8">
         {/* Categories Grid - Mobile First */}
-        <Suspense fallback={<div>Loading categories...</div>}>
+        <Suspense
+          fallback={
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 p-4">
+              {Array.from({ length: 16 }).map((_, idx) => (
+                <div
+                  key={idx}
+                  className="animate-pulse bg-gray-200 rounded-lg h-32 w-full"
+                />
+              ))}
+            </div>
+          }
+        >
           <CategoriesGrid />
         </Suspense>
 
