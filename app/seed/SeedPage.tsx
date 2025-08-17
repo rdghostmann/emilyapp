@@ -23,8 +23,8 @@ const SeedPage = async () => {
         description: sub.description,
         image: sub.image,
         productCount: sub.productCount,
-        categoryName: cat.name,
-        categorySlug: cat.slug,
+        categoryName: cat.slug,
+        subcategorySlug: sub.subcategorySlug,
       })),
     }));
 
