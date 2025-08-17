@@ -1,116 +1,60 @@
-import mongoose from "mongoose";
-const { Schema } = mongoose;
+// models/Product.ts
+import mongoose, { Schema, Document } from "mongoose";
 
-const productSchema = new mongoose.Schema(
+export interface IProduct extends Document {
+  name: string;
+  description: string;
+  price: number;
+  location: string;
+  seller: mongoose.Types.ObjectId;
+  images: string[];
+  category: string;     // e.g. "animal-mating"
+  subcategory?: string; // e.g. "goat"
+  boosted?: boolean;
+  // Common fields
+  condition?: string;
+  negotiable?: boolean;
+  stats?: {
+    views: number;
+    favorites: number;
+    adId: string;
+  };
+
+  // Category-specific fields
+  details: Record<string, any>;
+
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+const ProductSchema = new Schema<IProduct>(
   {
-    title: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    description: {
-      type: String,
-      required: true,
-    },
-    price: {
-      type: Number,
-      required: true,
-      min: 0,
-    },
-    location: {
-      type: String,
-      required: true,
-    },
-    images: [
-      {
-        type: String,
-      },
-    ],
-    category: {
-      type: String,
-      required: true,
-      enum: [
-        "Animal Mating",
-        "Animal Pharmacy",
-        "Animal Feed",
-        "Livestock / Pet",
-        "Fruit & Vegetables",
-      ],
-    },
-    subcategory: {
-      type: String,
-      required: true,
-      enum: [
-        // Animal Mating
-        "Cattle Mating",
-        "Goat Mating",
-        "Sheep Mating",
-        "Pig Mating",
-        "Poultry Mating",
-        "Fish Breeding",
+    name: { type: String, required: true },
+    description: String,
+    price: { type: Number, required: true },
+    location: String,
+    seller: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    images: [String],
+    category: { type: String, required: true },
+    subcategory: String,
+    boosted: { type: Boolean, default: false },
 
-        // Animal Pharmacy
-        "Veterinary Drugs",
-        "Supplements & Vitamins",
-        "Vaccines",
-        "Animal First Aid",
-        "Dewormers",
-
-        // Animal Feed
-        "Cattle Feed",
-        "Goat Feed",
-        "Sheep Feed",
-        "Pig Feed",
-        "Poultry Feed",
-        "Fish Feed",
-        "Pet Food",
-
-        // Livestock / Pet and Food
-        "Cattle",
-        "Goat",
-        "Sheep",
-        "Pig",
-        "Poultry",
-        "Fish",
-        "Dogs",
-        "Cats",
-        "Rabbits",
-
-        // Fruit & Vegetables
-        "Fresh Fruits",
-        "Fresh Vegetables",
-        "Seeds & Seedlings",
-      ],
-    },
-    seller: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
-    boosted: {
-      type: Boolean,
-      default: false,
-    },
-    rating: {
-      type: Number,
-      min: 0,
-      max: 5,
-      default: 0,
-    },
-    stock: {
-      type: Number,
-      required: true,
-      min: 0,
+    condition: String,
+    negotiable: { type: Boolean, default: false },
+    stats: {
+      views: { type: Number, default: 0 },
+      favorites: { type: Number, default: 0 },
+      adId: { type: String, unique: true },
     },
 
-    // Flexible field for category/subcategory-specific attributes
-    attributes: Schema.Types.Mixed,
+    // Flexible category-specific details
+    details: { type: Schema.Types.Mixed, default: {} },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
-const Product =  mongoose.models.Product || mongoose.model("Product", productSchema);
+
+
+const Product = mongoose.models.Product || mongoose.model<IProduct>("Product", ProductSchema);
 
 export default Product;

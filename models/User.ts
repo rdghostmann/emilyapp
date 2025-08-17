@@ -1,6 +1,7 @@
 import mongoose, { Schema, Document, models } from "mongoose";
 
 export interface IUser extends Document {
+  _id: mongoose.Types.ObjectId;   // 👈 ensure _id is always ObjectId
   userID: string;
   username: string;
   firstName: string;
@@ -15,7 +16,7 @@ export interface IUser extends Document {
   status: "active" | "inactive";
   listedProducts: mongoose.Types.ObjectId[];
   walletBalance: number;
-  reviews: mongoose.Types.ObjectId[]; // replaced single seller ref
+  reviews: mongoose.Types.ObjectId[];
   joinedDate: Date;
   totalSales: number;
   totalAds: number;
@@ -73,6 +74,5 @@ const UserSchema = new Schema<IUser>(
   { timestamps: true }
 );
 
-// Prevent model overwrite in dev
 const User = models?.User || mongoose.model<IUser>("User", UserSchema);
 export default User;

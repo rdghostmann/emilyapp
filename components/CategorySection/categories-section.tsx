@@ -1,3 +1,4 @@
+// components/CategorySection/categories-section.tsx
 import Link from "next/link"
 import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
@@ -23,30 +24,31 @@ export default function CategoriesSection() {
                 <Card className="hover:shadow-lg transition-shadow cursor-pointer">
                   <CardContent className="p-6">
                     <div className="flex items-center mb-4">
-                      {/* <div className={`w-12 h-12 rounded-lg ${category.color} flex items-center justify-center mr-4`}>
-                        <IconComponent className="w-6 h-6" />
-                      </div> */}
-                      {category.image && (
+                      {category.image ? (
                         <Image
                           src={category.image}
                           alt={category.name}
                           width={60}
                           height={60}
-                          className={`${category.color} rounded-md object-cover mr-4`}
+                          className="rounded-md object-cover mr-4"
                         />
+                      ) : (
+                        <IconComponent className="w-10 h-10 text-green-600 mr-4" />
                       )}
                       <h3 className="text-md md:text-lg font-semibold text-gray-800">{category.name}</h3>
                     </div>
 
+                    {/* ✅ Show subcategories */}
                     <div className="flex flex-wrap gap-2 mb-2">
                       {category.subcategories.map((sub) => (
-                        <span key={sub} className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">
-                          {sub}
+                        <span
+                          key={sub.id}
+                          className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded"
+                        >
+                          {sub.name}
                         </span>
                       ))}
                     </div>
-
-
                   </CardContent>
                 </Card>
               </Link>

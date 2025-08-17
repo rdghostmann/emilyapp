@@ -1,5 +1,12 @@
 // Enhanced mock data with subcategories and products
 export const categoryData = {
+  trending: {
+    name: "Trending",
+    description: "Trending Ads Products",
+    icon: "💥",
+    subcategories: [ ],
+    products: { },
+  },
   livestock: {
     name: "Livestock & Pets",
     description: "Quality livestock and pet products from certified farms",

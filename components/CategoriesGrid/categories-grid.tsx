@@ -1,11 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
-import { connectToDB } from "@/lib/connectDB";
-import Category from "@/models/Category";
+import { categories } from "@/constants/categories";
 
 export default async function CategoriesGrid() {
-  await connectToDB();
-  const categories = await Category.find({}).lean();
+ 
 
   return (
     <section className="py-6">
@@ -25,8 +23,8 @@ export default async function CategoriesGrid() {
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
           {categories.map((category: any) => (
             <Link
-              key={category._id}
-              href={`/category/${category.slug}`}
+             key={category.id}
+              href={`${category.href}`}
               className="group relative overflow-hidden rounded-xl shadow-sm hover:shadow-md transition-all duration-300 aspect-square"
             >
               {/* Background Image */}

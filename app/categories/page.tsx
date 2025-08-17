@@ -1,5 +1,6 @@
 import CategoriesSection from "@/components/CategorySection/categories-section"
 import { Suspense } from "react"
+import Loading from "./loading"
 
 export default function CategoriesPage() {
   return (
@@ -12,7 +13,7 @@ export default function CategoriesPage() {
           </p>
         </div>
 
-        <Suspense fallback={<div>Loading categories...</div>}>
+        <Suspense fallback={<Loading />}>
           <CategoriesSection />
         </Suspense>
       </div>
