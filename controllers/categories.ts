@@ -62,9 +62,10 @@ export async function getCategoryBySlug(slug: string): Promise<CategoryDTO | nul
 
   const category = await Category.findOne({ slug })
     .populate({
-      path: "subcategories",
-      populate: { path: "products" },
-    })
+   path: "subcategories.products",
+    model: "Product",
+    populate: { path: "seller", select: "_id name rating" },
+  })
     .lean() as CategoryWithSubcategories | null;
 
   if (!category) return null;
@@ -96,7 +97,7 @@ export async function getCategoryBySlug(slug: string): Promise<CategoryDTO | nul
         details: p.details || {},
         createdAt: p.createdAt || new Date(),
         updatedAt: p.updatedAt || new Date(),
-      })),
+      })) || [],
     })) || [],
   };
 }

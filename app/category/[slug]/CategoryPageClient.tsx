@@ -78,7 +78,7 @@ export default function CategoryPageClient({ initialCategory }: CategoryPageClie
                         <BreadcrumbSeparator><ChevronRight className="w-4 h-4" /></BreadcrumbSeparator>
                         <BreadcrumbItem>
                             <BreadcrumbLink asChild>
-                                <span className="text-gray-800">{category.name}</span>
+                                <Link href={`/category/${category.slug}`} className="text-gray-800">{category.name}</Link>
                             </BreadcrumbLink>
                         </BreadcrumbItem>
                         {selectedSubcategory && (
@@ -95,6 +95,13 @@ export default function CategoryPageClient({ initialCategory }: CategoryPageClie
                         )}
                     </BreadcrumbList>
                 </Breadcrumb>
+
+                {/* Back to Category */}
+                        <div className="hidden my-4">
+                          <Button asChild variant="outline">
+                            <Link href={`/category/${category.slug}`}>← Back to {category.name}</Link>
+                          </Button>
+                        </div>
 
                 {/* Category Header */}
                 <div className="mb-8 flex items-center gap-3">

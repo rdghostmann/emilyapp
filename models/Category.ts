@@ -1,4 +1,5 @@
 // models/Category.ts
+import { ProductInterface } from "@/types/product";
 import mongoose, { Schema, Document } from "mongoose";
 
 export interface ISubcategory extends Document {
@@ -8,6 +9,7 @@ export interface ISubcategory extends Document {
   productCount?: number;
   categoryName: string;
   subcategorySlug: string; // updated
+  products?: ProductInterface[]; // add products field
 }
 
 export interface ICategory extends Document {
@@ -26,6 +28,7 @@ const SubcategorySchema = new Schema<ISubcategory>({
   productCount: { type: Number, default: 0 },
   categoryName: { type: String, required: true },
   subcategorySlug: { type: String, required: true }, // updated
+  products: [{ type: Schema.Types.ObjectId, ref: "Product" }], // add this
 });
 
 const CategorySchema = new Schema<ICategory>(

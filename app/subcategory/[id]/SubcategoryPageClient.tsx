@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { SubcategoryDTO } from "@/controllers/categories";
 import { ProductInterface } from "@/types/product";
+import { findProductsBySubcategorySlug } from "@/controllers/products";
 
 interface SubcategoryPageClientProps {
   subcategory: SubcategoryDTO;
@@ -33,23 +34,24 @@ export default function SubcategoryPageClient({ subcategory, initialProducts }: 
   const [searchQuery, setSearchQuery] = useState("");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
+
+
+
+
   useEffect(() => {
-    const fetchProducts = async () => {
-      setProductsLoading(true);
-      try {
-        const res = await fetch(
-          `/api/products?subcategory=${subcategory.id}&search=${searchQuery}&sortBy=${sortBy}`
-        );
-        const data = await res.json();
-        setProducts(data.products);
-      } catch (err) {
-        console.error("Error fetching products:", err);
-      } finally {
-        setProductsLoading(false);
-      }
-    };
-    fetchProducts();
-  }, [searchQuery, sortBy, subcategory.id]);
+     // Server Action: Fetch products by subcategorySlug
+  const fetchProducts = async () => {
+    setProductsLoading(true);
+    try {
+      const data = await findProductsBySubcategorySlug(subcategory.subcategorySlug);
+      setProducts(data);
+    } catch (err) {
+      console.error("Error fetching products:", err);
+    } finally {
+      setProductsLoading(false);
+    }
+  };
+  }, [subcategory.name, subcategory.categoryName, subcategory.subcategorySlug]);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -74,7 +76,7 @@ export default function SubcategoryPageClient({ subcategory, initialProducts }: 
 
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
-                <Link href={`/category/${subcategory.categorySlug}`}>{subcategory.categoryName}</Link>
+                <Link href={`/category/${subcategory.subcategorySlug}`}>{subcategory.categoryName}</Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator>/</BreadcrumbSeparator>
@@ -86,9 +88,9 @@ export default function SubcategoryPageClient({ subcategory, initialProducts }: 
         </Breadcrumb>
 
         {/* Back to Category */}
-        <div className="my-4">
+        <div className="hidden my-4">
           <Button asChild variant="outline">
-            <Link href={`/category/${subcategory.categorySlug}`}>← Back to {subcategory.categoryName}</Link>
+            <Link href={`/category/${subcategory.categoryName}`}>← Back to {subcategory.categoryName}</Link>
           </Button>
         </div>
 

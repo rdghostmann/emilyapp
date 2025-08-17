@@ -1,4 +1,5 @@
 // /controllers/findProductsByCategory.ts
+"use server"
 import { connectToDB } from "@/lib/connectDB"
 import { Product } from "@/models/Product"
 

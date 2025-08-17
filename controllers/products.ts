@@ -36,6 +36,17 @@ export async function mapProductDocToInterface(p: any): Promise<ProductInterface
   };
 }
 
+export async function findProductsBySubcategorySlug(subcategorySlug: string): Promise<ProductInterface[]> {
+  // Connect to DB
+  await connectToDB();
+
+  // Find products by subcategory
+  const products = await Product.find({ subcategory: subcategorySlug })
+    .populate("seller", "_id name rating")
+    .lean();
+
+  return Promise.all(products.map(mapProductDocToInterface));
+}
 
 // Fetch products by subcategory, search, and sort
 export async function getProductsBySubcategory(
