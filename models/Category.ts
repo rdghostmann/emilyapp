@@ -6,10 +6,13 @@ export interface ISubcategory extends Document {
   description?: string
   image?: string
   productCount?: number
+  categoryName: string
+  categorySlug: string
 }
 
 export interface ICategory extends Document {
   name: string
+  slug: string
   icon?: string // store icon name as string, e.g., "TrendingUp"
   image?: string
   href?: string
@@ -21,11 +24,14 @@ const SubcategorySchema = new Schema<ISubcategory>({
   description: { type: String, default: "" },
   image: { type: String, default: "" },
   productCount: { type: Number, default: 0 },
+  categoryName: { type: String, required: true },
+  categorySlug: { type: String, required: true },
 })
 
 const CategorySchema = new Schema<ICategory>(
   {
     name: { type: String, required: true },
+    slug: { type: String, required: true },
     icon: { type: String }, // frontend can map string -> Lucide icon
     image: { type: String, default: "" },
     href: { type: String, default: "" },

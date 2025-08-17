@@ -1,10 +1,8 @@
 // controllers/categories.ts
-
 "use server";
 import { Types } from "mongoose";
 import { connectToDB } from "@/lib/connectDB";
 import { Category, ICategory } from "@/models/Category";
-import { getProduct } from "@/app/api/products/route"; // Import utility
 import { ProductInterface } from "@/types/product";
 
 export interface SubcategoryDTO {
@@ -21,12 +19,14 @@ export interface SubcategoryDTO {
 export interface CategoryDTO {
   id: string;
   name: string;
+  slug: string;
   description?: string;
   image?: string;
   href?: string;
   icon?: string;
   subcategories?: SubcategoryDTO[];
 }
+
 // Get all categories
 export async function getAllCategories(): Promise<CategoryDTO[]> {
   await connectToDB();
@@ -35,8 +35,9 @@ export async function getAllCategories(): Promise<CategoryDTO[]> {
   return categories.map((cat: any) => ({
     id: (cat._id as Types.ObjectId).toString(),
     name: cat.name,
+    slug: cat.slug,
     image: cat.image || "/placeholder.jpg",
-    href: cat.href || `/category/${cat.name.toLowerCase().replace(/\s+/g, "-")}`,
+    href: cat.href || `/category/${cat.slug}`,
     icon: cat.icon || "",
     subcategories: cat.subcategories?.map((sub: any) => ({
       id: (sub._id as Types.ObjectId).toString(),
@@ -45,25 +46,25 @@ export async function getAllCategories(): Promise<CategoryDTO[]> {
       image: sub.image || "/placeholder.jpg",
       productCount: sub.productCount || 0,
       categoryName: cat.name,
-      categorySlug: cat.name.toLowerCase().replace(/\s+/g, "-"),
+      categorySlug: cat.slug,
     })) || [],
   }));
 }
 
+// Get a single category by slug
 export async function getCategoryBySlug(slug: string): Promise<CategoryDTO | null> {
   await connectToDB();
 
-  const name = slug.replace(/-/g, " ");
-
-  const category = await Category.findOne({ name }).lean<ICategory>();
+  const category = await Category.findOne({ slug }).lean<ICategory>();
   if (!category) return null;
 
   return {
     id: (category._id as Types.ObjectId).toString(),
     name: category.name,
+    slug: category.slug,
     image: category.image || "/placeholder.jpg",
     icon: category.icon || "",
-    href: category.href || `/category/${category.name.toLowerCase().replace(/\s+/g, "-")}`,
+    href: category.href || `/category/${category.slug}`,
     subcategories: category.subcategories?.map(sub => ({
       id: (sub._id as Types.ObjectId).toString(),
       name: sub.name,
@@ -71,8 +72,7 @@ export async function getCategoryBySlug(slug: string): Promise<CategoryDTO | nul
       image: sub.image || "/placeholder.jpg",
       productCount: sub.productCount || 0,
       categoryName: category.name,
-      categorySlug: category.name.toLowerCase().replace(/\s+/g, "-"),
+      categorySlug: category.slug,
     })) || [],
   };
 }
-

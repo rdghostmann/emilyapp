@@ -1,9 +1,9 @@
 // /controllers/getAllProducts.ts
 "use server"
 
+import mongoose from "mongoose"
 import { connectToDB } from "@/lib/connectDB"
 import { Product, IProduct } from "@/models/Product"
-import mongoose from "mongoose"
 
 export interface ProductDTO {
  _id: string;
@@ -30,8 +30,8 @@ export async function getAllProducts(): Promise<ProductDTO[]> {
     await connectToDB()
 
     const products = await Product.find({})
-      .populate("seller", "username") // ✅ populate username
-      .lean()
+    .populate("seller", "_id username rating")
+    .lean<IProduct & { seller?: { _id: mongoose.Types.ObjectId; username: string; rating?: number } }[]>()
 
     return products.map((prod: any) => ({
       _id: prod._id.toString(),
