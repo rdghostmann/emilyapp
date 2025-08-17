@@ -15,12 +15,12 @@ import {
     BreadcrumbSeparator,
     BreadcrumbList,
 } from "@/components/ui/breadcrumb"
-import { MapPin, Star, ChevronRight, Search, Grid, List } from "lucide-react"
+import { ChevronRight, Search, Grid, List } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 import { CategoryDTO } from "@/controllers/categories"
 import { ProductInterface } from "@/types/product";
-import { fetchProductsByCategory } from "@/controllers/products"
+import { fetchProductsByCategory, fetchProductsBySubcategory } from "@/controllers/products"
 
 // Skeleton UI for loading
 function ProductSkeletonGrid() {
@@ -48,21 +48,17 @@ export default function CategoryPageClient({ initialCategory }: CategoryPageClie
 
     const subcategories = category.subcategories || []
 
-    // --- Server Action Fetch ---
     async function fetchProducts(subcategoryId: string) {
         setProductsLoading(true)
         try {
-            const products = await fetchProductsByCategory({
-                categorySlug: category.slug, // <-- use slug, not name
+            // Use Server Action to fetch only matching subcategory products
+            const products = await fetchProductsBySubcategory({
+                subcategory: subcategoryId,
                 searchQuery,
                 sortBy,
             })
-            // If you want to filter by subcategory after fetching
-            const filtered = subcategoryId
-                ? products.filter(p => p.subcategory === subcategoryId)
-                : products
 
-            setProducts(filtered)
+            setProducts(products)
         } catch (err) {
             console.error("Error fetching products:", err)
         } finally {
@@ -70,9 +66,9 @@ export default function CategoryPageClient({ initialCategory }: CategoryPageClie
         }
     }
 
-    const handleSubcategorySelect = (subId: string) => {
-        setSelectedSubcategory(subId)
-        fetchProducts(subId)
+    const handleSubcategorySelect = (subcategoryId: string) => {
+        setSelectedSubcategory(subcategoryId)
+        fetchProducts(subcategoryId)
     }
 
     return (
@@ -128,7 +124,7 @@ export default function CategoryPageClient({ initialCategory }: CategoryPageClie
                         <h2 className="text-xl font-bold text-gray-800 mb-6">Browse Subcategories</h2>
                         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                             {subcategories.map(sub => (
-                                <Card key={sub.id} className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => handleSubcategorySelect(sub.id)}>
+                                <Card key={sub.id} className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => handleSubcategorySelect(sub.subcategorySlug)}>
                                     <CardContent className="p-4 text-center">
                                         <Image
                                             src={sub.image || "/placeholder.svg"}

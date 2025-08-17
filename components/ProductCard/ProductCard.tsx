@@ -7,7 +7,7 @@ import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Star, MapPin, Clock } from "lucide-react"
+import { Star, MapPin, Clock, TrendingUp } from "lucide-react"
 import { ProductInterface } from "@/types/product"
 import { formatDate } from "@/lib/formatDate"
 
@@ -29,10 +29,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                         className="w-full h-48 object-cover rounded-t-lg"
                     />
                     {product.boosted && (
-                        <Badge variant="secondary" className="absolute top-2 right-2 bg-orange-500 text-white">
-                            Featured
+                        <Badge className="absolute top-2 left-2 bg-orange-500">
+                            <TrendingUp className="w-3 h-3 mr-1" />
+                            Boosted
                         </Badge>
                     )}
+                    <Badge variant="secondary" className="absolute top-2 right-2">
+                        {product.category}
+                    </Badge>
                 </div>
 
                 {/* Product Info */}

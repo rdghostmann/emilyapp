@@ -43,7 +43,7 @@ export async function findProductsBySubcategorySlug(subcategorySlug: string): Pr
   // Find products by subcategory
   const products = await Product.find({ subcategory: subcategorySlug })
     .populate("seller", "_id name rating")
-    .lean();
+    .lean<IProduct & { seller?: { _id: mongoose.Types.ObjectId; username: string; rating?: number } }[]>()
 
   return Promise.all(products.map(mapProductDocToInterface));
 }
@@ -161,4 +161,33 @@ export async function fetchProductsByCategory({
     .lean();
 
   return Promise.all(products.map(mapProductDocToInterface));
+}
+
+
+
+interface FetchProductsParams {
+  subcategory: string;
+  sortBy?: "newest" | "price-low" | "price-high" | "rating";
+  searchQuery?: string;
+}
+
+export async function fetchProductsBySubcategory(params: FetchProductsParams) {
+  const { subcategory, sortBy = "newest", searchQuery } = params;
+
+  const query: any = { subcategory };
+
+  if (searchQuery) {
+    query.name = { $regex: searchQuery, $options: "i" }; // case-insensitive search
+  }
+
+  let sort: any = { createdAt: -1 }; // default newest
+
+  if (sortBy === "price-low") sort = { price: 1 };
+  if (sortBy === "price-high") sort = { price: -1 };
+  if (sortBy === "rating") sort = { "stats.views": -1 }; // example for rating
+
+  const products = await Product.find(query).sort(sort).lean();
+
+  return Promise.all(products.map(mapProductDocToInterface));
+;
 }

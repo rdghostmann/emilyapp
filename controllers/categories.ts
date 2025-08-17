@@ -12,7 +12,7 @@ export interface SubcategoryDTO {
   image?: string;
   productCount?: number;
   categoryName: string;
-  subcategorySlug: string;
+  subcategorySlug: any;
   products?: ProductInterface[];
 }
 
@@ -121,7 +121,7 @@ export async function getAllCategories(): Promise<CategoryDTO[]> {
       image: sub.image || "/placeholder.jpg",
       productCount: sub.products?.length || 0,
       categoryName: cat.name,
-      subcategorySlug: sub.slug || sub._id.toString(),
+      subcategorySlug: cat.slug,
       products: sub.products?.map((p: any) => ({
         _id: p._id.toString(),
         id: p._id.toString(),

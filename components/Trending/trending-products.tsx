@@ -3,7 +3,8 @@ import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { TrendingUp, MapPin, Star } from "lucide-react"
+import { TrendingUp, MapPin, Star, Clock } from "lucide-react"
+import { formatDate } from "@/lib/formatDate"
 
 const trendingProducts = [
   {

@@ -12,8 +12,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 
 const category: CategoryDTO | null = await getCategoryBySlug(slug);
   
-  console.log("Category", category);
-  
+ 
 
   if (!category) {
     return (
