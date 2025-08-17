@@ -1,6 +1,6 @@
-// models/Product.ts
 import mongoose, { Schema, Document } from "mongoose";
 
+// Base Product interface
 export interface IProduct extends Document {
   name: string;
   description: string;
@@ -8,9 +8,10 @@ export interface IProduct extends Document {
   location: string;
   seller: mongoose.Types.ObjectId;
   images: string[];
-  category: string;     // e.g. "animal-mating"
-  subcategory?: string; // e.g. "goat"
+  category: string;
+  subcategory?: string;
   boosted?: boolean;
+
   // Common fields
   condition?: string;
   negotiable?: boolean;
@@ -21,12 +22,67 @@ export interface IProduct extends Document {
   };
 
   // Category-specific fields
-  details: Record<string, any>;
+  details: ICategoryDetails;
 
   createdAt: Date;
   updatedAt: Date;
 }
 
+// Category-specific details type (union)
+export type ICategoryDetails = | IAnimalMatingDetails | IAnimalPharmacyDetails | IAnimalFeedDetails | ILivestockPetDetails | IFoodFruitVegDetails;
+
+// Example detail interfaces
+export interface IAnimalMatingDetails {
+  species: string;
+  breed: string;
+  age?: number;
+  healthStatus?: string;
+  matingType?: string;
+  availabilityDates?: { start: Date; end: Date };
+  eggFertilityRate?: number;
+  quantityAvailable?: number;
+  collectionDate?: Date;
+}
+
+export interface IAnimalPharmacyDetails {
+  drugType: string;
+  dosageForm: string;
+  targetSpecies: string[];
+  activeIngredients: string[];
+  expiryDate: Date;
+  storageConditions: string;
+}
+
+export interface IAnimalFeedDetails {
+  feedType: string;
+  species: string[];
+  weight: string;
+  ingredients: string[];
+  nutritionalContent: {
+    protein: string;
+    fiber: string;
+    fat: string;
+  };
+  expiryDate: Date;
+}
+
+export interface ILivestockPetDetails {
+  species: string;
+  breed: string;
+  age: string;
+  gender: string;
+  healthStatus: string;
+}
+
+export interface IFoodFruitVegDetails {
+  foodType: string;
+  variety: string;
+  quantity: string;
+  harvestDate: Date;
+  shelfLife: string;
+}
+
+// Mongoose Schema
 const ProductSchema = new Schema<IProduct>(
   {
     name: { type: String, required: true },
@@ -53,8 +109,5 @@ const ProductSchema = new Schema<IProduct>(
   { timestamps: true }
 );
 
-
-
-const Product = mongoose.models.Product || mongoose.model<IProduct>("Product", ProductSchema);
-
-export default Product;
+export const Product =
+  mongoose.models.Product || mongoose.model<IProduct>("Product", ProductSchema);

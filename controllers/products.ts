@@ -3,9 +3,9 @@
 
 import mongoose from "mongoose"
 import { connectToDB } from "@/lib/connectDB"
-import Product from "@/models/Product"
 import { ProductInterface } from "@/types/product"
 import { isValidCategory } from "@/lib/categoryValidation"
+import { Product } from "@/models/Product"
 
 export async function mapProductDocToInterface(p: any): Promise<ProductInterface> {
   return {
