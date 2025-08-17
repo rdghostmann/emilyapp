@@ -26,7 +26,7 @@ export default async function CategoriesGrid() {
           {categories.map((category: any) => (
             <Link
               key={category.id}
-              href={`/category/${category.name.toLowerCase().replace(/\s+/g, '-')}`}
+              href={`${category.href}`}
               className="group relative overflow-hidden rounded-xl shadow-sm hover:shadow-md transition-all duration-300 aspect-square"
             >
               {/* Background Image */}
