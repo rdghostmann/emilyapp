@@ -86,7 +86,7 @@ export const categories: Category[] = [
       { id: "veterinary", name: "Veterinary", description: "Animal healthcare services", productCount: 4, image: "/services/vet.png", categoryName: "agro-services", subcategorySlug: "veterinary" },
     ],
     image: "/icons/2.jpg",
-    href: "/category/agroservices",
+    href: "/category/agro-services",
   },
   {
     id: "insurance",

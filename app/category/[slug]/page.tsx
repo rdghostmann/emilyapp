@@ -10,9 +10,8 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   // Await params if they are a Promise
   const { slug } = await params
 
-  // Fetch category data server-side
-  const category: CategoryDTO | null = await getCategoryBySlug(slug);
-
+const category: CategoryDTO | null = await getCategoryBySlug(slug);
+  
   console.log("Category", category);
   
 

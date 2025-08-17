@@ -1,7 +1,7 @@
 // /category/[slug]/CategoryPageClient.tsx
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
@@ -13,12 +13,12 @@ import {
     BreadcrumbLink,
     BreadcrumbSeparator,
     BreadcrumbList,
-} from "@/components/ui/breadcrumb";
-import { MapPin, Star, ChevronRight, Search, Grid, List, TrendingUp } from "lucide-react"
+} from "@/components/ui/breadcrumb"
+import { MapPin, Star, ChevronRight, Search, Grid, List } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
-import { Skeleton } from "@/components/ui/skeleton"
 import { CategoryDTO } from "@/controllers/categories"
+import { findProductsByCategory } from "@/controllers/findProductsByCategory"
 
 interface CategoryPageClientProps {
     initialCategory: CategoryDTO
@@ -29,33 +29,34 @@ export default function CategoryPageClient({ initialCategory }: CategoryPageClie
     const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(null)
     const [products, setProducts] = useState<any[]>([])
     const [productsLoading, setProductsLoading] = useState(false)
-    const [sortBy, setSortBy] = useState<string>("newest")
+    const [sortBy, setSortBy] = useState<"newest" | "price-low" | "price-high" | "rating">("newest")
     const [searchQuery, setSearchQuery] = useState<string>("")
     const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
 
     const subcategories = category.subcategories || []
 
-    // Fetch products when subcategory/search/sort changes
-    useEffect(() => {
-        const fetchProducts = async () => {
-            if (!selectedSubcategory) return
-
-            setProductsLoading(true)
-            try {
-                const res = await fetch(
-                    `/api/products?subcategory=${selectedSubcategory}&search=${searchQuery}&sortBy=${sortBy}`
-                )
-                const data = await res.json()
-                setProducts(data.products)
-            } catch (err) {
-                console.error("Error fetching products:", err)
-            } finally {
-                setProductsLoading(false)
-            }
+    // --- Server Action Fetch ---
+    const fetchProducts = async (subcategoryId: string) => {
+        setProductsLoading(true)
+        try {
+            const products = await findProductsByCategory({
+                categoryName: category.name,
+                subcategoryId,
+                searchQuery,
+                sortBy
+            })
+            setProducts(products)
+        } catch (err) {
+            console.error("Error fetching products:", err)
+        } finally {
+            setProductsLoading(false)
         }
+    }
 
-        fetchProducts()
-    }, [selectedSubcategory, searchQuery, sortBy])
+    const handleSubcategorySelect = (subId: string) => {
+        setSelectedSubcategory(subId)
+        fetchProducts(subId)
+    }
 
     return (
         <div className="min-h-screen bg-gray-50">
@@ -68,19 +69,13 @@ export default function CategoryPageClient({ initialCategory }: CategoryPageClie
                                 <Link href="/" className="hover:text-green-600">Home</Link>
                             </BreadcrumbLink>
                         </BreadcrumbItem>
-
-                        <BreadcrumbSeparator>
-                            <ChevronRight className="w-4 h-4" />
-                        </BreadcrumbSeparator>
-
+                        <BreadcrumbSeparator><ChevronRight className="w-4 h-4" /></BreadcrumbSeparator>
                         <BreadcrumbItem>
                             <BreadcrumbLink asChild>
                                 <Link href="/marketplace" className="hover:text-green-600">All Categories</Link>
                             </BreadcrumbLink>
                         </BreadcrumbItem>
-                        <BreadcrumbSeparator>
-                            <ChevronRight className="w-4 h-4" />
-                        </BreadcrumbSeparator>
+                        <BreadcrumbSeparator><ChevronRight className="w-4 h-4" /></BreadcrumbSeparator>
                         <BreadcrumbItem>
                             <BreadcrumbLink asChild>
                                 <span className="text-gray-800">{category.name}</span>
@@ -88,9 +83,7 @@ export default function CategoryPageClient({ initialCategory }: CategoryPageClie
                         </BreadcrumbItem>
                         {selectedSubcategory && (
                             <>
-                                <BreadcrumbSeparator>
-                                    <ChevronRight className="w-4 h-4" />
-                                </BreadcrumbSeparator>
+                                <BreadcrumbSeparator><ChevronRight className="w-4 h-4" /></BreadcrumbSeparator>
                                 <BreadcrumbItem>
                                     <BreadcrumbLink asChild>
                                         <span className="text-gray-800">
@@ -102,7 +95,6 @@ export default function CategoryPageClient({ initialCategory }: CategoryPageClie
                         )}
                     </BreadcrumbList>
                 </Breadcrumb>
-
 
                 {/* Category Header */}
                 <div className="mb-8 flex items-center gap-3">
@@ -119,7 +111,7 @@ export default function CategoryPageClient({ initialCategory }: CategoryPageClie
                         <h2 className="text-xl font-bold text-gray-800 mb-6">Browse Subcategories</h2>
                         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                             {subcategories.map(sub => (
-                                <Card key={sub.id} className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => setSelectedSubcategory(sub.id)}>
+                                <Card key={sub.id} className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => handleSubcategorySelect(sub.id)}>
                                     <CardContent className="p-4 text-center">
                                         <Image
                                             src={sub.image || "/placeholder.svg"}
@@ -155,8 +147,19 @@ export default function CategoryPageClient({ initialCategory }: CategoryPageClie
                                 />
                             </div>
                             <div className="flex gap-2">
-                                <Select value={sortBy} onValueChange={setSortBy}>
-                                    <SelectTrigger className="w-40 bg-white"><SelectValue /></SelectTrigger>
+                                <Select
+                                    value={sortBy}
+                                    onValueChange={(value: string) => {
+                                        if (
+                                            value === "newest" ||
+                                            value === "price-low" ||
+                                            value === "price-high" ||
+                                            value === "rating"
+                                        ) {
+                                            setSortBy(value);
+                                        }
+                                    }}
+                                >   <SelectTrigger className="w-40 bg-white"><SelectValue /></SelectTrigger>
                                     <SelectContent>
                                         <SelectItem value="newest">Newest First</SelectItem>
                                         <SelectItem value="price-low">Price: Low to High</SelectItem>

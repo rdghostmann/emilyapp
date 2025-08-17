@@ -18,10 +18,10 @@ export async function mapProductDocToInterface(p: any): Promise<ProductInterface
     location: p.location || "N/A",
     seller: p.seller
       ? {
-          _id: p.seller._id.toString(),
-          name: p.seller.name,
-          rating: p.seller.rating || 0,
-        }
+        _id: p.seller._id.toString(),
+        name: p.seller.name,
+        rating: p.seller.rating || 0,
+      }
       : { _id: "", name: "Unknown", rating: 0 },
     images: p.images || [],
     category: p.category,
@@ -34,6 +34,34 @@ export async function mapProductDocToInterface(p: any): Promise<ProductInterface
     createdAt: new Date(p.createdAt),
     updatedAt: new Date(p.updatedAt),
   };
+}
+
+
+// Fetch products by subcategory, search, and sort
+export async function getProductsBySubcategory(
+  subcategoryId: string,
+  searchQuery: string = "",
+  sortBy: string = "newest"
+) {
+  await connectToDB();
+
+  const filter: any = { subcategory: subcategoryId };
+  if (searchQuery) {
+    filter.name = { $regex: searchQuery, $options: "i" }; // case-insensitive search
+  }
+
+  let sortOption: any = { createdAt: -1 }; // default newest
+  if (sortBy === "price-low") sortOption = { price: 1 };
+  else if (sortBy === "price-high") sortOption = { price: -1 };
+  else if (sortBy === "rating") sortOption = { "seller.rating": -1 };
+
+  const products = await Product.find(filter)
+    .limit(50)
+    .sort(sortOption)
+    .populate("seller", "_id name rating")
+    .lean();
+
+  return Promise.all(products.map(mapProductDocToInterface));
 }
 
 // Get products by subcategory
@@ -86,7 +114,7 @@ export async function getSubcategoryById(id: string): Promise<SubcategoryDTO | n
     image: sub.image || "/placeholder.jpg",
     productCount: sub.productCount || 0,
     categoryName: category.name,
-    categorySlug: category.slug,
+    subcategorySlug: sub.slug || sub._id.toString(), // ✅ use subcategorySlug
     products,
   };
 }

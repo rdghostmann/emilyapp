@@ -1,4 +1,4 @@
-// app/subcategory/[id]/page.tsximport { getSubcategoryById } from "@/controllers/categories";
+// app/subcategory/[id]/page.tsx
 import { getProduct, getSubcategoryById } from "@/controllers/products";
 import SubcategoryPageClient from "./SubcategoryPageClient";
 
@@ -22,7 +22,7 @@ export default async function SubcategoryPage({ params }: SubcategoryPageProps) 
   }
 
   // Fetch initial products server-side
-  const initialProducts = await getProduct(subcategory.categorySlug, subcategory.id);
+  const initialProducts = await getProduct(subcategory.subcategorySlug);
 
   return <SubcategoryPageClient subcategory={subcategory} initialProducts={initialProducts} />;
 }
