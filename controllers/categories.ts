@@ -1,11 +1,13 @@
+// controllers/categories.ts
 "use server"
-
+import { Types } from "mongoose";
 import { connectToDB } from "@/lib/connectDB"
-import { Category } from "@/models/Category"
+import { Category, ICategory } from "@/models/Category";
 
 export interface CategoryDTO {
-  id: string
+   id: string
   name: string
+  description?: string // <-- add this
   image?: string
   href?: string
   subcategories?: any[]
@@ -31,4 +33,26 @@ export async function getAllCategories(): Promise<CategoryDTO[]> {
     console.error("❌ Error fetching categories:", error)
     return []
   }
+}
+
+export async function getCategoryBySlug(slug: string): Promise<CategoryDTO | null> {
+  await connectToDB();
+
+  const name = slug.replace(/-/g, " "); // convert slug back to name
+
+  // cast result to ICategory | null
+  const category = await Category.findOne({ name }).lean<ICategory>();
+
+  if (!category) return null;
+
+  return {
+    id: category._id instanceof Types.ObjectId
+      ? category._id.toString()
+      : String(category._id), // safely convert unknown ObjectId to string
+    name: category.name,
+    image: category.image || "/placeholder.jpg",
+    subcategories: category.subcategories || [],
+    icon: category.icon || "",
+    href: category.href || `/category/${category.name.toLowerCase().replace(/\s+/g, "-")}`,
+  };
 }

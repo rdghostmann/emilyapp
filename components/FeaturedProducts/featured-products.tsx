@@ -7,7 +7,7 @@ import { getAllProducts, ProductDTO } from "@/controllers/getAllProducts"
 export default async function FeaturedProducts() {
   const featuredProducts: ProductDTO[] = await getAllProducts()
 
-  console.log("featuredProducts:", featuredProducts);
+  // console.log("featuredProducts:", featuredProducts);
   
   return (
     <section className="py-16 bg-white">
