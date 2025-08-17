@@ -95,7 +95,6 @@ const ProductSchema = new Schema<IProduct>(
     category: { type: String, required: true },
     subcategory: String,
     boosted: { type: Boolean, default: false },
-
     condition: String,
     negotiable: { type: Boolean, default: false },
     stats: {

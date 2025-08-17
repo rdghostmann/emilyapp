@@ -11,7 +11,14 @@ import { Button } from "@/components/ui/button";
 import { MapPin, Star, TrendingUp, Grid, List, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
-import { SubcategoryDTO } from "@/controllers/categories"; // Define interface for subcategory
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbSeparator,
+  BreadcrumbList,
+} from "@/components/ui/breadcrumb";
+import { SubcategoryDTO } from "@/controllers/categories";
 import { ProductInterface } from "@/types/product";
 
 interface SubcategoryPageClientProps {
@@ -41,14 +48,51 @@ export default function SubcategoryPageClient({ subcategory, initialProducts }: 
         setProductsLoading(false);
       }
     };
-
     fetchProducts();
   }, [searchQuery, sortBy, subcategory.id]);
 
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-6">
-        {/* Header */}
+
+        {/* Breadcrumb */}
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link href="/">EmilyAgros</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator>/</BreadcrumbSeparator>
+
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link href="/marketplace">All Categories</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator>/</BreadcrumbSeparator>
+
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link href={`/category/${subcategory.categorySlug}`}>{subcategory.categoryName}</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator>/</BreadcrumbSeparator>
+
+            <BreadcrumbItem>
+              <span>{subcategory.name}</span>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+
+        {/* Back to Category */}
+        <div className="my-4">
+          <Button asChild variant="outline">
+            <Link href={`/category/${subcategory.categorySlug}`}>← Back to {subcategory.categoryName}</Link>
+          </Button>
+        </div>
+
+        {/* Subcategory Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-800">{subcategory.name}</h1>
           <p className="text-gray-600">{subcategory.description}</p>

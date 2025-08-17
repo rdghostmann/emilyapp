@@ -1,3 +1,4 @@
+// types/product.ts
 export interface ProductInterface {
   _id: string
   name: string

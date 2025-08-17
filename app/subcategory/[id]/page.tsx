@@ -1,5 +1,5 @@
 // app/subcategory/[id]/page.tsximport { getSubcategoryById } from "@/controllers/categories";
-import { getProduct } from "@/controllers/products";
+import { getProduct, getSubcategoryById } from "@/controllers/products";
 import SubcategoryPageClient from "./SubcategoryPageClient";
 
 interface SubcategoryPageProps {
