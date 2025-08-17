@@ -1248,7 +1248,7 @@ export const categoryData = {
       ],
     },
   },
-  animalLoan: {
+  animalloan: {
     name: "Animal Loan",
     description: "Loans and support for animal health and care",
     icon: "💵",
@@ -1506,7 +1506,7 @@ export const categoryData = {
       ],
     },
   },
-  animalFeed: {
+  "animal-feed": {
     name: "Animal Feed",
     description: "Nutritious feed to promote animal growth and health",
     icon: "🍖",

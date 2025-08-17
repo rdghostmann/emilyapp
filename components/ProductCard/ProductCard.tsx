@@ -1,3 +1,4 @@
+// ProductCard.jsx
 "use client"
 
 import React from "react"
@@ -45,7 +46,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                     </div>
 
                     <div className="flex items-center text-sm text-gray-500 mb-2">
-                        <Clock className="w-4 h-4 mr-1" />
                         <Clock className="w-4 h-4 mr-1" />
                         {formatDate(product.createdAt)}
                     </div>

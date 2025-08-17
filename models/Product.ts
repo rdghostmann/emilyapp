@@ -1,3 +1,4 @@
+// models/Product.ts
 import mongoose, { Schema, Document } from "mongoose";
 
 // Base Product interface
@@ -100,7 +101,7 @@ const ProductSchema = new Schema<IProduct>(
     stats: {
       views: { type: Number, default: 0 },
       favorites: { type: Number, default: 0 },
-      adId: { type: String, unique: true },
+      adId: { type: String },
     },
 
     // Flexible category-specific details
@@ -109,5 +110,4 @@ const ProductSchema = new Schema<IProduct>(
   { timestamps: true }
 );
 
-export const Product =
-  mongoose.models.Product || mongoose.model<IProduct>("Product", ProductSchema);
+export const Product =  mongoose.models.Product || mongoose.model<IProduct>("Product", ProductSchema);

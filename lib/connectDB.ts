@@ -1,3 +1,4 @@
+//lib/connectDB.ts
 import mongoose from "mongoose";
 
 const connection: { isConnected?: number } = {};

@@ -1,19 +1,34 @@
-// controllers/categories.ts
 "use server"
 
-import { categories } from "@/constants/categories"
+import { connectToDB } from "@/lib/connectDB"
+import { Category } from "@/models/Category"
 
-export async function getSubcategoryById(id: string) {
-  for (const category of categories) {
-    const sub = category.subcategories.find((s) => s.id === id)
-    if (sub) {
-      return {
-        ...sub,
-        categoryId: category.id,
-        categoryName: category.name,
-        categorySlug: category.id, // assuming id doubles as slug
-      }
-    }
+export interface CategoryDTO {
+  id: string
+  name: string
+  image?: string
+  href?: string
+  subcategories?: any[]
+  icon?: string
+}
+
+export async function getAllCategories(): Promise<CategoryDTO[]> {
+  try {
+    await connectToDB()
+
+    // Use lean() -> returns plain JS objects
+    const categories = await Category.find({}).lean()
+
+    return categories.map((cat: any) => ({
+      id: cat._id.toString(),
+      name: cat.name,
+      image: cat.image || "/placeholder.jpg",
+      href: cat.href || `/category/${cat.name.toLowerCase().replace(/\s+/g, "-")}`,
+      subcategories: cat.subcategories || [],
+      icon: cat.icon || "",
+    }))
+  } catch (error) {
+    console.error("❌ Error fetching categories:", error)
+    return []
   }
-  return null
 }

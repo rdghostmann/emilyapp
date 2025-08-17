@@ -1,11 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
-import { categories } from "@/constants/categories";
+// import { categories } from "@/constants/categories";
+import { getAllCategories, CategoryDTO } from "@/controllers/categories"
 
 export default async function CategoriesGrid() {
- 
+   const categories: CategoryDTO[] = await getAllCategories()
 
-  return (
+  //  console.log("categories", categories);
+   
+   return (
     <section className="py-6">
       <div className="container mx-auto px-4">
         {/* Header */}

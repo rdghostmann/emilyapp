@@ -1,3 +1,4 @@
+// @constants/categories.ts
 import {
   TrendingUp,
   MilkIcon as Cow,
@@ -57,7 +58,7 @@ export const categories: Category[] = [
       { id: "pet", name: "Pets", description: "Fine pets for companionship", productCount: 67, image: "/farm-animals/rabbits.png" },
     ],
     image: "/icons/1.jpg",
-    href: "/category/livestock",
+    href: "/category/livestock-pets",
   },
   {
     id: "services",
@@ -69,7 +70,7 @@ export const categories: Category[] = [
       { id: "veterinary", name: "Veterinary", description: "Animal healthcare services", productCount: 4, image: "/services/vet.png" },
     ],
     image: "/icons/2.jpg",
-    href: "/category/services",
+    href: "/category/agroservices",
   },
   {
     id: "insurance",
@@ -82,7 +83,7 @@ export const categories: Category[] = [
       { id: "weather-insurance", name: "Weather Insurance", description: "Weather risk protection", productCount: 2, image: "/insurance/weather.png" },
     ],
     image: "/icons/3.jpg",
-    href: "/category/insurance",
+    href: "/category/agroinsurance",
   },
   {
     id: "equipment",
@@ -111,7 +112,7 @@ export const categories: Category[] = [
       { id: "natural", name: "Natural Mating", description: "Natural mating services", productCount: 2, image: "/mating/natural.png" },
     ],
     image: "/icons/5.jpg",
-    href: "/category/animalMating",
+    href: "/category/animal-mating",
   },
   {
     id: "agrochemicals",
@@ -123,7 +124,7 @@ export const categories: Category[] = [
       { id: "fungicide", name: "Fungicide", description: "Fungal disease control", productCount: 9, image: "/chemicals/fungicide.png" },
     ],
     image: "/icons/6.jpg",
-    href: "/category/agroChemicals",
+    href: "/category/agrochemicals",
   },
   {
     id: "foodfruitsvegetables",
@@ -136,7 +137,7 @@ export const categories: Category[] = [
       { id: "spices", name: "Spices", description: "Traditional spices", productCount: 67, image: "/fruits/spices.png" },
     ],
     image: "/icons/7.jpg",
-    href: "/category/fruits",
+    href: "/category/food-fruits-vegetables",
   },
   {
     id: "seedlings",
@@ -177,7 +178,7 @@ export const categories: Category[] = [
       { id: "insurance", name: "Livestock Insurance", description: "Insurance loan coverage", productCount: 1, image: "/loans/insurance.png" },
     ],
     image: "/icons/10.jpg",
-    href: "/category/animalLoan",
+    href: "/category/animalloan",
   },
   {
     id: "fertilizers",
@@ -206,7 +207,7 @@ export const categories: Category[] = [
       { id: "injectable", name: "Injectable", description: "Injectable feed products", productCount: 1, image: "/feed/injectable.png" },
     ],
     image: "/icons/12.jpg",
-    href: "/category/animalFeed",
+    href: "/category/animal-feed",
   },
   {
     id: "animalpharmacy",
@@ -221,7 +222,7 @@ export const categories: Category[] = [
       { id: "injectable", name: "Injectable", description: "Injectable medicines", productCount: 1, image: "/pharmacy/injectable.png" },
     ],
     image: "/icons/14.jpg",
-    href: "/category/animalPharmacy",
+    href: "/category/animal-pharmacy",
   },
   {
     id: "animalaccessories",
@@ -235,6 +236,6 @@ export const categories: Category[] = [
       { id: "housing", name: "Housing", description: "Animal housing structures", productCount: 3, image: "/accessories/housing.png" },
     ],
     image: "/icons/15.jpg",
-    href: "/category/animalAccessories",
+    href: "/category/animal-accessories",
   },
 ]

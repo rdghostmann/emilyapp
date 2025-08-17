@@ -15,8 +15,18 @@ import {
 import { ProductInterface } from "@/types/product"
 import { getProductById } from "@/controllers/products"
 
-export default async function ProductPage({ params }: { params: { id: string } }) {
-  const product: ProductInterface | null = await getProductById(params.id)
+
+// Props for Next.js dynamic route
+interface ProductPageProps {
+  params: {
+    id: string
+  }
+}
+export default async function ProductPage({ params }: ProductPageProps) {
+  // ✅ Remove await here
+  const {id} = params
+  
+  const product: ProductInterface | null = await getProductById(id)
 
   if (!product) {
     return (
