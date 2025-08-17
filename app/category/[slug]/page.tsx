@@ -12,7 +12,7 @@ import { getProduct } from "@/controllers/products"
 
 export default async function CategoryPage({ params }: { params: { slug: string } }) {
     // Fetch products in this category
- const { slug } = params
+ const { slug } = await params
 
   // Now slug is safe
   const category = categories.find((c) => c.id === slug)

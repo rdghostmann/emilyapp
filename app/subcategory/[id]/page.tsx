@@ -14,7 +14,7 @@ import { ProductInterface } from "@/types/product"
 import { getProduct } from "@/controllers/products"
 
 export default async function SubcategoryPage({ params }: { params: { id: string } }) {
-const { id } = params
+ const { id } = await params
 
     const subcategory = await getSubcategoryById(id)
     if (!subcategory) {
