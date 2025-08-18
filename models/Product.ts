@@ -31,7 +31,9 @@ export interface IProduct extends Document {
 }
 
 // Category-specific details type (union)
-export type ICategoryDetails = | IAnimalMatingDetails | IAnimalPharmacyDetails | IAnimalFeedDetails | ILivestockPetDetails | IFoodFruitVegDetails;
+export type ICategoryDetails = | IAnimalMatingDetails
+ | IAnimalPharmacyDetails 
+| IAnimalFeedDetails | ILivestockPetDetails | IFoodFruitVegDetails;
 
 // Example detail interfaces
 export interface IAnimalMatingDetails {

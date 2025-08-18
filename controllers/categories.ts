@@ -3,17 +3,29 @@
 import { Types } from "mongoose";
 import { connectToDB } from "@/lib/connectDB";
 import { ProductInterface } from "@/types/product";
-import { Category } from "@/models/Category";
+import { Category, ICategory, ISubcategory } from "@/models/Category"
+import { Product } from "@/models/Product"
 
 export interface SubcategoryDTO {
-  id: string;
+  _id: string;
   name: string;
+  slug: string;             // <-- add this for front-end components
   description?: string;
   image?: string;
   productCount?: number;
   categoryName: string;
-  subcategorySlug: any;
+  subcategorySlug: string;
   products?: ProductInterface[];
+}
+
+
+export interface Subcategory {
+  _id: string;
+  name: string;
+  slug: string;
+  image?: string;
+  description?: string;
+  productCount?: number;
 }
 
 export interface CategoryDTO {
@@ -56,16 +68,17 @@ interface CategoryWithSubcategories {
   subcategories?: SubcategoryWithProducts[];
 }
 
+
 // Fetch single category by slug
 export async function getCategoryBySlug(slug: string): Promise<CategoryDTO | null> {
   await connectToDB();
 
   const category = await Category.findOne({ slug })
     .populate({
-   path: "subcategories.products",
-    model: "Product",
-    populate: { path: "seller", select: "_id name rating" },
-  })
+      path: "subcategories.products",
+      model: "Product",
+      populate: { path: "seller", select: "_id name rating" },
+    })
     .lean() as CategoryWithSubcategories | null;
 
   if (!category) return null;
@@ -79,8 +92,9 @@ export async function getCategoryBySlug(slug: string): Promise<CategoryDTO | nul
     image: category.image,
     href: `/category/${category.slug}`,
     subcategories: category.subcategories?.map(sub => ({
-      id: sub._id.toString(),
+      _id: sub._id.toString(),                   // matches SubcategoryDTO._id
       name: sub.name,
+      slug: sub.slug || sub._id.toString(),      // matches SubcategoryDTO.slug
       description: sub.description,
       image: sub.image,
       productCount: sub.products?.length || 0,
@@ -88,7 +102,6 @@ export async function getCategoryBySlug(slug: string): Promise<CategoryDTO | nul
       subcategorySlug: sub.slug || sub._id.toString(),
       products: sub.products?.map(p => ({
         _id: p._id.toString(),
-        id: p._id.toString(),
         name: p.name,
         price: p.price,
         images: p.images,
@@ -99,8 +112,42 @@ export async function getCategoryBySlug(slug: string): Promise<CategoryDTO | nul
         updatedAt: p.updatedAt || new Date(),
       })) || [],
     })) || [],
+
   };
 }
+
+export async function getSubcategoriesByCategory(categorySlug: string): Promise<SubcategoryDTO[]> {
+  await connectToDB();
+
+  // Proper typing with lean()
+  const category = await Category.findOne({ slug: categorySlug })
+    .lean<{ subcategories: ISubcategory[] } & ICategory | null>();
+
+  if (!category) return [];
+
+  const subcategoriesWithCounts: SubcategoryDTO[] = await Promise.all(
+    category.subcategories.map(async (subcat) => {
+      const productCount = await Product.countDocuments({
+        category: category.slug,
+        subcategory: subcat.subcategorySlug,
+      });
+
+      return {
+        _id: subcat._id.toString(),        // type-safe
+        name: subcat.name,
+        slug: subcat.subcategorySlug,      // required by SubcategoriesGrid
+        description: subcat.description,
+        image: subcat.image,
+        categoryName: subcat.categoryName,
+        subcategorySlug: subcat.subcategorySlug,
+        productCount,
+      };
+    })
+  );
+
+  return subcategoriesWithCounts;
+}
+
 
 // Fetch all categories
 export async function getAllCategories(): Promise<CategoryDTO[]> {

@@ -1,18 +1,20 @@
 // models/Category.ts
+import mongoose, { Schema, Document, Types } from "mongoose";
 import { ProductInterface } from "@/types/product";
-import mongoose, { Schema, Document } from "mongoose";
 
 export interface ISubcategory extends Document {
+  _id: Types.ObjectId;          // explicitly type _id
   name: string;
   description?: string;
   image?: string;
   productCount?: number;
   categoryName: string;
-  subcategorySlug: string; // updated
-  products?: ProductInterface[]; // add products field
+  subcategorySlug: string;
+  products?: ProductInterface[];
 }
 
 export interface ICategory extends Document {
+  _id: Types.ObjectId;          // explicitly type _id
   name: string;
   slug: string;
   icon?: string;
