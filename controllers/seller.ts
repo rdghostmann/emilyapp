@@ -46,6 +46,6 @@ export async function getSellerById(id: string): Promise<SellerProfile | null> {
       totalAds: seller.totalAds,
       purchases: seller.purchases,
     },
-    products: products.map(mapProductDocToInterface),
+  products: await Promise.all(products.map(mapProductDocToInterface)), // ✅ fix
   }
 }
