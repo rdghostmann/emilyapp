@@ -25,6 +25,7 @@ export interface IProduct extends Document {
   // Category-specific fields
   details: ICategoryDetails;
 
+  
   createdAt: Date;
   updatedAt: Date;
 }
