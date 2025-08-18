@@ -15,7 +15,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Upload, X, TrendingUp, CheckCircle, ImageIcon, Loader2, Save, Eye } from "lucide-react"
 import { toast } from "sonner"
 import { nigerianStates } from "@/constants/nigerianStates"
-import { categories } from "@/constants/categories"
+import { categories, Category } from "@/constants/categoryandsub" // ✅ import types + data
 import FormGenerator from "./FormGenerator"
 
 interface FormData {
@@ -29,17 +29,11 @@ interface FormData {
     city: string
     phone: string
     whatsapp: boolean
-    details?: any   // ✅ for FormGenerator fields
+    details?: Record<string, string | number | boolean>
 }
 
 interface FormErrors {
     [key: string]: string
-}
-
-type Category = {
-    id: string
-    name: string
-    subcategories: string[]
 }
 
 type ProductDetails = Record<string, string | number | boolean>
@@ -67,9 +61,7 @@ export default function PostProductPage() {
     const [showBoostNotification, setShowBoostNotification] = useState(false)
     const [submitProgress, setSubmitProgress] = useState(0)
     const [isDraft, setIsDraft] = useState(false)
-    const [selectedCategory, setSelectedCategory] = useState<Category | null>(null)
-
-    // const selectedCategory = categories[formData.category as keyof typeof categories]
+    const [selectedCategory, setSelectedCategory] = useState<Category | null>(null) // ✅ proper type
 
     // Load draft
     useEffect(() => {
@@ -79,6 +71,10 @@ export default function PostProductPage() {
                 const parsedDraft = JSON.parse(savedDraft)
                 setFormData(parsedDraft)
                 setIsDraft(true)
+
+                // ✅ restore selected category from draft
+                const category = categories[parsedDraft.category] || null
+                setSelectedCategory(category)
             } catch (error) {
                 console.error("Error loading draft:", error)
             }
@@ -92,7 +88,6 @@ export default function PostProductPage() {
         toast("Your product draft has been saved locally.")
     }
 
-    // Clear draft
     const clearDraft = () => {
         localStorage.removeItem("product-draft")
         setIsDraft(false)
@@ -186,7 +181,6 @@ export default function PostProductPage() {
         try {
             await simulateUpload()
 
-            // ✅ Build final payload
             const payload = {
                 ...formData,
                 price: Number(formData.price),
@@ -194,7 +188,7 @@ export default function PostProductPage() {
                 details: formData.details || {},
             }
 
-            console.log("Final Payload:", payload) // 🔥 Replace with API call
+            console.log("Final Payload:", payload)
 
             clearDraft()
             toast("Product Posted Successfully! Your product is now live on the marketplace.")
@@ -216,6 +210,7 @@ export default function PostProductPage() {
             })
             setImages([])
             setImagePreviews([])
+            setSelectedCategory(null)
         } catch (error) {
             toast("Submission failed. Something went wrong. Please try again.")
         } finally {
@@ -279,6 +274,7 @@ export default function PostProductPage() {
                                 {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title}</p>}
                             </div>
 
+                            {/* Category / Subcategory */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
                                     <Label htmlFor="category">Category *</Label>
@@ -286,7 +282,8 @@ export default function PostProductPage() {
                                         value={formData.category}
                                         onValueChange={(value: string) => {
                                             handleInputChange("category", value)
-                                            handleInputChange("subcategory", "") // reset subcategory
+                                            handleInputChange("subcategory", "")
+                                            setSelectedCategory(categories[value] || null) // ✅ directly get category from object
                                         }}
                                     >
                                         <SelectTrigger className={errors.category ? "border-red-500" : ""}>
@@ -300,7 +297,6 @@ export default function PostProductPage() {
                                             ))}
                                         </SelectContent>
                                     </Select>
-
                                     {errors.category && <p className="text-red-500 text-sm mt-1">{errors.category}</p>}
                                 </div>
 
@@ -309,23 +305,23 @@ export default function PostProductPage() {
                                     <Select
                                         value={formData.subcategory}
                                         onValueChange={(value: string) => handleInputChange("subcategory", value)}
-                                        disabled={!formData.category}
+                                        disabled={!selectedCategory}
                                     >
                                         <SelectTrigger className={errors.subcategory ? "border-red-500" : ""}>
                                             <SelectValue placeholder="Select subcategory" />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            {selectedCategory?.subcategories.map((sub: string) => (
-                                                <SelectItem key={sub} value={sub}>
+                                            {selectedCategory?.subcategories.map((sub) => (
+                                                <SelectItem key={`${selectedCategory.name}-${sub}`} value={sub}>
                                                     {sub}
                                                 </SelectItem>
                                             ))}
                                         </SelectContent>
                                     </Select>
-
                                     {errors.subcategory && <p className="text-red-500 text-sm mt-1">{errors.subcategory}</p>}
                                 </div>
                             </div>
+
 
                             <div>
                                 <Label htmlFor="description">Description *</Label>

@@ -8,22 +8,30 @@ import { useState } from "react"
 interface FormGeneratorProps {
   category: string
   subcategory: string
-  onChange: (details: any) => void
+  onChange: (details: Record<string, any>) => void
 }
 
 export default function FormGenerator({ category, subcategory, onChange }: FormGeneratorProps) {
-  const [details, setDetails] = useState<any>({})
+  const [details, setDetails] = useState<Record<string, any>>({})
 
   const handleChange = (field: string, value: any) => {
     const updated = { ...details, [field]: value }
     setDetails(updated)
-    onChange(updated) // pass to parent
+    onChange(updated)
   }
 
   if (!subcategory) return null
 
-  switch (subcategory) {
-    case "animal-mating":
+  // Normalize for easier matching
+  const normalized = subcategory.toLowerCase()
+
+  switch (normalized) {
+    /** 🐐 Animal Mating **/
+    case "dog":
+    case "goat":
+    case "pig":
+    case "ai service":
+    case "natural mating":
       return (
         <div className="space-y-4">
           <div>
@@ -45,7 +53,13 @@ export default function FormGenerator({ category, subcategory, onChange }: FormG
         </div>
       )
 
-    case "animal-pharmacy":
+    /** 💊 Animal Pharmacy **/
+    case "preventive":
+    case "curative":
+    case "supplement":
+    case "powder":
+    case "oral":
+    case "injectable":
       return (
         <div className="space-y-4">
           <div>
@@ -63,7 +77,9 @@ export default function FormGenerator({ category, subcategory, onChange }: FormG
         </div>
       )
 
-    case "animal-feed":
+    /** 🌽 Animal Feed **/
+    case "feed":
+    case "animal feed":
       return (
         <div className="space-y-4">
           <div>
@@ -81,7 +97,30 @@ export default function FormGenerator({ category, subcategory, onChange }: FormG
         </div>
       )
 
-    // 🔥 Add other cases for livestock, food, fruits, etc.
+    /** 🛠️ Equipment (e.g. Tractor, Sheller, etc.) **/
+    case "tractor":
+    case "sheller":
+    case "sprayer":
+    case "knapsack sprayer":
+    case "fish pond":
+    case "others":
+      return (
+        <div className="space-y-4">
+          <div>
+            <Label>Condition</Label>
+            <Input onChange={(e) => handleChange("condition", e.target.value)} />
+          </div>
+          <div>
+            <Label>Year of Manufacture</Label>
+            <Input type="number" onChange={(e) => handleChange("year", e.target.value)} />
+          </div>
+          <div>
+            <Label>Usage Hours</Label>
+            <Input type="number" onChange={(e) => handleChange("usageHours", e.target.value)} />
+          </div>
+        </div>
+      )
+
     default:
       return <p className="text-sm text-gray-500">No additional fields required for this subcategory.</p>
   }

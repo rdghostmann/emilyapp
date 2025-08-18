@@ -1,4 +1,4 @@
-// constants/categories.ts
+// constants/categoryandsub.ts
 
 export type Category = {
   name: string
@@ -89,7 +89,7 @@ export const categories: Record<string, Category> = {
       "Injectable",
     ],
   },
-  animalPharmacy: {
+  "animal pharmacy": {
     name: "Animal Pharmacy",
     subcategories: [
       "Preventive",
@@ -100,7 +100,7 @@ export const categories: Record<string, Category> = {
       "Injectable",
     ],
   },
-  animalAccessories: {
+  "animal accessories": {
     name: "Animal Accessories",
     subcategories: ["Drinkers", "Cages", "Feeding", "Transporting", "Housing"],
   },
