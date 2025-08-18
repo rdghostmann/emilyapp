@@ -1,5 +1,3 @@
-// /subcategory/[id]/SubcategoryPageClient.tsx
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -20,43 +18,46 @@ import {
 } from "@/components/ui/breadcrumb";
 import { SubcategoryDTO } from "@/controllers/categories";
 import { ProductInterface } from "@/types/product";
-import { findProductsBySubcategorySlug } from "@/controllers/products";
+import { fetchProductsBySubcategory } from "@/controllers/products";
 
 interface SubcategoryPageClientProps {
   subcategory: SubcategoryDTO;
   initialProducts: ProductInterface[];
 }
 
-export default function SubcategoryPageClient({ subcategory, initialProducts }: SubcategoryPageClientProps) {
+export default function SubcategoryPageClient({
+  subcategory,
+  initialProducts,
+}: SubcategoryPageClientProps) {
   const [products, setProducts] = useState<ProductInterface[]>(initialProducts);
   const [productsLoading, setProductsLoading] = useState(false);
-  const [sortBy, setSortBy] = useState("newest");
+  const [sortBy, setSortBy] = useState<"newest" | "price-low" | "price-high" | "rating">("newest");
   const [searchQuery, setSearchQuery] = useState("");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
-
-
-
-
   useEffect(() => {
-     // Server Action: Fetch products by subcategorySlug
-  const fetchProducts = async () => {
-    setProductsLoading(true);
-    try {
-      const data = await findProductsBySubcategorySlug(subcategory.subcategorySlug);
-      setProducts(data);
-    } catch (err) {
-      console.error("Error fetching products:", err);
-    } finally {
-      setProductsLoading(false);
-    }
-  };
-  }, [subcategory.name, subcategory.categoryName, subcategory.subcategorySlug]);
+    const fetchProducts = async () => {
+      setProductsLoading(true);
+      try {
+        const data = await fetchProductsBySubcategory({
+          subcategory: subcategory.subcategorySlug,
+          sortBy,
+          searchQuery,
+        });
+        setProducts(data);
+      } catch (err) {
+        console.error("Error fetching products:", err);
+      } finally {
+        setProductsLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, [subcategory.subcategorySlug, sortBy, searchQuery]);
 
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-6">
-
         {/* Breadcrumb */}
         <Breadcrumb>
           <BreadcrumbList>
@@ -76,7 +77,10 @@ export default function SubcategoryPageClient({ subcategory, initialProducts }: 
 
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
-                <Link href={`/category/${subcategory.subcategorySlug}`}>{subcategory.categoryName}</Link>
+                {/* ✅ Link back to parent category using categorySlug */}
+                <Link href={`/category/${subcategory.subcategorySlug}`}>
+                  {subcategory.categoryName}
+                </Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator>/</BreadcrumbSeparator>
@@ -86,13 +90,6 @@ export default function SubcategoryPageClient({ subcategory, initialProducts }: 
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-
-        {/* Back to Category */}
-        <div className="hidden my-4">
-          <Button asChild variant="outline">
-            <Link href={`/category/${subcategory.categoryName}`}>← Back to {subcategory.categoryName}</Link>
-          </Button>
-        </div>
 
         {/* Subcategory Header */}
         <div className="mb-8">
@@ -112,7 +109,7 @@ export default function SubcategoryPageClient({ subcategory, initialProducts }: 
             />
           </div>
           <div className="flex gap-2">
-            <Select value={sortBy} onValueChange={setSortBy}>
+            <Select value={sortBy} onValueChange={(v) => setSortBy(v as any)}>
               <SelectTrigger className="w-40 bg-white">
                 <SelectValue />
               </SelectTrigger>
@@ -149,7 +146,13 @@ export default function SubcategoryPageClient({ subcategory, initialProducts }: 
         {productsLoading && <p>Loading products...</p>}
         {!productsLoading && products.length === 0 && <p>No products found.</p>}
         {!productsLoading && products.length > 0 && (
-          <div className={viewMode === "grid" ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" : "space-y-4"}>
+          <div
+            className={
+              viewMode === "grid"
+                ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+                : "space-y-4"
+            }
+          >
             {products.map((p) => (
               <Card key={p._id} className="hover:shadow-lg transition-shadow">
                 <CardContent>
@@ -170,7 +173,9 @@ export default function SubcategoryPageClient({ subcategory, initialProducts }: 
                     </div>
                     <div className="p-4">
                       <h3 className="font-semibold text-gray-800 mb-2 line-clamp-2">{p.name}</h3>
-                      <p className="text-2xl font-bold text-green-600 mb-2">₦{p.price.toLocaleString()}</p>
+                      <p className="text-2xl font-bold text-green-600 mb-2">
+                        ₦{p.price.toLocaleString()}
+                      </p>
                       <div className="flex items-center text-sm text-gray-600 mb-2">
                         <MapPin className="w-4 h-4 mr-1" /> {p.location}
                       </div>

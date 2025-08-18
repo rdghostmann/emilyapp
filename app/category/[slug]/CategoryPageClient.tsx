@@ -2,7 +2,7 @@
 
 "use client"
 
-import { useState, Suspense } from "react"
+import { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
@@ -19,8 +19,7 @@ import { ChevronRight, Search, Grid, List } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 import { CategoryDTO } from "@/controllers/categories"
-import { ProductInterface } from "@/types/product";
-import { fetchProductsByCategory, fetchProductsBySubcategory } from "@/controllers/products"
+import { fetchProductsBySubcategory } from "@/controllers/products"
 
 // Skeleton UI for loading
 function ProductSkeletonGrid() {
@@ -71,6 +70,13 @@ export default function CategoryPageClient({ initialCategory }: CategoryPageClie
         fetchProducts(subcategoryId)
     }
 
+    useEffect(() => {
+        if (selectedSubcategory) {
+            fetchProducts(selectedSubcategory)
+        }
+    }, [searchQuery, sortBy]) // runs when user changes filters
+
+    
     return (
         <div className="min-h-screen bg-gray-50">
             <div className="container mx-auto px-4 py-6">
@@ -189,13 +195,21 @@ export default function CategoryPageClient({ initialCategory }: CategoryPageClie
                         ) : (
                             <div className={viewMode === "grid" ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" : "space-y-4"}>
                                 {products.map(p => (
-                                    <Card key={p.id} className="hover:shadow-lg transition-shadow">
+                                    <Card key={p._id} className="hover:shadow-lg transition-shadow">
                                         <CardContent>
-                                            <Link href={`/product/${p.id}`}>
-                                                <Image src={p.images?.[0] || "/placeholder.svg"} alt={p.name} width={300} height={200} className="rounded-t-lg" />
+                                            <Link href={`/product/${p._id}`}>
+                                                <Image
+                                                    src={p.images?.[0] || "/placeholder.svg"}
+                                                    alt={p.name}
+                                                    width={300}
+                                                    height={200}
+                                                    className="rounded-t-lg"
+                                                />
                                                 <h3 className="font-semibold text-gray-800 mt-2">{p.name}</h3>
                                                 <p className="text-2xl font-bold text-green-600">₦{p.price.toLocaleString()}</p>
-                                                <span className="text-sm text-gray-600">{p.seller?.username || "Seller"}</span>
+                                                <span className="text-sm text-gray-600">
+                                                    {p.seller?.name || "Seller"}
+                                                </span>
                                             </Link>
                                         </CardContent>
                                     </Card>
