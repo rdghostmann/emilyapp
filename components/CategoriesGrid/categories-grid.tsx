@@ -2,6 +2,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { getAllCategories, CategoryDTO } from "@/controllers/categories"
+import { Button } from "../ui/button";
 
 export default async function CategoriesGrid() {
   const categories: CategoryDTO[] = await getAllCategories()
@@ -11,15 +12,15 @@ export default async function CategoriesGrid() {
     <section className="py-6">
       <div className="container mx-auto px-4">
         {/* Header */}
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold text-gray-900">Categories</h2>
-          <Link
-            href="/categories"
-            className="hidden lg:block text-green-600 hover:text-green-700 text-sm font-medium transition-colors"
-          >
-            View All Categories
-          </Link>
-        </div>
+        <div className="flex items-center justify-between mb-8">
+                 <div className="flex items-center">
+                   {/* <TrendingUp className="w-6 h-6 text-green-600 mr-2" /> */}
+                   <h2 className="text-3xl font-bold text-gray-800">Categories</h2>
+                 </div>
+                 <Button asChild variant="outline" className="">
+                   <Link href="/categories">View All</Link>
+                 </Button>
+               </div>
 
         {/* Category Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">

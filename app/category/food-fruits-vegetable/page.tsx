@@ -13,7 +13,7 @@ import { getCategoryBySlug, getSubcategoriesByCategory } from "@/controllers/cat
 import FoodFruitsVegPage from "./FoodFruitsVegPage"
 
 export default async function Page() {
-  const category = await getCategoryBySlug("food-fruits-vegetables")
+  const category = await getCategoryBySlug("food-fruits-vegetable")
   if (!category) return <p>Category not found</p>
 
   const subcategories = await getSubcategoriesByCategory(category.slug)

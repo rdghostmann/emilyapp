@@ -9,7 +9,7 @@ import { Product } from "@/models/Product"
 export interface SubcategoryDTO {
   _id: string;
   name: string;
-  slug: string;             // <-- add this for front-end components
+  slug?: string;             // <-- add this for front-end components
   description?: string;
   image?: string;
   productCount?: number;

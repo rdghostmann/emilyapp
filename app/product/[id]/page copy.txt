@@ -33,49 +33,7 @@ import { toast } from "sonner"
 
 // Mock product data - in real app, this would come from API
 const getProductById = (id: string) => {
-  const products = {
-    "1": {
-      id: "1",
-      title: "Premium Organic Rice - 50kg",
-      description: "High-quality organic rice grown without pesticides in the fertile lands of Lagos. This premium variety is perfect for families, restaurants, and food processing companies. Our rice is carefully selected, cleaned, and packaged to maintain freshness and quality.\n\nGrown using sustainable farming practices, this rice offers excellent taste, aroma, and nutritional value. Each bag contains 50kg of premium long-grain rice.\n\nFeatures:\n• 100% Organic - No pesticides or chemicals\n• Long grain variety\n• 99.5% purity\n• Fresh harvest from December 2024\n• Properly cleaned and sorted\n• Moisture content: 14%\n\nIdeal for:\n• Households and families\n• Restaurants and catering\n• Food processing companies\n• Wholesale distribution",
-      price: 25000,
-      originalPrice: 30000,
-      negotiable: true,
-      condition: "New",
-      location: "Ikorodu, Lagos State",
-      category: "Grains & Cereals",
-      subcategory: "Rice",
-      boosted: true,
-      images: [
-        "/placeholder.svg?height=500&width=500&text=Premium+Rice+Main",
-        "/placeholder.svg?height=500&width=500&text=Premium+Rice+2",
-        "/placeholder.svg?height=500&width=500&text=Premium+Rice+3",
-        "/placeholder.svg?height=500&width=500&text=Premium+Rice+4",
-        "/placeholder.svg?height=500&width=500&text=Premium+Rice+5",
-      ],
-      seller: {
-        id: "seller_1",
-        name: "Adebayo Farms",
-        avatar: "/placeholder.svg?height=60&width=60&text=AF",
-        rating: 4.8,
-        totalSales: 156,
-        verified: true,
-        responseTime: "Within 2 hours",
-        phone: "+234 800 123 4567",
-        location: "Lagos State",
-        joinedDate: "2022-03-15",
-        memberSince: "March 2022",
-        totalAds: 24,
-      },
-      stats: {
-        views: 234,
-        favorites: 45,
-        adId: "AD001234567",
-      },
-     
-    },
-
-  }
+ 
 
   return products[id as keyof typeof products] || null
 }
@@ -412,29 +370,8 @@ export default function ProductPage({ params }: { params: { id: string } }) {
         </div>
 
         {/* Similar Products */}
-        <div className="mt-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-6">Similar products you may like</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-            {[1, 2, 3, 4, 5, 6].map((i) => (
-              <Card key={i} className="hover:shadow-md transition-shadow cursor-pointer">
-                <CardContent className="p-0">
-                  <Image
-                    src={`/placeholder.svg?height=150&width=200&text=Similar+${i}`}
-                    alt={`Similar product ${i}`}
-                    width={200}
-                    height={150}
-                    className="w-full h-32 object-cover rounded-t-lg"
-                  />
-                  <div className="p-3">
-                    <h3 className="font-medium text-sm text-gray-900 mb-1 line-clamp-2">Similar Product {i}</h3>
-                    <p className="text-green-600 font-bold text-sm">₦{(20000 + i * 1000).toLocaleString()}</p>
-                    <p className="text-xs text-gray-500 mt-1">Lagos, Nigeria</p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
+     
+     
       </div>
     </div>
   )

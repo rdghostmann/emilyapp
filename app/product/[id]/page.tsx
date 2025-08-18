@@ -1,29 +1,28 @@
-// app/product/[id]/ProductPage.tsx
-import React from 'react'
+// /products/[id]/page.tsx
 import { getProductById } from "@/controllers/products"
-import { ProductInterface } from "@/types/product"
-import ProductPageClient from './ProductPageClient'
+import ProductPage from "./ProductPage"
 
+interface PageProps {
+    params: { id: string } 
 
-interface ProductPageProps {
-  params: { id: string } | Promise<{ id: string }>
 }
 
-export default async function ProductPage({ params }: ProductPageProps) {
-  const { id } = await params
-  const product: ProductInterface | null = await getProductById(id)
+export default async function ProductPageServer({ params }: PageProps) {
+  const product = await getProductById(params.id)
 
   if (!product) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-800 mb-4">Product Not Found</h1>
-          <p className="text-gray-600 mb-8">
-            The product you&apos;re looking for doesn&apos;t exist.
+          <h1 className="text-2xl font-bold mb-2">Product Not Found</h1>
+          <p className="text-gray-600 mb-4">
+            The product you are looking for does not exist or has been removed.
           </p>
         </div>
       </div>
-    );
+    )
   }
-  return <ProductPageClient product={product} />
+
+  // Pass fetched product to Client Component
+  return <ProductPage product={product} />
 }
