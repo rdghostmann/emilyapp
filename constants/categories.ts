@@ -266,4 +266,4 @@ export const categories: Category[] = [
     image: "/icons/15.jpg",
     href: "/category/animal-accessories",
   }
-]
+] 

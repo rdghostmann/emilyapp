@@ -1,14 +1,15 @@
 // FeaturedProduct.tsx
+// const featuredProducts: ProductDTO[] = await getAllProducts()
+
+// components/FeaturedProducts.tsx
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { getAllProducts } from "@/controllers/getAllProducts"
 import ProductCard from "../ProductCard/ProductCard"
-import { getAllProducts, ProductDTO } from "@/controllers/getAllProducts"
 
 export default async function FeaturedProducts() {
-  const featuredProducts: ProductDTO[] = await getAllProducts()
+  const featuredProducts = await getAllProducts()
 
-  // console.log("featuredProducts:", featuredProducts);
-  
   return (
     <section className="py-16 bg-white">
       <div className="container mx-auto px-4">
@@ -20,11 +21,16 @@ export default async function FeaturedProducts() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {featuredProducts.map((product) => (
-            <ProductCard key={product._id} product={product} />
-          ))}
+          {featuredProducts.length > 0 ? (
+            featuredProducts.map((product) => (
+              <ProductCard key={product._id} product={product} />
+            ))
+          ) : (
+            <p className="text-gray-600">No products available.</p>
+          )}
         </div>
       </div>
     </section>
   )
 }
+

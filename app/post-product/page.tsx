@@ -1,3 +1,4 @@
+// /product/page.tsx
 import PostProductPage from "./PostProductPage";
 
 

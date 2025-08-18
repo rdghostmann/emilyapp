@@ -4,9 +4,13 @@
 import mongoose from "mongoose";
 import { connectToDB } from "@/lib/connectDB";
 import { ProductInterface } from "@/types/product";
-import { IProduct, Product } from "@/models/Product";
+import { Product } from "@/models/Product";
 import { SubcategoryDTO } from "./categories";
 import { Category } from "@/models/Category";
+
+// Define DTO if you want a lightweight structure
+export type ProductDTO = ProductInterface
+
 
 // ---------- Helper ----------
 export async function mapProductDocToInterface(p: any): Promise<ProductInterface> {
@@ -34,6 +38,19 @@ export async function mapProductDocToInterface(p: any): Promise<ProductInterface
     createdAt: new Date(p.createdAt),
     updatedAt: new Date(p.updatedAt),
   };
+}
+
+
+export async function getAllProducts(): Promise<ProductDTO[]> {
+  await connectToDB()
+
+  const products = await Product.find({})
+    .sort({ createdAt: -1 }) // latest first
+    .limit(20) // only latest 20
+    .populate("seller", "_id name rating")
+    .lean()
+
+  return Promise.all(products.map(mapProductDocToInterface))
 }
 
 // ---------- Subcategory ----------

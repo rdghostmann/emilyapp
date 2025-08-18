@@ -1,3 +1,4 @@
+// /post-product/PostProductPage.tsx
 "use client"
 
 import type React from "react"
@@ -15,6 +16,7 @@ import { Upload, X, TrendingUp, CheckCircle, ImageIcon, Loader2, Save, Eye } fro
 import { toast } from "sonner"
 import { nigerianStates } from "@/constants/nigerianStates"
 import { categories } from "@/constants/categories"
+import FormGenerator from "./FormGenerator"
 
 interface FormData {
     title: string
@@ -27,6 +29,7 @@ interface FormData {
     city: string
     phone: string
     whatsapp: boolean
+    details?: any   // ✅ for FormGenerator fields
 }
 
 interface FormErrors {
@@ -34,10 +37,12 @@ interface FormErrors {
 }
 
 type Category = {
-  id: string;
-  name: string;
-  subcategories: string[];
-};
+    id: string
+    name: string
+    subcategories: string[]
+}
+
+type ProductDetails = Record<string, string | number | boolean>
 
 
 export default function PostProductPage() {
@@ -52,6 +57,7 @@ export default function PostProductPage() {
         city: "",
         phone: "",
         whatsapp: false,
+        details: {},
     })
 
     const [images, setImages] = useState<File[]>([])
@@ -63,7 +69,9 @@ export default function PostProductPage() {
     const [isDraft, setIsDraft] = useState(false)
     const [selectedCategory, setSelectedCategory] = useState<Category | null>(null)
 
-    // Load draft from localStorage on component mount
+    // const selectedCategory = categories[formData.category as keyof typeof categories]
+
+    // Load draft
     useEffect(() => {
         const savedDraft = localStorage.getItem("product-draft")
         if (savedDraft) {
@@ -77,7 +85,7 @@ export default function PostProductPage() {
         }
     }, [])
 
-    // Save draft to localStorage
+    // Save draft
     const saveDraft = () => {
         localStorage.setItem("product-draft", JSON.stringify(formData))
         setIsDraft(true)
@@ -90,9 +98,8 @@ export default function PostProductPage() {
         setIsDraft(false)
     }
 
-    const handleInputChange = (field: keyof FormData, value: string | boolean) => {
+    const handleInputChange = (field: keyof FormData, value: string | boolean | any) => {
         setFormData((prev) => ({ ...prev, [field]: value }))
-        // Clear error when user starts typing
         if (errors[field]) {
             setErrors((prev) => ({ ...prev, [field]: "" }))
         }
@@ -100,32 +107,25 @@ export default function PostProductPage() {
 
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = Array.from(e.target.files || [])
-
         if (images.length + files.length > 5) {
             toast("You can upload maximum 5 images.")
             return
         }
 
-        // Validate file types and sizes
         const validFiles = files.filter((file) => {
             if (!file.type.startsWith("image/")) {
                 toast(`${file.name} is not an image file.`)
                 return false
             }
-
             if (file.size > 5 * 1024 * 1024) {
-                // 5MB limit
                 toast(`${file.name} is larger than 5MB.`)
                 return false
             }
-
             return true
         })
 
         if (validFiles.length > 0) {
             setImages((prev) => [...prev, ...validFiles])
-
-            // Create previews
             validFiles.forEach((file) => {
                 const reader = new FileReader()
                 reader.onload = (e) => {
@@ -143,7 +143,6 @@ export default function PostProductPage() {
 
     const validateForm = (): boolean => {
         const newErrors: FormErrors = {}
-
         if (!formData.title.trim()) newErrors.title = "Product title is required"
         if (!formData.category) newErrors.category = "Category is required"
         if (!formData.subcategory) newErrors.subcategory = "Subcategory is required"
@@ -155,12 +154,10 @@ export default function PostProductPage() {
         if (!formData.city.trim()) newErrors.city = "City is required"
         if (!formData.phone.trim()) newErrors.phone = "Phone number is required"
 
-        // Phone validation
         const phoneRegex = /^(\+234|0)[789][01]\d{8}$/
         if (formData.phone && !phoneRegex.test(formData.phone.replace(/\s/g, ""))) {
             newErrors.phone = "Please enter a valid Nigerian phone number"
         }
-
         if (images.length === 0) {
             newErrors.images = "At least one product image is required"
         }
@@ -178,7 +175,6 @@ export default function PostProductPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
-
         if (!validateForm()) {
             toast("Form validation failed. Please fix the errors and try again.")
             return
@@ -188,20 +184,23 @@ export default function PostProductPage() {
         setSubmitProgress(0)
 
         try {
-            // Simulate form submission with progress
             await simulateUpload()
 
-            // Clear draft after successful submission
+            // ✅ Build final payload
+            const payload = {
+                ...formData,
+                price: Number(formData.price),
+                images,
+                details: formData.details || {},
+            }
+
+            console.log("Final Payload:", payload) // 🔥 Replace with API call
+
             clearDraft()
-
             toast("Product Posted Successfully! Your product is now live on the marketplace.")
+            setTimeout(() => setShowBoostNotification(true), 2000)
 
-            // Show boost notification after successful post
-            setTimeout(() => {
-                setShowBoostNotification(true)
-            }, 2000)
-
-            // Reset form
+            // Reset
             setFormData({
                 title: "",
                 category: "",
@@ -213,6 +212,7 @@ export default function PostProductPage() {
                 city: "",
                 phone: "",
                 whatsapp: false,
+                details: {},
             })
             setImages([])
             setImagePreviews([])
@@ -224,7 +224,6 @@ export default function PostProductPage() {
         }
     }
 
-    //   const selectedCategory = formData.category ? categories[formData.category as keyof typeof categories] : null
 
     return (
         <div className="container mx-auto px-4 py-8">
@@ -285,9 +284,9 @@ export default function PostProductPage() {
                                     <Label htmlFor="category">Category *</Label>
                                     <Select
                                         value={formData.category}
-                                        onValueChange={(value: any) => {
+                                        onValueChange={(value: string) => {
                                             handleInputChange("category", value)
-                                            handleInputChange("subcategory", "") // Reset subcategory
+                                            handleInputChange("subcategory", "") // reset subcategory
                                         }}
                                     >
                                         <SelectTrigger className={errors.category ? "border-red-500" : ""}>
@@ -301,6 +300,7 @@ export default function PostProductPage() {
                                             ))}
                                         </SelectContent>
                                     </Select>
+
                                     {errors.category && <p className="text-red-500 text-sm mt-1">{errors.category}</p>}
                                 </div>
 
@@ -309,7 +309,7 @@ export default function PostProductPage() {
                                     <Select
                                         value={formData.subcategory}
                                         onValueChange={(value: string) => handleInputChange("subcategory", value)}
-                                        disabled={!selectedCategory}
+                                        disabled={!formData.category}
                                     >
                                         <SelectTrigger className={errors.subcategory ? "border-red-500" : ""}>
                                             <SelectValue placeholder="Select subcategory" />
@@ -322,6 +322,7 @@ export default function PostProductPage() {
                                             ))}
                                         </SelectContent>
                                     </Select>
+
                                     {errors.subcategory && <p className="text-red-500 text-sm mt-1">{errors.subcategory}</p>}
                                 </div>
                             </div>
@@ -364,6 +365,22 @@ export default function PostProductPage() {
                                     />
                                 </div>
                             </div>
+
+                            {/* ✅ Dynamic Additional Details */}
+                            {formData.category && formData.subcategory && (
+                                <Card className="mt-6">
+                                    <CardHeader>
+                                        <CardTitle>Additional Details</CardTitle>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <FormGenerator
+                                            category={formData.category}
+                                            subcategory={formData.subcategory}
+                                            onChange={(details: ProductDetails) => handleInputChange("details", details)}
+                                        />
+                                    </CardContent>
+                                </Card>
+                            )}
                         </CardContent>
                     </Card>
 
