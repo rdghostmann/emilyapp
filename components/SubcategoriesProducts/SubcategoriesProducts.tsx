@@ -7,6 +7,7 @@ import { ProductInterface } from "@/types/product"
 import { Grid, List } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import ProductCard from "../ProductCard/ProductCard"
+import Loading from "../Loading/loading"
 
 interface SubcategoriesProductsProps {
   subcategorySlug: string
@@ -38,8 +39,8 @@ export default function SubcategoriesProducts({
     loadProducts()
   }, [subcategorySlug, sortBy, searchQuery])
 
-  if (loading) return <p>Loading products...</p>
-  if (!loading && products.length === 0) return <p>No products found.</p>
+  if (loading) return <Loading />
+  if (!loading && products.length === 0) return <p className="font-semibold">No products found.</p>
 
   return (
     <div>

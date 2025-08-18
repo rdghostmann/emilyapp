@@ -2,10 +2,12 @@
 import Link from "next/link"
 import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
-import { categories } from "@/constants/categories"
 import { Package } from "lucide-react"
+import { CategoryDTO, getAllCategories } from "@/controllers/categories"
 
-export default function CategoriesSection() {
+export default async function CategoriesSection() {
+  const categories: CategoryDTO[] = await getAllCategories()
+
   return (
     <section className="py-16 bg-white">
       <div className="container mx-auto px-4">
@@ -40,9 +42,9 @@ export default function CategoriesSection() {
 
                     {/* ✅ Show subcategories */}
                     <div className="flex flex-wrap gap-2 mb-2">
-                      {category.subcategories.map((sub) => (
+                      {(category.subcategories || []).map((sub) => (
                         <span
-                          key={sub.id}
+                          key={sub._id}
                           className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded"
                         >
                           {sub.name}
