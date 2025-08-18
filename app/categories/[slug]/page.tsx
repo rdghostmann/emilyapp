@@ -21,12 +21,13 @@ const categoryComponents: Record<string, any> = {
   "food-fruits-vegetables": dynamic(() => import("@/app/category/food-fruits-vegetable/FoodFruitsVegPage")),
 }
 
-interface PageProps {
-  params: { slug: string }
+interface CategoryPageProps {
+  params: { slug: string } | Promise<{ slug: string }>
 }
 
-export default async function CategoryPage({ params }: PageProps) {
-  const { slug } = params
+export default async function CategoryPage({ params }: CategoryPageProps) {
+  // Await params if they are a Promise
+  const { slug } = await params
 
   // Fetch category
   const category = await getCategoryBySlug(slug)

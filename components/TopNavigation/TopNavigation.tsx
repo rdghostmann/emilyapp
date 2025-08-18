@@ -12,9 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Search, Menu, Plus, Bell, MessageSquare, User, Settings, LogOut, Sprout, Heart } from "lucide-react"
-import CartIcon from "../CartIcon/CartIcon"
+import { Search, Plus, Bell, MessageSquare, User, Settings, LogOut, Sprout, Heart } from "lucide-react"
 import Image from "next/image"
 
 export default function TopNavigation({ username }: { username: any }) {
@@ -27,7 +25,6 @@ export default function TopNavigation({ username }: { username: any }) {
           <div className="w-full flex items-center space-x-4 justify-between lg:justify-start px-4">
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-2">
-              {/* <div className="flex w-fit h-fit items-center justify-center rounded-lg bg-green-600"> */}
               <div className="flex w-fit h-fit items-center justify-center ">
                 <Image
                   src="/logo.png"
@@ -137,68 +134,6 @@ export default function TopNavigation({ username }: { username: any }) {
             <Link href="/favourites" className="hidden p-2 rounded-full hover:bg-green-50 transition-colors">
               <Heart className="h-5 w-5 text-green-600" />
             </Link>
-            {/* Mobile Menu Button */}
-            {/* <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Menu className="h-5 w-5" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right" className="w-80">
-                <div className="flex flex-col space-y-4 mt-8">
-                  <div className="flex items-center space-x-3 pb-4 border-b">
-                    <Avatar className="h-12 w-12">
-                      <AvatarImage src="/placeholder-user.jpg" alt="User" />
-                      <AvatarFallback>JD</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <p className="font-medium">John Doe</p>
-                      <p className="text-sm text-gray-500">Farmer</p>
-                    </div>
-                  </div>
-
-                  <nav className="flex flex-col space-y-2">
-                    <Link href="/" className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-100">
-                      <span>Home</span>
-                    </Link>
-                    <Link
-                      href="/products"
-                      className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-100"
-                    >
-                      <span>Products</span>
-                    </Link>
-                    <Link
-                      href="/categories"
-                      className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-100"
-                    >
-                      <span>Categories</span>
-                    </Link>
-                    <Link
-                      href="/farmers"
-                      className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-100"
-                    >
-                      <span>Farmers</span>
-                    </Link>
-                    <Link
-                      href="/favourites"
-                      className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-100"
-                    >
-                      <Heart className="h-4 w-4 mr-2 text-green-600" />
-                      <span>Favourites</span>
-                    </Link>
-                  </nav>
-
-                  <div className="pt-4 border-t">
-                    <Button asChild className="w-full bg-green-600 hover:bg-green-700 mb-3">
-                      <Link href="/post-product">
-                        <Plus className="h-4 w-4 mr-2" />
-                        Post Product
-                      </Link>
-                    </Button>
-                  </div>
-                </div>
-              </SheetContent>
-            </Sheet> */}
           </div>
         </div>
       </div>

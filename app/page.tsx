@@ -37,13 +37,36 @@ export default async function HomePage() {
           <CategoriesGrid />
         </Suspense>
 
-        <Suspense fallback={<div>Loading trending products...</div>}>
-          <TrendingProducts />
+        <Suspense
+          fallback={
+            <div className="grid grid-cols-2  md:grid-cols-3 gap-4 p-4">
+              {Array.from({ length: 16 }).map((_, idx) => (
+                <div
+                  key={idx}
+                  className="animate-pulse bg-gray-200 rounded-lg h-32 w-full"
+                />
+              ))}
+            </div>
+          }
+        >          <TrendingProducts />
         </Suspense>
-
-        <Suspense fallback={<div>Loading featured products...</div>}>
+        
+        <Suspense
+          fallback={
+            <div className="grid grid-cols-2  md:grid-cols-3 gap-4 p-4">
+              {Array.from({ length: 16 }).map((_, idx) => (
+                <div
+                  key={idx}
+                  className="animate-pulse bg-gray-200 rounded-lg h-32 w-full"
+                />
+              ))}
+            </div>
+          }
+        >          
+        
           <FeaturedProducts />
         </Suspense>
+
 
       </div>
     </div>
