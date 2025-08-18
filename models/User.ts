@@ -2,13 +2,13 @@
 import mongoose, { Schema, Document, models } from "mongoose";
 
 export interface IUser extends Document {
-  _id: mongoose.Types.ObjectId;   // 👈 ensure _id is always ObjectId
+  _id: mongoose.Types.ObjectId;
   userID: string;
   username: string;
   firstName: string;
   lastName: string;
   email: string;
-  password: string;
+  password: string; // stored hashed
   description?: string;
   businessHours?: string;
   avatar: string;
@@ -43,10 +43,7 @@ const UserSchema = new Schema<IUser>(
       type: String,
       unique: true,
       required: [true, "Email is required"],
-      match: [
-        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-        "Email is invalid",
-      ],
+      match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/, "Email is invalid"],
     },
     password: { type: String, required: [true, "Password is required"] },
     description: { type: String, default: "" },

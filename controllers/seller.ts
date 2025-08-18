@@ -2,11 +2,10 @@
 
 import mongoose from "mongoose"
 import User, { IUser } from "@/models/User"
-import Product from "@/models/Product"
-import { ProductInterface } from "@/types/product"
 import { mapProductDocToInterface } from "@/controllers/products" // reuse our mapper
-import { connectToDB } from "@/lib/connectDB"
 import { SellerProfile } from "@/types/seller"
+import { Product } from "@/models/Product"
+import { connectToDB } from "@/lib/connectDB"
 
 export async function getSellerById(id: string): Promise<SellerProfile | null> {
   await connectToDB()
