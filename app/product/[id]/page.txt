@@ -25,6 +25,7 @@ export default async function ProductPageServer({ params }: PageProps) {
     );
   }
 
+
   // Pass fetched product to Client Component
   return <ProductPage product={product} />;
 }
