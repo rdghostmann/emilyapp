@@ -1,0 +1,16 @@
+export const Rabbits = [
+    "Dutch",
+"Himalayan",
+"Polish",
+"New Zealand",
+"American Chinchilla",
+"Californian",
+"Champagne d’Argent",
+"English Spot",
+"Silver Martens",
+"Angora",
+"Rex",
+"Checkered Giants",
+"Flemish Giants",
+"Other",
+]

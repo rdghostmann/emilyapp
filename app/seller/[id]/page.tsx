@@ -1,40 +1,50 @@
-import Image from "next/image"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import {
-  Star, MapPin, Phone, MessageSquare, Shield, Calendar,
-  Package, TrendingUp, Eye, Heart, Share2, Flag, CheckCircle
-} from "lucide-react"
-import { getSellerById } from "@/controllers/seller"
+// /seller/[id]/page.tsx
+import Image from "next/image";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Star, MapPin, MessageSquare, Shield, Calendar, Eye, Heart, Share2, Flag } from "lucide-react";
+import { getSellerById } from "@/controllers/seller";
 
+interface PageProps {
+  params: { id: string } | Promise<{ id: string }>;
+}
 
-export default async function SellerProfilePage({ params }: { params: { id: string } }) {
-  const seller = await getSellerById(params.id)
+export default async function SellerProfilePage({ params }: PageProps) {
+  // Await params in case it's a Promise
+  const { id } = await params;
+
+  const seller = await getSellerById(id);
 
   if (!seller) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-800 mb-4">Seller Not Found</h1>
-          <p className="text-gray-600 mb-8">The seller profile you're looking for doesn't exist.</p>
+          <p className="text-gray-600 mb-8">
+            The seller profile you're looking for doesn't exist.
+          </p>
           <Button asChild>
             <Link href="/marketplace">Back to Marketplace</Link>
           </Button>
         </div>
       </div>
-    )
+    );
   }
 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Cover Image */}
       <div className="relative h-64 bg-gradient-to-r from-green-400 to-green-600">
-        <Image src={`${seller.coverImage}`} alt={`${seller.firstName} cover`} fill className="object-cover" />
-        {/* <img src={seller.coverImage} alt={`${seller.name} cover`} className="object-cover" /> */}
+        <Image
+          src={`${seller.coverImage}`}
+          alt={`${seller.firstName} cover`}
+          fill
+          className="object-cover"
+        />
         <div className="absolute inset-0 bg-black bg-opacity-30"></div>
       </div>
 
@@ -145,5 +155,5 @@ export default async function SellerProfilePage({ params }: { params: { id: stri
         </Tabs>
       </div>
     </div>
-  )
+  );
 }

@@ -1,9 +1,19 @@
 import { Suspense } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import MarketplaceFilters from "@/components/MarketplaceFilters/marketplace-filters"
-import ProductGrid from "@/components/ProductGrid/product-grid"
+import ProductGrid from "@/components/ProductGrid/ProductGrid"
+import { Product } from "@/types/types";
+import Loading from "../loading";
+
+
+interface MarketplacePage {
+  products: Product[];
+  viewMode?: "grid" | "list";
+}
 
 export default function MarketplacePage() {
+
+  const products = [] || null
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
@@ -15,11 +25,7 @@ export default function MarketplacePage() {
         {/* Filters Sidebar */}
         <div className="lg:col-span-1">
           <Suspense
-            fallback={
-              <Card>
-                <CardContent className="p-4">Loading filters...</CardContent>
-              </Card>
-            }
+            fallback={<Loading /> }
           >
             <MarketplaceFilters />
           </Suspense>
@@ -28,7 +34,7 @@ export default function MarketplacePage() {
         {/* Products Grid */}
         <div className="lg:col-span-3">
           <Suspense fallback={<div>Loading products...</div>}>
-            <ProductGrid />
+            <ProductGrid products={products} viewMode="grid" />
           </Suspense>
         </div>
       </div>

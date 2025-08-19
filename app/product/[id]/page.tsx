@@ -1,14 +1,16 @@
 // /products/[id]/page.tsx
-import { getProductById } from "@/controllers/products"
-import ProductPage from "./ProductPage"
+import { getProductById } from "@/controllers/products";
+import ProductPage from "./ProductPage";
 
 interface PageProps {
-    params: { id: string } 
-
+  params: { id: string } | Promise<{ id: string }>;
 }
 
 export default async function ProductPageServer({ params }: PageProps) {
-  const product = await getProductById(params.id)
+  // Await params in case it is a Promise
+  const { id } = await params;
+
+  const product = await getProductById(id);
 
   if (!product) {
     return (
@@ -20,9 +22,9 @@ export default async function ProductPageServer({ params }: PageProps) {
           </p>
         </div>
       </div>
-    )
+    );
   }
 
   // Pass fetched product to Client Component
-  return <ProductPage product={product} />
+  return <ProductPage product={product} />;
 }
