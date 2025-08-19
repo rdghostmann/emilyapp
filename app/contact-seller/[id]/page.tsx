@@ -55,10 +55,6 @@ export default async function ContactSellerPage(props: PageProps) {
 function ContactSellerForm({ product }: ContactFormProps) {
   const seller = product.seller
   console.log("Seller Data:", seller)
-  
-  const handleCall = () => {
-    if (seller.phone) window.location.href = `tel:${seller.phone}`
-  }
 
   return (
     <div className="container mx-auto px-4 py-8">
