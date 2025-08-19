@@ -2,7 +2,7 @@
 
 export interface SellerInterface {
   _id: string
-  name: string
+  username: string
   rating?: number
   phone: string
   avatar?: string
@@ -10,6 +10,8 @@ export interface SellerInterface {
   totalSales?: number
   totalAds?: number
   memberSince?: string
+  location?: string // <--- add this
+
 }
 
 export interface ProductInterface {
@@ -18,7 +20,7 @@ export interface ProductInterface {
   description?: string
   price: number
   location?: string
-   seller: SellerInterface
+  seller: SellerInterface
   images: string[]
   category: string
   subcategory?: string

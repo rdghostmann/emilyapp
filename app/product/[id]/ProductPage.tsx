@@ -1,3 +1,4 @@
+// product/ProductPage.tsx
 "use client"
 
 import React, { useState } from "react"
@@ -137,7 +138,7 @@ export default function ProductPage({ product, similarProducts = [] }: ProductPa
                                     <Phone className="w-5 h-5" /> Call {product.seller.phone}
                                 </Button>
                                 <Button asChild variant="outline" className="w-full h-12 text-lg border-green-600 text-green-600 hover:bg-green-50">
-                                    <Link href={`/contact-seller/${product.seller._id}`}>
+                                    <Link href={`/contact-seller/${product._id}`}>
                                         <MessageSquare className="w-5 h-5 mr-2" /> Chat with seller
                                     </Link>
                                 </Button>
@@ -148,12 +149,12 @@ export default function ProductPage({ product, similarProducts = [] }: ProductPa
                                 <CardContent className="p-4">
                                     <div className="flex items-center space-x-3 mb-4">
                                         <Avatar className="w-12 h-12">
-                                            <AvatarImage src={product.seller.avatar || "/placeholder.svg"} alt={product.seller.name} />
+                                            <AvatarImage src={product.seller.avatar || "/placeholder.svg"} alt={product.seller.username} />
                                             <AvatarFallback>AF</AvatarFallback>
                                         </Avatar>
                                         <div className="flex-1">
                                             <div className="flex items-center gap-2">
-                                                <h3 className="font-semibold text-gray-900">{product.seller.name}</h3>
+                                                <h3 className="font-semibold text-gray-900">{product.seller.username}</h3>
                                                 {product.seller.verified && <Shield className="w-4 h-4 text-green-500" />}
                                             </div>
                                             <div className="flex items-center text-sm text-gray-600">
