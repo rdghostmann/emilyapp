@@ -5,22 +5,12 @@ import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { User, MapPin, Phone, Mail, Star, Package, Heart, Settings, LogOut, Edit, Shield, Wallet } from "lucide-react"
+import UpdateProfileBtn from "./UpdateProfileBtn"
+import LogoutButton from "@/components/Logout-button/logout-button" // ✅ import added
 
-export default function ProfilePage() {
-  const user = {
-    name: "Alfred Okonkwo",
-    email: "alfred@example.com",
-    phone: "+234 800 123 4567",
-    location: "Lagos, Nigeria",
-    avatar: "/placeholder.svg?height=100&width=100&text=AO",
-    verified: true,
-    rating: 4.8,
-    totalSales: 45,
-    totalPurchases: 23,
-    memberSince: "March 2023",
-    favoriteCount: 12,
-    activeAds: 8,
-  }
+export default function ProfilePage({ user }: { user: any }) {
+  console.log("Current Profile User:", user);
+
 
   const menuItems = [
     { icon: Package, label: "My Products", count: user.activeAds },
@@ -37,12 +27,12 @@ export default function ProfilePage() {
           <CardContent className="p-6">
             <div className="flex items-center space-x-4 mb-6">
               <Avatar className="w-20 h-20">
-                <AvatarImage src={user.avatar || "/placeholder.svg"} alt={user.name} />
-                <AvatarFallback className="text-xl">AO</AvatarFallback>
+                <AvatarImage src={user.avatar || "/placeholder.svg"} alt={user.username} />
+                <AvatarFallback className="text-xl">{user.username.charAt(0)}</AvatarFallback>
               </Avatar>
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-1">
-                  <h1 className="text-2xl font-bold text-gray-900">{user.name}</h1>
+                  <h1 className="text-2xl font-bold text-gray-900">{user.username}</h1>
                   {user.verified && <Shield className="w-5 h-5 text-green-500" />}
                 </div>
                 <div className="flex items-center text-sm text-gray-600 mb-2">
@@ -54,9 +44,7 @@ export default function ProfilePage() {
                   {user.location}
                 </div>
               </div>
-              <Button variant="outline" size="icon">
-                <Edit className="w-4 h-4" />
-              </Button>
+              <UpdateProfileBtn user={user} />
             </div>
 
             <div className="grid grid-cols-3 gap-4 text-center">
@@ -121,10 +109,10 @@ export default function ProfilePage() {
         </div>
 
         {/* Logout Button */}
-        <Button variant="outline" className="w-full text-red-600 border-red-200 hover:bg-red-50 bg-transparent">
-          <LogOut className="w-4 h-4 mr-2" />
-          Sign Out
-        </Button>
+        <LogoutButton
+          variant="outline"
+          className="w-full text-red-600 border-red-200 hover:bg-red-50 bg-transparent"
+        />
       </div>
     </div>
   )

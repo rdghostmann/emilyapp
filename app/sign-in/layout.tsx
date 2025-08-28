@@ -24,10 +24,10 @@ export default function SignInLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body className="min-h-screen bg-gray-50 flex items-center justify-center">
+    <section className={`${geistSans.variable} ${geistMono.variable}`}>
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         {children}
-      </body>
-    </html>
+      </div>
+    </section>
   );
 }
