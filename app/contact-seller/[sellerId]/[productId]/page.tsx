@@ -1,26 +1,29 @@
-// app/contact-seller/[sellerId]/[productId]/page.tsx
-import { getSellerById } from "@/controllers/seller"
-import { getProductById } from "@/controllers/products"
+import { getProductById } from "@/controllers/products";
 import ContactSellerPage from "./ContactSellerPage";
+import { getSellerById } from "@/controllers/seller";
 
 interface PageProps {
-  params: { sellerId: string; productId: string }
+  params: {
+    sellerId: string;
+    productId: string;
+  };
 }
 
-export default async function ContactSellerServer({ params }: PageProps) {
-  const seller = await getSellerById(params.sellerId)
-  const product = await getProductById(params.productId)
+export default async function Page({ params }: PageProps) {
+  const { sellerId, productId } = params;
 
-  console.log("Seller data:", seller);
-  console.log("Product data:", product);
+  // Fetch data from controllers (server-side)
+  const seller = await getSellerById(sellerId);
+  const product = await getProductById(productId);
 
   if (!seller || !product) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <h1 className="text-2xl font-bold">Seller or Product not found</h1>
-      </div>
-    )
+    return <div className="p-4 text-red-600">Seller or Product not found</div>;
   }
 
-  return <ContactSellerPage seller={seller} product={product} />
+  return (
+    <ContactSellerPage
+      seller={seller}
+      product={product}
+    />
+  );
 }
