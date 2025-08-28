@@ -5,9 +5,9 @@ import SellerPage from "./SellerPage";
 // interface PageProps {
 //   params: { id: string } | Promise<{ id: string }>;
 // }
-type Params = Promise<{ id: string }>;
+// type Params = Promise<{ id: string }>;
 
-export default async function Page({ params }: { params: Params }) {
+export default async function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const seller = await getSellerById(id);
 

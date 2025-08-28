@@ -3,10 +3,10 @@ import { getProductById } from "@/controllers/products";
 import ProductPage from "./ProductPage";
 
 
-type Params = Promise<{ id: string }>;
+// type Params = Promise<{ id: string }>;
 
 
-export default async function ProductPageServer({ params }: { params: Params }) {
+export default async function ProductPageServer({ params }: { params: Promise<{ id: string }> }) {
   // Await params in case it is a Promise
   const { id } = await params;
 
