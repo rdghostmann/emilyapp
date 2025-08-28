@@ -14,7 +14,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "EmilyAgros | Sign In",
-  description: "Sign in to EmilyAgros - Your Gateway to the Future of Agriculture and Marketplace",
+  description:
+    "Sign in to EmilyAgros - Your Gateway to the Future of Agriculture and Marketplace",
 };
 
 export default function SignInLayout({
@@ -23,9 +24,10 @@ export default function SignInLayout({
   children: React.ReactNode;
 }) {
   return (
-            <>
-              {children}
-            </>
-           
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className="min-h-screen bg-gray-50 flex items-center justify-center">
+        {children}
+      </body>
+    </html>
   );
 }
