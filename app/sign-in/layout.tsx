@@ -19,9 +19,9 @@ export const metadata: Metadata = {
 };
 
 export default function SignInLayout({
-  children,
+  children
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
