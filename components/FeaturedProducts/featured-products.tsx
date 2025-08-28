@@ -1,14 +1,30 @@
-// FeaturedProduct.tsx
-// const featuredProducts: ProductDTO[] = await getAllProducts()
-
 // components/FeaturedProducts.tsx
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { getAllProducts } from "@/controllers/getAllProducts"
 import ProductCard from "../ProductCard/ProductCard"
+import { ProductInterface } from "@/types/product"
 
 export default async function FeaturedProducts() {
-  const featuredProducts = await getAllProducts()
+const featuredProducts = await getAllProducts()
+
+   // Map ProductDTO to ProductInterface
+  const products: ProductInterface[] = featuredProducts.map((product) => ({
+    ...product,
+    seller: {
+      _id: product.seller._id,
+      name: product.seller.name,
+      rating: product.seller.rating,
+      username: (product.seller as any).username ?? "", // fallback if missing
+      phone: (product.seller as any).phone ?? "",       // fallback if missing
+      avatar: (product.seller as any).avatar ?? undefined,
+      verified: (product.seller as any).verified ?? undefined,
+      totalSales: (product.seller as any).totalSales ?? undefined,
+      totalAds: (product.seller as any).totalAds ?? undefined,
+      memberSince: (product.seller as any).memberSince ?? undefined,
+      location: (product.seller as any).location ?? undefined,
+    },
+  }));
 
   return (
     <section className="py-16 bg-white">
@@ -21,8 +37,8 @@ export default async function FeaturedProducts() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {featuredProducts.length > 0 ? (
-            featuredProducts.map((product) => (
+          {products.length > 0 ? (
+            products.map((product) => (
               <ProductCard key={product._id} product={product} />
             ))
           ) : (
