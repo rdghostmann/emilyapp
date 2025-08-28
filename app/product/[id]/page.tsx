@@ -2,16 +2,13 @@
 import { getProductById } from "@/controllers/products";
 import ProductPage from "./ProductPage";
 
-// interface PageProps {
-//   params: { id: string } | Promise<{ id: string }>;
-// }
+
 type Params = Promise<{ id: string }>;
 
 
 export default async function ProductPageServer({ params }: { params: Params }) {
   // Await params in case it is a Promise
   const { id } = await params;
-  // const { id } = params; 
 
   const product = await getProductById(id);
   console.log("Product data:", product);
