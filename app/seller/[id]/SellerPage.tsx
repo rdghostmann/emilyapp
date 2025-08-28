@@ -91,7 +91,7 @@ export default function SellerPage({ seller }: { seller: SellerProfile | null })
 
                 <div className="flex flex-wrap gap-3">
                   <Button className="bg-green-600 hover:bg-green-700">
-                    <Link href={`/contact-seller/${seller._id}`} className="flex items-center">
+                    <Link href={`tel:${seller.phone}`} className="flex items-center">
                       <MessageSquare className="w-4 h-4 mr-2" /> Contact Seller
                     </Link>
                   </Button>
