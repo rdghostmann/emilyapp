@@ -42,7 +42,6 @@ export default function TopNavigation({ username }: { username: any }) {
 
           </div>
 
-
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-6">
             <Link href="/" className="text-sm font-medium hover:text-green-600 transition-colors">

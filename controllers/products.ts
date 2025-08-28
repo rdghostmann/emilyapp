@@ -9,11 +9,18 @@ import { Product } from "@/models/Product";
 // Define DTO if you want a lightweight structure
 export type ProductDTO = ProductInterface
 
-interface FetchProductsOptions {
+interface FetchSubcategoryProductsOptions {
   subcategory: string;
   sortBy?: "newest" | "price-low" | "price-high" | "rating";
   searchQuery?: string;
 }
+
+interface FetchCategoryProductsOptions {
+  categorySlug: string;
+  sortBy?: "newest" | "price-low" | "price-high" | "rating";
+  searchQuery?: string;
+}
+
 
 
 // ---------- Helper ----------
@@ -26,27 +33,27 @@ export async function mapProductDocToInterface(p: any): Promise<ProductInterface
     location: p.location || "N/A",
     seller: p.seller
       ? {
-          _id: p.seller._id.toString(),
-          name: p.seller.name,
-          rating: p.seller.rating || 0,
-          phone: p.seller.phone || "N/A",
-          avatar: p.seller.avatar || "/default-avatar.png",
-          verified: p.seller.verified || false,
-          totalSales: p.seller.totalSales || 0,
-          totalAds: p.seller.totalAds || 0,
-          memberSince: p.seller.memberSince || new Date().toISOString(),
-        }
+        _id: p.seller._id?.toString() || "",
+        username: p.seller.name,
+        rating: p.seller.rating || 0,
+        phone: p.seller.phone || "N/A",
+        avatar: p.seller.avatar || "/default-avatar.png",
+        verified: p.seller.verified || false,
+        totalSales: p.seller.totalSales || 0,
+        totalAds: p.seller.totalAds || 0,
+        memberSince: p.seller.memberSince || new Date().toISOString(),
+      }
       : {
-          _id: "",
-          name: "Unknown",
-          rating: 0,
-          phone: "N/A",
-          avatar: "/default-avatar.png",
-          verified: false,
-          totalSales: 0,
-          totalAds: 0,
-          memberSince: new Date().toISOString(),
-        },
+        _id: "",
+        username: "Unknown",
+        rating: 0,
+        phone: "N/A",
+        avatar: "/default-avatar.png",
+        verified: false,
+        totalSales: 0,
+        totalAds: 0,
+        memberSince: new Date().toISOString(),
+      },
     images: p.images || [],
     category: p.category,
     subcategory: p.subcategory,
@@ -60,12 +67,54 @@ export async function mapProductDocToInterface(p: any): Promise<ProductInterface
   };
 }
 
+// ✅ Fetch products by CATEGORY
+export async function fetchProductsByCategory({
+  categorySlug,
+  sortBy = "newest",
+  searchQuery = "",
+}: FetchCategoryProductsOptions): Promise<ProductInterface[]> {
+  await connectToDB();
+
+  let query: any = { category: categorySlug };
+  if (searchQuery) {
+    query.name = { $regex: searchQuery, $options: "i" }; // case-insensitive search
+  }
+
+  let sort: any = {};
+  switch (sortBy) {
+    case "newest":
+      sort = { createdAt: -1 };
+      break;
+    case "price-low":
+      sort = { price: 1 };
+      break;
+    case "price-high":
+      sort = { price: -1 };
+      break;
+    case "rating":
+      sort = { "seller.rating": -1 };
+      break;
+    default:
+      sort = { createdAt: -1 };
+  }
+
+  const productsDocs = await Product.find(query)
+    .sort(sort)
+    .populate("seller", "_id name rating avatar verified totalSales totalAds memberSince")
+    .lean();
+
+  const products: ProductInterface[] = await Promise.all(
+    productsDocs.map((p) => mapProductDocToInterface(p))
+  );
+
+  return products;
+}
 
 export async function fetchProductsBySubcategory({
   subcategory,
   sortBy = "newest",
   searchQuery = "",
-}: FetchProductsOptions): Promise<ProductInterface[]> {
+}: FetchSubcategoryProductsOptions): Promise<ProductInterface[]> {
   await connectToDB();
 
   let query: any = { subcategory };
@@ -102,10 +151,10 @@ export async function fetchProductsBySubcategory({
 
 // Fetch similar products by category, excluding the current product
 export async function getProductsByCategory(category: string, excludeId: string) {
-  return Product.find({ 
-      category, 
-      _id: { $ne: excludeId } 
-    })
+  return Product.find({
+    category,
+    _id: { $ne: excludeId }
+  })
     .limit(6) // limit to 6 similar products
     .lean()
 }
