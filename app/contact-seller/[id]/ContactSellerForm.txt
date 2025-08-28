@@ -1,6 +1,5 @@
-// app/contact-seller/[id]/page.tsx
-import { getProductById } from "@/controllers/products"
-import { ProductInterface } from "@/types/product"
+"use client"
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
@@ -9,52 +8,16 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { MessageSquare, Phone, Shield, MapPin, Star } from "lucide-react"
-import { revalidatePath } from "next/cache"
 import Link from "next/link"
-
-interface PageProps {
-  params: { id: string }
-}
+import { ProductInterface } from "@/types/product"
+import { sendMessage } from "@/controllers/sendMessage"
 
 interface ContactFormProps {
   product: ProductInterface
 }
 
-export const sendMessage = async (formData: FormData) => {
-  "use server"
-
-  const name = formData.get("name") as string
-  const email = formData.get("email") as string
-  const phone = formData.get("phone") as string
-  const subject = formData.get("subject") as string
-  const message = formData.get("message") as string
-  const productId = formData.get("productId") as string
-
-  // Here you would implement sending the message (DB or email)
-  console.log({ name, email, phone, subject, message, productId })
-
-  // Optionally, revalidate product page or redirect
-  revalidatePath(`/product/${productId}`)
-}
-
-export default async function ContactSellerPage(props: PageProps) {
-  const { params } = await props
-  const product = await getProductById(params.id)
-
-  if (!product) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <h1 className="text-2xl font-bold">Product Not Found</h1>
-      </div>
-    )
-  }
-
-  return <ContactSellerForm product={product} />
-}
-
-function ContactSellerForm({ product }: ContactFormProps) {
+export default function ContactSellerForm({ product }: ContactFormProps) {
   const seller = product.seller
-  console.log("Seller Data:", seller)
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -128,7 +91,7 @@ function ContactSellerForm({ product }: ContactFormProps) {
               <CardTitle>Send Message</CardTitle>
             </CardHeader>
             <CardContent>
-              <form action={sendMessage} className="space-y-4">
+              <form action={()=>{}} className="space-y-4">
                 <input type="hidden" name="productId" value={product._id} />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
@@ -160,7 +123,7 @@ function ContactSellerForm({ product }: ContactFormProps) {
                   <Button type="submit" className="flex-1 bg-green-600 hover:bg-green-700">
                     Send Message
                   </Button>
-                  <Link href={`tel:${product.seller.phone}`}>
+                  <Link href={`tel:${seller.phone}`}>
                     <Button type="button" variant="outline" className="flex-1">
                       <Phone className="w-4 h-4 mr-2" /> Call Now
                     </Button>

@@ -138,7 +138,7 @@ export default function ProductPage({ product, similarProducts = [] }: ProductPa
                                     <Phone className="w-5 h-5" /> Call {product.seller.phone}
                                 </Button>
                                 <Button asChild variant="outline" className="w-full h-12 text-lg border-green-600 text-green-600 hover:bg-green-50">
-                                    <Link href={`/contact-seller/${product._id}`}>
+                                    <Link href={`/contact-seller/${product.seller._id}/${product._id}`}>
                                         <MessageSquare className="w-5 h-5 mr-2" /> Chat with seller
                                     </Link>
                                 </Button>
@@ -181,7 +181,6 @@ export default function ProductPage({ product, similarProducts = [] }: ProductPa
 
                     {/* Similar Products */}
                     <SimilarProducts products={similarProducts} />
-
 
                 </div>
             </div>

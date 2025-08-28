@@ -1,3 +1,4 @@
+// types/seller.ts
 import { ProductInterface } from "./product"
 
 export interface SellerProfile {
