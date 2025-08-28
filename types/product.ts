@@ -11,7 +11,6 @@ export interface SellerInterface {
   totalAds?: number
   memberSince?: string
   location?: string // <--- add this
-
 }
 
 export interface ProductInterface {

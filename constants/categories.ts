@@ -16,7 +16,42 @@ import {
   Gamepad2,
 } from "lucide-react"
 import { LucideIcon } from "lucide-react"
-import { ProductInterface } from "@/types/product"
+
+export interface SellerInterface {
+  _id: string
+  username: string
+  rating?: number
+  phone: string
+  avatar?: string
+  verified?: boolean
+  totalSales?: number
+  totalAds?: number
+  memberSince?: string
+  location?: string 
+}
+
+export interface ProductInterface {
+  _id: string
+  name: string
+  description?: string
+  price: number
+  location?: string
+  seller: SellerInterface
+  images: string[]
+  category: string
+  subcategory?: string
+  boosted?: boolean
+  condition?: string
+  negotiable?: boolean
+  stats?: {
+    views: number
+    favorites: number
+    adId: string
+  }
+  details: Record<string, any>
+  createdAt: Date
+  updatedAt: Date
+}
 
 export interface Subcategory {
   id: string
