@@ -10,12 +10,12 @@ import { Star, MapPin, MessageSquare, Shield, Calendar, Eye, Heart, Share2, Flag
 import { getSellerById } from "@/controllers/seller";
 
 interface PageProps {
-  params: { id: string } | Promise<{ id: string }>;
+  params: { id: string };
 }
 
 export default async function SellerProfilePage({ params }: PageProps) {
   // Await params in case it's a Promise
-  const { id } = await params;
+  const { id } = params;
 
   const seller = await getSellerById(id);
 
