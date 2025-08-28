@@ -44,7 +44,7 @@ export default async function CategoriesSection() {
                     <div className="flex flex-wrap gap-2 mb-2">
                       {(category.subcategories || []).map((sub) => (
                         <span
-                          key={sub._id}
+                          key={sub.name}
                           className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded"
                         >
                           {sub.name}
