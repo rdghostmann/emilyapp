@@ -67,8 +67,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                         <Button asChild size="sm" className="flex-1">
                             <Link href={`/product/${product._id}`}>View Details</Link>
                         </Button>
-                        <Button asChild variant="outline" size="sm">
-                            <Link href={`/contact-seller/${product.seller._id}`}>Contact</Link>
+                        <Button className="hidden" asChild variant="outline" size="sm">
+                            <Link href={`/message-seller/${product.seller._id}?product=${product._id}`}>Contact</Link>
                         </Button>
                     </div>
                 </div>

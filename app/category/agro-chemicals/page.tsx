@@ -14,7 +14,7 @@ import AgroChemicalPage from "./AgroChemicalPage"
 
 export default async function Page() {
     // Fetch category details
-    const category = await getCategoryBySlug("animal-chemicals")
+    const category = await getCategoryBySlug("agro-chemicals")
     if (!category) return <p>Category not found</p>
 
     // Fetch subcategories

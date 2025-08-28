@@ -14,7 +14,7 @@ import AgroServicePage from "./AgroServicePage"
 
 export default async function Page() {
     // Fetch category details
-    const category = await getCategoryBySlug("animal-services")
+    const category = await getCategoryBySlug("agro-services")
     if (!category) return <p>Category not found</p>
 
     // Fetch subcategories
